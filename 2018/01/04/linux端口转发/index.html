@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="ctf,">
+  <meta name="keywords" content="端口转发,">
 
 
 
@@ -79,20 +79,22 @@
 
 
 
-<meta name="description" content="1234567891011121314151617181920212223242526272829303132333435class RealSecureLoginManager &amp;#123;    private $em;    private $user;    private $password;    public function __construct($user, $password">
-<meta name="keywords" content="ctf">
+<meta name="description" content="0x01 ssh正向代理动态端口转发环境：123A:192.168.111.130     //kali攻击机B:192.168.111.128     //能够进行ssh连接（知道其ssh口令）的ubuntu跳板C:172.17.0.2          //跟转发机处于同一内网的目标靶机（docker启动的容器） 在kali上执行命令1ssh 2 -D 2333 ghost@192.168.1">
+<meta name="keywords" content="端口转发">
 <meta property="og:type" content="article">
-<meta property="og:title" content="md5($str,true)引发的sql注入">
-<meta property="og:url" content="http://yoursite.com/2018/01/25/md5-true-引发的sql注入/index.html">
+<meta property="og:title" content="linux端口转发">
+<meta property="og:url" content="http://yoursite.com/2018/01/04/linux端口转发/index.html">
 <meta property="og:site_name" content="Boogle&#39;s Blogs">
-<meta property="og:description" content="1234567891011121314151617181920212223242526272829303132333435class RealSecureLoginManager &amp;#123;    private $em;    private $user;    private $password;    public function __construct($user, $password">
+<meta property="og:description" content="0x01 ssh正向代理动态端口转发环境：123A:192.168.111.130     //kali攻击机B:192.168.111.128     //能够进行ssh连接（知道其ssh口令）的ubuntu跳板C:172.17.0.2          //跟转发机处于同一内网的目标靶机（docker启动的容器） 在kali上执行命令1ssh 2 -D 2333 ghost@192.168.1">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://i.loli.net/2018/11/25/5bfab091240d7.png">
-<meta property="og:updated_time" content="2019-02-21T07:48:40.586Z">
+<meta property="og:image" content="https://i.loli.net/2018/12/04/5c062171a531d.png">
+<meta property="og:image" content="https://i.loli.net/2018/12/04/5c0622242f8b9.png">
+<meta property="og:image" content="https://i.loli.net/2018/12/04/5c062304d5ddc.png">
+<meta property="og:updated_time" content="2019-02-21T07:57:26.583Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="md5($str,true)引发的sql注入">
-<meta name="twitter:description" content="1234567891011121314151617181920212223242526272829303132333435class RealSecureLoginManager &amp;#123;    private $em;    private $user;    private $password;    public function __construct($user, $password">
-<meta name="twitter:image" content="https://i.loli.net/2018/11/25/5bfab091240d7.png">
+<meta name="twitter:title" content="linux端口转发">
+<meta name="twitter:description" content="0x01 ssh正向代理动态端口转发环境：123A:192.168.111.130     //kali攻击机B:192.168.111.128     //能够进行ssh连接（知道其ssh口令）的ubuntu跳板C:172.17.0.2          //跟转发机处于同一内网的目标靶机（docker启动的容器） 在kali上执行命令1ssh 2 -D 2333 ghost@192.168.1">
+<meta name="twitter:image" content="https://i.loli.net/2018/12/04/5c062171a531d.png">
 
 
 
@@ -122,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/01/25/md5-true-引发的sql注入/">
+  <link rel="canonical" href="http://yoursite.com/2018/01/04/linux端口转发/">
 
 
 
 
 
-  <title>md5($str,true)引发的sql注入 | Boogle's Blogs</title>
+  <title>linux端口转发 | Boogle's Blogs</title>
   
 
 
@@ -235,7 +237,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/25/md5-true-引发的sql注入/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/04/linux端口转发/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="boogle">
@@ -252,7 +254,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">md5($str,true)引发的sql注入</h1>
+          <h1 class="post-title" itemprop="name headline">linux端口转发</h1>
         
 
         <div class="post-meta">
@@ -264,8 +266,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-25T15:12:31+08:00">
-                2018-01-25
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-04T15:34:08+08:00">
+                2018-01-04
               </time>
             
 
@@ -287,8 +289,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web安全/" itemprop="url" rel="index">
-                    <span itemprop="name">web安全</span>
+                  <a href="/categories/后渗透/" itemprop="url" rel="index">
+                    <span itemprop="name">后渗透</span>
                   </a>
                 </span>
 
@@ -324,9 +326,16 @@
       
 
       
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">class RealSecureLoginManager &#123;</span><br><span class="line">    private $em;</span><br><span class="line">    private $user;</span><br><span class="line">    private $password;</span><br><span class="line"></span><br><span class="line">    public function __construct($user, $password) &#123;</span><br><span class="line">        $this-&gt;em = DoctrineManager::getEntityManager();</span><br><span class="line">        $this-&gt;user = $user;</span><br><span class="line">        $this-&gt;password = $password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function isValid() &#123;</span><br><span class="line">        $pass = md5($this-&gt;password, true);</span><br><span class="line">        $user = $this-&gt;sanitizeInput($this-&gt;user);</span><br><span class="line"></span><br><span class="line">        $queryBuilder = $this-&gt;em-&gt;createQueryBuilder()</span><br><span class="line">            -&gt;select(&quot;COUNT(p)&quot;)</span><br><span class="line">            -&gt;from(&quot;User&quot;, &quot;u&quot;)</span><br><span class="line">            -&gt;where(&quot;password = &apos;$pass&apos; AND user = &apos;$user&apos;&quot;);</span><br><span class="line">        $query = $queryBuilder-&gt;getQuery();</span><br><span class="line">        return boolval($query-&gt;getSingleScalarResult());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function sanitizeInput($input) &#123;</span><br><span class="line">        return addslashes($input);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$auth = new RealSecureLoginManager(</span><br><span class="line">    $_POST[&apos;user&apos;],</span><br><span class="line">    $_POST[&apos;passwd&apos;]</span><br><span class="line">);</span><br><span class="line">if (!$auth-&gt;isValid()) &#123;</span><br><span class="line">    exit;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面的代码中，$queryBuilder拼接了一条sql查询语句，但是对传入的user进行了addslashes函数过滤，也就是说没有办法通过user进行注入，而且pass变量是经过md5计算的散列值，理论上也没有办法进行注入，但是这里这里md5()函数的$raw_output值设置为true，那么这个md5报文摘要将以16字节长度的原始二进制格式返回。<br>什么意思呢？看一下下面的执行结果<br><img src="https://i.loli.net/2018/11/25/5bfab091240d7.png" alt><br>也就是说这个二进制格式的返回值会引入其他非预期的字符，比如说<strong>\</strong><br>这里经过fazz,发现 md5(128, true) 最后的结果带有反斜杠。因此这题最后的payload如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user= OR 1=1#&amp;passwd=128</span><br></pre></td></tr></table></figure></p>
-<p>另外实验吧的一道题目类似<br><a href="http://ctf5.shiyanbar.com/web/houtai/ffifdyop.php" target="_blank" rel="noopener">http://ctf5.shiyanbar.com/web/houtai/ffifdyop.php</a></p>
+        <h3 id="0x01-ssh正向代理动态端口转发"><a href="#0x01-ssh正向代理动态端口转发" class="headerlink" title="0x01 ssh正向代理动态端口转发"></a>0x01 ssh正向代理动态端口转发</h3><p>环境：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">A:192.168.111.130     //kali攻击机</span><br><span class="line">B:192.168.111.128     //能够进行ssh连接（知道其ssh口令）的ubuntu跳板</span><br><span class="line">C:172.17.0.2          //跟转发机处于同一内网的目标靶机（docker启动的容器）</span><br></pre></td></tr></table></figure></p>
+<p>在kali上执行命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh 2 -D 2333 ghost@192.168.111.128  //这条命令是将A本地的2333端口，与B的22端口建立socks连接,输入B的ssh口令即可进行连接</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2018/12/04/5c062171a531d.png" alt></p>
+<p>可以使用火狐添加本地127.0.0.1 2333端口的socks代理查看内网的web服务<br><img src="https://i.loli.net/2018/12/04/5c0622242f8b9.png" alt></p>
+<p>夜可以使用proxychains代理本地应用<br>配置proxychains代理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gedit /etc/proxychains.conf</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">添加  socks 127.0.0.1 2333</span><br></pre></td></tr></table></figure></p>
+<p>例如使用nmap扫描开放端口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains nma[ -Pn -sT 172.17.0.2</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2018/12/04/5c062304d5ddc.png" alt></p>
+<h3 id="0X02-ssh正向代理单一端口转发"><a href="#0X02-ssh正向代理单一端口转发" class="headerlink" title="0X02 ssh正向代理单一端口转发"></a>0X02 ssh正向代理单一端口转发</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -L 8888:172.17.0.2:80 ghost@192.168.111.128//访问127.0.0.1:8888相当于访问172.17.0.2:80</span><br></pre></td></tr></table></figure>
+<h3 id="0x03-ssh反向代理单一端口转发"><a href="#0x03-ssh反向代理单一端口转发" class="headerlink" title="0x03 ssh反向代理单一端口转发"></a>0x03 ssh反向代理单一端口转发</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//先在A(kali)上生成ssh需要的host key</span><br><span class="line"></span><br><span class="line">ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key</span><br><span class="line">ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//然后在B运行</span><br><span class="line">ssh -R 8888:172.17.0.20:80 root@192.168.111.130 //A访问127.0.0.1:2222相当于访问C:22</span><br></pre></td></tr></table></figure>
+<h3 id="0x04-ssh多级代理"><a href="#0x04-ssh多级代理" class="headerlink" title="0x04 ssh多级代理"></a>0x04 ssh多级代理</h3><p>增加一级 D:192.168.168.4<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ssh -R 8888:127.0.0.1:4444 root@192.168.111.130</span><br><span class="line">B作反向代理，将A:8888与B:4444打通ssh隧道</span><br><span class="line"></span><br><span class="line">ssh -2 -D 4444 msfadmin@172.17.0.2 //需要知道C的ssh口令</span><br><span class="line">B将本地4444端口与C打通ssh隧道，C作正向代理</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -344,7 +353,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/ctf/" rel="tag"># ctf</a>
+            <a href="/tags/端口转发/" rel="tag"># 端口转发</a>
           
         </div>
       
@@ -357,18 +366,14 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/04/linux端口转发/" rel="next" title="linux端口转发">
-                <i class="fa fa-chevron-left"></i> linux端口转发
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/04/21/XSS-Game-解题记录/" rel="prev" title="XSS-Game 解题记录">
-                XSS-Game 解题记录 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/01/25/md5-true-引发的sql注入/" rel="prev" title="md5($str,true)引发的sql注入">
+                md5($str,true)引发的sql注入 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -421,8 +426,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -482,6 +496,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#0x01-ssh正向代理动态端口转发"><span class="nav-number">1.</span> <span class="nav-text">0x01 ssh正向代理动态端口转发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0X02-ssh正向代理单一端口转发"><span class="nav-number">2.</span> <span class="nav-text">0X02 ssh正向代理单一端口转发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x03-ssh反向代理单一端口转发"><span class="nav-number">3.</span> <span class="nav-text">0x03 ssh反向代理单一端口转发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x04-ssh多级代理"><span class="nav-number">4.</span> <span class="nav-text">0x04 ssh多级代理</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
