@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/boogle.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/boogle.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="代码审计,thinkphp,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="影响版本根据thinkphp发布的5.0.24的补丁可以看到问题出在核心类Request的method方法。补丁增加了对传入的$method的限制。123漏洞影响的产品版本包括：ThinkPHP 5.0.x ~ 5.0.23版 漏洞分析本文以5.0.5 full版本进行分析 这里Config::get(‘var_method’)获取到的内容为_method,被称为表单请求类型伪装变量，具体功能不细">
+<meta name="keywords" content="代码审计,thinkphp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="thinkphp5 Request 远程代码执行漏洞分析">
+<meta property="og:url" content="http://yoursite.com/2019/01/28/thinkphp5-Request-远程代码执行漏洞分析/index.html">
+<meta property="og:site_name" content="Boogle&#39;s Blogs">
+<meta property="og:description" content="影响版本根据thinkphp发布的5.0.24的补丁可以看到问题出在核心类Request的method方法。补丁增加了对传入的$method的限制。123漏洞影响的产品版本包括：ThinkPHP 5.0.x ~ 5.0.23版 漏洞分析本文以5.0.5 full版本进行分析 这里Config::get(‘var_method’)获取到的内容为_method,被称为表单请求类型伪装变量，具体功能不细">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://i.loli.net/2019/01/17/5c4038d608a0b.png">
+<meta property="og:image" content="https://i.loli.net/2019/01/17/5c4047628c5af.png">
+<meta property="og:image" content="https://i.loli.net/2019/01/17/5c4049ba6ae6b.png">
+<meta property="og:image" content="https://i.loli.net/2019/01/17/5c407f49bef15.png">
+<meta property="og:image" content="https://i.loli.net/2019/01/17/5c40822b86534.png">
+<meta property="og:image" content="https://i.loli.net/2019/01/17/5c40800f51a50.png">
+<meta property="og:image" content="https://i.loli.net/2019/01/17/5c4082feddbba.png">
+<meta property="og:image" content="https://i.loli.net/2019/01/17/5c4087efaaba4.png">
+<meta property="og:image" content="https://i.loli.net/2019/01/17/5c408e15860c8.png">
+<meta property="og:image" content="https://i.loli.net/2019/01/17/5c408e697605c.png">
+<meta property="og:image" content="https://i.loli.net/2019/01/17/5c408ec71f258.png">
+<meta property="og:image" content="https://i.loli.net/2019/01/17/5c40955a0e75d.png">
+<meta property="og:image" content="https://i.loli.net/2019/01/17/5c4095cc88f42.png">
+<meta property="og:image" content="https://i.loli.net/2019/01/17/5c4095eb465a7.png">
+<meta property="og:image" content="https://i.loli.net/2019/01/17/5c4096308f373.png">
+<meta property="og:image" content="https://i.loli.net/2019/01/17/5c4097b52bee6.png">
+<meta property="og:updated_time" content="2019-02-21T05:24:09.159Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="thinkphp5 Request 远程代码执行漏洞分析">
+<meta name="twitter:description" content="影响版本根据thinkphp发布的5.0.24的补丁可以看到问题出在核心类Request的method方法。补丁增加了对传入的$method的限制。123漏洞影响的产品版本包括：ThinkPHP 5.0.x ~ 5.0.23版 漏洞分析本文以5.0.5 full版本进行分析 这里Config::get(‘var_method’)获取到的内容为_method,被称为表单请求类型伪装变量，具体功能不细">
+<meta name="twitter:image" content="https://i.loli.net/2019/01/17/5c4038d608a0b.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/28/thinkphp5-Request-远程代码执行漏洞分析/">
+
+
+
+
+
+  <title>thinkphp5 Request 远程代码执行漏洞分析 | Boogle's Blogs</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Boogle's Blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/thinkphp5-Request-远程代码执行漏洞分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="boogle">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boogle's Blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">thinkphp5 Request 远程代码执行漏洞分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-28T22:58:23+08:00">
+                2019-01-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="影响版本"><a href="#影响版本" class="headerlink" title="影响版本"></a>影响版本</h2><p>根据thinkphp发布的5.0.24的补丁可以看到问题出在核心类Request的method方法。补丁增加了对传入的$method的限制。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">漏洞影响的产品版本包括：</span><br><span class="line"></span><br><span class="line">ThinkPHP 5.0.x ~ 5.0.23版</span><br></pre></td></tr></table></figure></p>
+<h2 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><p>本文以5.0.5 full版本进行分析</p>
+<p><img src="https://i.loli.net/2019/01/17/5c4038d608a0b.png" alt><br>这里<strong>Config::get(‘var_method’)</strong>获取到的内容为<strong>_method</strong>,被称为表单请求类型伪装变量，具体功能不细究，可查阅官方文档了解。<br><img src="https://i.loli.net/2019/01/17/5c4047628c5af.png" alt></p>
+<p>那么在未打补丁之前对POST进来的_method变量未作任何过滤，而且下面直接进行了调用，而且函数参数可控。那么便可实现对本类所有方法的调用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;($this-&gt;method)($_POST);</span><br></pre></td></tr></table></figure></p>
+<p>根据payload，其传入的是<strong>_method = __construct</strong><br>查看__construct方法<br><img src="https://i.loli.net/2019/01/17/5c4049ba6ae6b.png" alt></p>
+<p>该方法对传入的参数数组进行遍历，并通过<strong>property_exists</strong>检查对象或类是否具有该属性。如果是本类的属性，则通过<strong>$this-&gt;$name = $item</strong>对属性进行重新赋值。<br>那么这里因为传入的参数可控，可实现对Requset类下任意属性的覆盖。</p>
+<p>单单一个变量覆盖是不能得到满足的，继续将这个漏洞扩大化。<br>可以查看可以覆盖的属性，并看看这些属性的覆盖会不会引起更致命的操作。<br>这是其中一部分属性<br><img src="https://i.loli.net/2019/01/17/5c407f49bef15.png" alt><br>而通过已知的payload了解到这里的全局过滤规则filter被覆盖。查看哪里用到了filter,搜索后发现该类中很多方法都用到了这个变量<br><img src="https://i.loli.net/2019/01/17/5c40822b86534.png" alt><br>其中input方法中调用了filterValue方法<br><img src="https://i.loli.net/2019/01/17/5c40800f51a50.png" alt><br>而filterValue方法中，将其带入了call_user_func函数，这里还有一个参数value,向上跟踪value来自于input方法的data,继续往上查看到哪里调用了input。发现了param方法，data来自于其$this-&gt;param<br><img src="https://i.loli.net/2019/01/17/5c4082feddbba.png" alt><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 当前请求参数和URL地址中的参数合并</span><br><span class="line">$this-&gt;param = array_merge($this-&gt;get(false), $vars, $this-&gt;route(false));</span><br></pre></td></tr></table></figure></p>
+<p>其中$vars数组来自上面，也即我们通过http传入的参数<br><img src="https://i.loli.net/2019/01/17/5c4087efaaba4.png" alt></p>
+<p>到此为止，call_user_func的两个变量我们均可以控制，便可以实现任意代码执行。</p>
+<p>其中这里要想任意代码执行有两个条件：</p>
+<ul>
+<li>1.调用method()实现filter变量覆盖</li>
+<li>2.调用param()方法，实现任意代码执行链</li>
+</ul>
+<p>首先是第一条在检测url路由check()中触发</p>
+<p><img src="https://i.loli.net/2019/01/17/5c408e15860c8.png" alt></p>
+<p>整个调用链运行时自动加载<br><img src="https://i.loli.net/2019/01/17/5c408e697605c.png" alt></p>
+<p>而第二个条件。全局搜索漏洞触发点，看看哪里调用了param方法。<br>其中当开启debug时调用param。<br><img src="https://i.loli.net/2019/01/17/5c408ec71f258.png" alt></p>
+<p>当debug关闭时，继续搜索其他触发点。<br><img src="https://i.loli.net/2019/01/17/5c40955a0e75d.png" alt><br>这里当dispatch[‘type’]==’method’时，触发param方法<br>向上跟踪dispatch<br><img src="https://i.loli.net/2019/01/17/5c4095cc88f42.png" alt></p>
+<p><img src="https://i.loli.net/2019/01/17/5c4095eb465a7.png" alt></p>
+<p>最终还是与$request-&gt;method()有关<br><img src="https://i.loli.net/2019/01/17/5c4096308f373.png" alt><br>而method方法返回的method是可以覆盖掉的，可以post传递method=get控制dispatch的最终值，从而进入method分支，调用param</p>
+<h2 id="0x02-payload"><a href="#0x02-payload" class="headerlink" title="0x02 payload"></a>0x02 payload</h2><p>最终payload<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">post:</span><br><span class="line"></span><br><span class="line">_method=__construct&amp;method=get&amp;filter=system&amp;boo=whoami</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/01/17/5c4097b52bee6.png" alt></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/代码审计/" rel="tag"># 代码审计</a>
+          
+            <a href="/tags/thinkphp/" rel="tag"># thinkphp</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/26/thinkphp-缓存函数设计缺陷-getshell/" rel="next" title="thinkphp 缓存函数设计缺陷 getshell">
+                <i class="fa fa-chevron-left"></i> thinkphp 缓存函数设计缺陷 getshell
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/30/Typecho-反序列化漏洞分析/" rel="prev" title="Typecho 反序列化漏洞分析">
+                Typecho 反序列化漏洞分析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">boogle</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#影响版本"><span class="nav-number">1.</span> <span class="nav-text">影响版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#漏洞分析"><span class="nav-number">2.</span> <span class="nav-text">漏洞分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-payload"><span class="nav-number">3.</span> <span class="nav-text">0x02 payload</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">boogle</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

