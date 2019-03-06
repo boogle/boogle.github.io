@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="ctf,">
+  <meta name="keywords" content="Hexo, NexT">
 
 
 
@@ -79,20 +79,14 @@
 
 
 
-<meta name="description" content="结合HCTF2018的一道web题：admin 题目源码 这道题比较有意思，思路偏门新奇。题目的目标是以admin身份登陆，下载源码之后，是一个python基于flask框架写的一个web程序，审计代码之后发现，在注册、登陆、修改密码时都用到了strlower这个函数将username转化为小写。而这里有一个偏门的小知识，那就是unicode安全，具体参考：Unicode安全我们这里可以利用的是：">
-<meta name="keywords" content="ctf">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Unicode安全">
-<meta property="og:url" content="http://yoursite.com/2018/11/12/Unicode安全/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="categories">
+<meta property="og:url" content="http://yoursite.com/categories/index.html">
 <meta property="og:site_name" content="Boogle&#39;s Blogs">
-<meta property="og:description" content="结合HCTF2018的一道web题：admin 题目源码 这道题比较有意思，思路偏门新奇。题目的目标是以admin身份登陆，下载源码之后，是一个python基于flask框架写的一个web程序，审计代码之后发现，在注册、登陆、修改密码时都用到了strlower这个函数将username转化为小写。而这里有一个偏门的小知识，那就是unicode安全，具体参考：Unicode安全我们这里可以利用的是：">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://i.loli.net/2018/11/12/5be98862c3d79.png">
-<meta property="og:updated_time" content="2019-02-21T07:55:39.828Z">
+<meta property="og:updated_time" content="2019-03-06T13:45:13.397Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Unicode安全">
-<meta name="twitter:description" content="结合HCTF2018的一道web题：admin 题目源码 这道题比较有意思，思路偏门新奇。题目的目标是以admin身份登陆，下载源码之后，是一个python基于flask框架写的一个web程序，审计代码之后发现，在注册、登陆、修改密码时都用到了strlower这个函数将username转化为小写。而这里有一个偏门的小知识，那就是unicode安全，具体参考：Unicode安全我们这里可以利用的是：">
-<meta name="twitter:image" content="https://i.loli.net/2018/11/12/5be98862c3d79.png">
+<meta name="twitter:title" content="categories">
 
 
 
@@ -122,13 +116,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/11/12/Unicode安全/">
+  <link rel="canonical" href="http://yoursite.com/categories/">
 
 
 
 
 
-  <title>Unicode安全 | Boogle's Blogs</title>
+  <title>categories | Boogle's Blogs</title>
   
 
 
@@ -243,173 +237,40 @@
 
   <div id="posts" class="posts-expand">
     
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/12/Unicode安全/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="boogle">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Boogle's Blogs">
-    </span>
-
     
+    
+    <div class="post-block page">
       <header class="post-header">
 
-        
-        
-          <h1 class="post-title" itemprop="name headline">Unicode安全</h1>
-        
+	<h1 class="post-title" itemprop="name headline">categories</h1>
 
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-12T15:44:52+08:00">
-                2018-11-12
-              </time>
-            
 
-            
 
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web安全/" itemprop="url" rel="index">
-                    <span itemprop="name">web安全</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+</header>
 
       
       
-
       
-        <p>结合HCTF2018的一道web题：admin</p>
-<p><a href="https://github.com/woadsl1234/hctf_flask/" target="_blank" rel="noopener">题目源码</a></p>
-<p>这道题比较有意思，思路偏门新奇。<br>题目的目标是以admin身份登陆，下载源码之后，是一个python基于flask框架写的一个web程序，审计代码之后发现，在注册、登陆、修改密码时都用到了strlower这个函数将username转化为小写。<br>而这里有一个偏门的小知识，那就是unicode安全，具体参考：<a href="http://blog.lnyas.xyz/?p=1411" target="_blank" rel="noopener">Unicode安全</a><br>我们这里可以利用的是：<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ᴬ -&gt; A -&gt; a</span><br></pre></td></tr></table></figure></p>
-<p>也就是我们注册一个 ᴬdmin的用户，注册时经过strlower转化会变为 Admin,而再修改密码时，又会转化为 admin。从而达到最终越权的目的。<br><img src="https://i.loli.net/2018/11/12/5be98862c3d79.png" alt></p>
-
+      <div class="post-body">
+        
+        
+          <div class="category-all-page">
+            <div class="category-all-title">
+                6 categories in total
+            </div>
+            <div class="category-all">
+              <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/python安全/">python安全</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web安全/">web安全</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/windows安全/">windows安全</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/后渗透/">后渗透</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/环境配置/">环境配置</a><span class="category-list-count">1</span></li></ul>
+            </div>
+          </div>
+        
+      </div>
+      
+      
       
     </div>
     
     
     
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/ctf/" rel="tag"><i class="fa fa-tag"></i> ctf</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2018/11/12/jsondecode解编码绕过sqlWAF/" rel="next" title="jsondecode解编码绕过sqlWAF">
-                <i class="fa fa-chevron-left"></i> jsondecode解编码绕过sqlWAF
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/11/16/python-安全-tips/" rel="prev" title="python安全tips">
-                python安全tips <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
   </div>
 
 

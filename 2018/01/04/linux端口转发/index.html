@@ -195,6 +195,26 @@
         </li>
       
         
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
@@ -326,16 +346,16 @@
       
 
       
-        <h3 id="0x01-ssh正向代理动态端口转发"><a href="#0x01-ssh正向代理动态端口转发" class="headerlink" title="0x01 ssh正向代理动态端口转发"></a>0x01 ssh正向代理动态端口转发</h3><p>环境：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">A:192.168.111.130     //kali攻击机</span><br><span class="line">B:192.168.111.128     //能够进行ssh连接（知道其ssh口令）的ubuntu跳板</span><br><span class="line">C:172.17.0.2          //跟转发机处于同一内网的目标靶机（docker启动的容器）</span><br></pre></td></tr></table></figure></p>
-<p>在kali上执行命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh 2 -D 2333 ghost@192.168.111.128  //这条命令是将A本地的2333端口，与B的22端口建立socks连接,输入B的ssh口令即可进行连接</span><br></pre></td></tr></table></figure></p>
+        <h3 id="0x01-ssh正向代理动态端口转发"><a href="#0x01-ssh正向代理动态端口转发" class="headerlink" title="0x01 ssh正向代理动态端口转发"></a>0x01 ssh正向代理动态端口转发</h3><p>环境：<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">A:</span><span class="number">192.168</span><span class="number">.111</span><span class="number">.130</span>     <span class="comment">//kali攻击机</span></span><br><span class="line"><span class="symbol">B:</span><span class="number">192.168</span><span class="number">.111</span><span class="number">.128</span>     <span class="comment">//能够进行ssh连接（知道其ssh口令）的ubuntu跳板</span></span><br><span class="line"><span class="symbol">C:</span><span class="number">172.17</span><span class="number">.0</span><span class="number">.2</span>          <span class="comment">//跟转发机处于同一内网的目标靶机（docker启动的容器）</span></span><br></pre></td></tr></table></figure></p>
+<p>在kali上执行命令<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh <span class="number">2</span> -D <span class="number">2333</span> ghost@<span class="number">192.168</span><span class="number">.111</span><span class="number">.128</span>  <span class="comment">//这条命令是将A本地的2333端口，与B的22端口建立socks连接,输入B的ssh口令即可进行连接</span></span><br></pre></td></tr></table></figure></p>
 <p><img src="https://i.loli.net/2018/12/04/5c062171a531d.png" alt></p>
 <p>可以使用火狐添加本地127.0.0.1 2333端口的socks代理查看内网的web服务<br><img src="https://i.loli.net/2018/12/04/5c0622242f8b9.png" alt></p>
-<p>夜可以使用proxychains代理本地应用<br>配置proxychains代理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gedit /etc/proxychains.conf</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">添加  socks 127.0.0.1 2333</span><br></pre></td></tr></table></figure></p>
-<p>例如使用nmap扫描开放端口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains nma[ -Pn -sT 172.17.0.2</span><br></pre></td></tr></table></figure></p>
+<p>夜可以使用proxychains代理本地应用<br>配置proxychains代理<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gedit /etc/proxychains.conf</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">添加 <span class="built_in"> socks </span>127.0.0.1 2333</span><br></pre></td></tr></table></figure></p>
+<p>例如使用nmap扫描开放端口<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains nma[ -Pn -sT <span class="number">172.17</span><span class="number">.0</span><span class="number">.2</span></span><br></pre></td></tr></table></figure></p>
 <p><img src="https://i.loli.net/2018/12/04/5c062304d5ddc.png" alt></p>
-<h3 id="0X02-ssh正向代理单一端口转发"><a href="#0X02-ssh正向代理单一端口转发" class="headerlink" title="0X02 ssh正向代理单一端口转发"></a>0X02 ssh正向代理单一端口转发</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -L 8888:172.17.0.2:80 ghost@192.168.111.128//访问127.0.0.1:8888相当于访问172.17.0.2:80</span><br></pre></td></tr></table></figure>
-<h3 id="0x03-ssh反向代理单一端口转发"><a href="#0x03-ssh反向代理单一端口转发" class="headerlink" title="0x03 ssh反向代理单一端口转发"></a>0x03 ssh反向代理单一端口转发</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//先在A(kali)上生成ssh需要的host key</span><br><span class="line"></span><br><span class="line">ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key</span><br><span class="line">ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//然后在B运行</span><br><span class="line">ssh -R 8888:172.17.0.20:80 root@192.168.111.130 //A访问127.0.0.1:2222相当于访问C:22</span><br></pre></td></tr></table></figure>
-<h3 id="0x04-ssh多级代理"><a href="#0x04-ssh多级代理" class="headerlink" title="0x04 ssh多级代理"></a>0x04 ssh多级代理</h3><p>增加一级 D:192.168.168.4<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ssh -R 8888:127.0.0.1:4444 root@192.168.111.130</span><br><span class="line">B作反向代理，将A:8888与B:4444打通ssh隧道</span><br><span class="line"></span><br><span class="line">ssh -2 -D 4444 msfadmin@172.17.0.2 //需要知道C的ssh口令</span><br><span class="line">B将本地4444端口与C打通ssh隧道，C作正向代理</span><br></pre></td></tr></table></figure></p>
+<h3 id="0X02-ssh正向代理单一端口转发"><a href="#0X02-ssh正向代理单一端口转发" class="headerlink" title="0X02 ssh正向代理单一端口转发"></a>0X02 ssh正向代理单一端口转发</h3><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -L <span class="number">8888</span>:<span class="number">172.17</span><span class="meta">.0</span><span class="meta">.2</span>:<span class="number">80</span> ghost@<span class="number">192.168</span><span class="meta">.111</span><span class="meta">.128</span>//访问<span class="number">127.0</span><span class="meta">.0</span><span class="meta">.1</span>:<span class="number">8888</span>相当于访问<span class="number">172.17</span><span class="meta">.0</span><span class="meta">.2</span>:<span class="number">80</span></span><br></pre></td></tr></table></figure>
+<h3 id="0x03-ssh反向代理单一端口转发"><a href="#0x03-ssh反向代理单一端口转发" class="headerlink" title="0x03 ssh反向代理单一端口转发"></a>0x03 ssh反向代理单一端口转发</h3><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//先在A(kali)上生成ssh需要的host key</span><br><span class="line"></span><br><span class="line">ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key</span><br><span class="line">ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//然后在B运行</span><br><span class="line">ssh -R <span class="number">8888</span>:<span class="number">172.17</span><span class="meta">.0</span><span class="meta">.20</span>:<span class="number">80</span> root@<span class="number">192.168</span><span class="meta">.111</span><span class="meta">.130</span> //A访问<span class="number">127.0</span><span class="meta">.0</span><span class="meta">.1</span>:<span class="number">2222</span>相当于访问C:<span class="number">22</span></span><br></pre></td></tr></table></figure>
+<h3 id="0x04-ssh多级代理"><a href="#0x04-ssh多级代理" class="headerlink" title="0x04 ssh多级代理"></a>0x04 ssh多级代理</h3><p>增加一级 D:192.168.168.4<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">ssh</span> <span class="selector-tag">-R</span> 8888<span class="selector-pseudo">:127.0.0.1</span><span class="selector-pseudo">:4444</span> <span class="selector-tag">root</span>@<span class="keyword">192</span>.<span class="keyword">168</span>.<span class="keyword">111</span>.<span class="keyword">130</span></span><br><span class="line">B作反向代理，将A:8888与B:4444打通ssh隧道</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">ssh</span> <span class="selector-tag">-2</span> <span class="selector-tag">-D</span> 4444 <span class="selector-tag">msfadmin</span>@<span class="keyword">172</span>.<span class="keyword">17</span>.<span class="keyword">0</span>.<span class="keyword">2</span> //需要知道C的ssh口令</span><br><span class="line">B将本地<span class="number">4444</span>端口与C打通ssh隧道，C作正向代理</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -353,7 +373,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/端口转发/" rel="tag"># 端口转发</a>
+            <a href="/tags/端口转发/" rel="tag"><i class="fa fa-tag"></i> 端口转发</a>
           
         </div>
       
@@ -451,7 +471,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -461,10 +481,10 @@
               
               
               <div class="site-state-item site-state-categories">
-                
+                <a href="/categories/index.html">
                   <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">categories</span>
-                
+                </a>
               </div>
             
 
@@ -472,10 +492,10 @@
               
               
               <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">13</span>
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">tags</span>
-                
+                </a>
               </div>
             
 
@@ -526,7 +546,8 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -536,6 +557,11 @@
 </div>
 
 
+  <div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
   <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 

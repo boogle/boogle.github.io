@@ -200,6 +200,26 @@
         </li>
       
         
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
@@ -331,7 +351,7 @@
       
 
       
-        <h2 id="0x00-影响版本"><a href="#0x00-影响版本" class="headerlink" title="0x00 影响版本"></a>0x00 影响版本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">漏洞受影响的版本</span><br><span class="line">thinkphp 5.0.x &lt;= 5.0.15</span><br></pre></td></tr></table></figure>
+        <h2 id="0x00-影响版本"><a href="#0x00-影响版本" class="headerlink" title="0x00 影响版本"></a>0x00 影响版本</h2><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">漏洞受影响的版本</span><br><span class="line">thinkphp <span class="number">5.0</span>.x &lt;= <span class="number">5.0</span><span class="number">.15</span></span><br></pre></td></tr></table></figure>
 <h2 id="0x01-漏洞分析"><a href="#0x01-漏洞分析" class="headerlink" title="0x01 漏洞分析"></a>0x01 漏洞分析</h2><p>首先看一下官方commit，可以看到补丁对val[1]进行了判断，之前未作处理直接进行了拼接。</p>
 <p><a href="https://imgchr.com/i/kiHZTO" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/01/21/kiHZTO.md.png" alt="kiHZTO.md.png"></a></p>
 <p>根据补丁我们逆着分析，也就说只要控制了val[1],就能进行sql注入。补丁在parseData方法中，val[1]来自data，查看这个data是从哪里来的，找到调用parseData方法的地方。<br><a href="https://imgchr.com/i/kiHHAO" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/01/21/kiHHAO.md.png" alt="kiHHAO.md.png"></a></p>
@@ -343,11 +363,11 @@
 <p>那么可以猜测在执行数据库更新或者插入操作时可能存在注入。</p>
 <p>这里以insert方法为例继续分析。根据上面的代码可以看到data直接带入到parseData中执行解析操作，那么我们继续向上追踪。找到Query类下的insert方法对其进行了传参并调用。</p>
 <p><a href="https://imgchr.com/i/kibw5D" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/01/21/kibw5D.md.png" alt="kibw5D.md.png"></a></p>
-<p>可以看到，这里的data就是调用insert方法时直接传入的参数，这里可以写一个简单的demo便于后续的操作和理解<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">namespace app\index\controller;</span><br><span class="line">use think\Db;</span><br><span class="line"></span><br><span class="line">class Index</span><br><span class="line">&#123;</span><br><span class="line">    public function index()</span><br><span class="line">    &#123;</span><br><span class="line">        $name = input(&quot;get.name/a&quot;);</span><br><span class="line">        Db::table(&quot;think_user&quot;)-&gt;where([&quot;id&quot;=&gt;1])-&gt;insert([&quot;username&quot;=&gt;$name]);</span><br><span class="line">        return &quot;ThinkPHP SQL Test.&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，这里的data就是调用insert方法时直接传入的参数，这里可以写一个简单的demo便于后续的操作和理解<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="meta">&lt;?php</span></span></span><br><span class="line"><span class="php"><span class="keyword">namespace</span> <span class="title">app</span>\<span class="title">index</span>\<span class="title">controller</span>;</span></span><br><span class="line"><span class="php"><span class="keyword">use</span> <span class="title">think</span>\<span class="title">Db</span>;</span></span><br><span class="line"><span class="php"></span></span><br><span class="line"><span class="php"><span class="class"><span class="keyword">class</span> <span class="title">Index</span></span></span></span><br><span class="line"><span class="php">&#123;</span></span><br><span class="line"><span class="php">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">()</span></span></span></span><br><span class="line"><span class="php">    &#123;</span></span><br><span class="line"><span class="php">        $name = input(<span class="string">"get.name/a"</span>);</span></span><br><span class="line"><span class="php">        Db::table(<span class="string">"think_user"</span>)-&gt;where([<span class="string">"id"</span>=&gt;<span class="number">1</span>])-&gt;insert([<span class="string">"username"</span>=&gt;$name]);</span></span><br><span class="line"><span class="php">        <span class="keyword">return</span> <span class="string">"ThinkPHP SQL Test."</span>;</span></span><br><span class="line"><span class="php">    &#125;</span></span><br><span class="line"><span class="php">&#125;</span></span><br></pre></td></tr></table></figure></p>
 <p>在这段demo中进入insert的是由get来的name是用户完全可控的。</p>
-<p>到现在为止，我们已经知道上面提到的data是完全可以由用户控制的，那么我们回过头来，继续看看 漏洞是如何发生的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">protected function parseData($data, $options)</span><br><span class="line">    &#123;</span><br><span class="line">        if (empty($data)) &#123;</span><br><span class="line">            return [];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 获取绑定信息</span><br><span class="line">        $bind = $this-&gt;query-&gt;getFieldsBind($options[&apos;table&apos;]);</span><br><span class="line">        if (&apos;*&apos; == $options[&apos;field&apos;]) &#123;</span><br><span class="line">            $fields = array_keys($bind);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            $fields = $options[&apos;field&apos;];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        $result = [];</span><br><span class="line">        foreach ($data as $key =&gt; $val) &#123;</span><br><span class="line">            $item = $this-&gt;parseKey($key, $options);</span><br><span class="line">            if (is_object($val) &amp;&amp; method_exists($val, &apos;__toString&apos;)) &#123;</span><br><span class="line">                // 对象数据写入</span><br><span class="line">                $val = $val-&gt;__toString();</span><br><span class="line">            &#125;</span><br><span class="line">            if (false === strpos($key, &apos;.&apos;) &amp;&amp; !in_array($key, $fields, true)) &#123;</span><br><span class="line">                if ($options[&apos;strict&apos;]) &#123;</span><br><span class="line">                    throw new Exception(&apos;fields not exists:[&apos; . $key . &apos;]&apos;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; elseif (is_null($val)) &#123;</span><br><span class="line">                $result[$item] = &apos;NULL&apos;;</span><br><span class="line">            &#125; elseif (is_array($val) &amp;&amp; !empty($val)) &#123;</span><br><span class="line">                switch ($val[0]) &#123;</span><br><span class="line">                    case &apos;exp&apos;:</span><br><span class="line">                        $result[$item] = $val[1];</span><br><span class="line">                        break;</span><br><span class="line">                    case &apos;inc&apos;:</span><br><span class="line">                        $result[$item] = $this-&gt;parseKey($val[1]) . &apos;+&apos; . floatval($val[2]);</span><br><span class="line">                        break;</span><br><span class="line">                    case &apos;dec&apos;:</span><br><span class="line">                        $result[$item] = $this-&gt;parseKey($val[1]) . &apos;-&apos; . floatval($val[2]);</span><br><span class="line">                        break;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; elseif (is_scalar($val)) &#123;</span><br><span class="line">                // 过滤非标量数据</span><br><span class="line">                if (0 === strpos($val, &apos;:&apos;) &amp;&amp; $this-&gt;query-&gt;isBind(substr($val, 1))) &#123;</span><br><span class="line">                    $result[$item] = $val;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    $key = str_replace(&apos;.&apos;, &apos;_&apos;, $key);</span><br><span class="line">                    $this-&gt;query-&gt;bind(&apos;data__&apos; . $key, $val, isset($bind[$key]) ? $bind[$key] : PDO::PARAM_STR);</span><br><span class="line">                    $result[$item] = &apos;:data__&apos; . $key;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return $result;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>到现在为止，我们已经知道上面提到的data是完全可以由用户控制的，那么我们回过头来，继续看看 漏洞是如何发生的。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">parseData</span><span class="params">($data, $options)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">empty</span>($data)) &#123;</span><br><span class="line">            <span class="keyword">return</span> [];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取绑定信息</span></span><br><span class="line">        $bind = <span class="keyword">$this</span>-&gt;query-&gt;getFieldsBind($options[<span class="string">'table'</span>]);</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">'*'</span> == $options[<span class="string">'field'</span>]) &#123;</span><br><span class="line">            $fields = array_keys($bind);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $fields = $options[<span class="string">'field'</span>];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        $result = [];</span><br><span class="line">        <span class="keyword">foreach</span> ($data <span class="keyword">as</span> $key =&gt; $val) &#123;</span><br><span class="line">            $item = <span class="keyword">$this</span>-&gt;parseKey($key, $options);</span><br><span class="line">            <span class="keyword">if</span> (is_object($val) &amp;&amp; method_exists($val, <span class="string">'__toString'</span>)) &#123;</span><br><span class="line">                <span class="comment">// 对象数据写入</span></span><br><span class="line">                $val = $val-&gt;__toString();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">false</span> === strpos($key, <span class="string">'.'</span>) &amp;&amp; !in_array($key, $fields, <span class="keyword">true</span>)) &#123;</span><br><span class="line">                <span class="keyword">if</span> ($options[<span class="string">'strict'</span>]) &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">Exception</span>(<span class="string">'fields not exists:['</span> . $key . <span class="string">']'</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">elseif</span> (is_null($val)) &#123;</span><br><span class="line">                $result[$item] = <span class="string">'NULL'</span>;</span><br><span class="line">            &#125; <span class="keyword">elseif</span> (is_array($val) &amp;&amp; !<span class="keyword">empty</span>($val)) &#123;</span><br><span class="line">                <span class="keyword">switch</span> ($val[<span class="number">0</span>]) &#123;</span><br><span class="line">                    <span class="keyword">case</span> <span class="string">'exp'</span>:</span><br><span class="line">                        $result[$item] = $val[<span class="number">1</span>];</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    <span class="keyword">case</span> <span class="string">'inc'</span>:</span><br><span class="line">                        $result[$item] = <span class="keyword">$this</span>-&gt;parseKey($val[<span class="number">1</span>]) . <span class="string">'+'</span> . floatval($val[<span class="number">2</span>]);</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    <span class="keyword">case</span> <span class="string">'dec'</span>:</span><br><span class="line">                        $result[$item] = <span class="keyword">$this</span>-&gt;parseKey($val[<span class="number">1</span>]) . <span class="string">'-'</span> . floatval($val[<span class="number">2</span>]);</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">elseif</span> (is_scalar($val)) &#123;</span><br><span class="line">                <span class="comment">// 过滤非标量数据</span></span><br><span class="line">                <span class="keyword">if</span> (<span class="number">0</span> === strpos($val, <span class="string">':'</span>) &amp;&amp; <span class="keyword">$this</span>-&gt;query-&gt;isBind(substr($val, <span class="number">1</span>))) &#123;</span><br><span class="line">                    $result[$item] = $val;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    $key = str_replace(<span class="string">'.'</span>, <span class="string">'_'</span>, $key);</span><br><span class="line">                    <span class="keyword">$this</span>-&gt;query-&gt;bind(<span class="string">'data__'</span> . $key, $val, <span class="keyword">isset</span>($bind[$key]) ? $bind[$key] : PDO::PARAM_STR);</span><br><span class="line">                    $result[$item] = <span class="string">':data__'</span> . $key;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> $result;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
 <p>通过上面的代码就可以发现，switch分支根据val[0]进行选择，当进入到<strong>case ‘inc’</strong>时，val[1]进入了parseKey方法。<br>但是跟踪parseKey发现，其对传入的参数未作任何处理直接返回<br><img src="https://s2.ax1x.com/2019/01/21/kiLUhD.png" alt="kiLUhD.png"></p>
-<p>当传入payload,这里直接进行了拼接返回，并通过上面的一些列调用，执行了payload<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/thinkphp_5.0.14_full/public/index.php/index/index/index?name[0]=inc&amp;name[1]=updatexml(1,concat(0x7e,database(),0x7e),1)&amp;name[2]=1</span><br></pre></td></tr></table></figure></p>
+<p>当传入payload,这里直接进行了拼接返回，并通过上面的一些列调用，执行了payload<br><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="link">http://127.0.0.1/thinkphp_5.0.14_full/public/index.php/index/index/index?name</span>[<span class="string">0</span>]=inc&amp;name[1]=updatexml(1,concat(0x7e,database(),0x7e),1)&amp;name[2]=1</span><br></pre></td></tr></table></figure></p>
 <p><a href="https://imgchr.com/i/kiL0cd" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/01/21/kiL0cd.png" alt="kiL0cd.png"></a></p>
 <p>执行结果<br><img src="https://s2.ax1x.com/2019/01/22/kiLW9g.png" alt="kiLW9g.png"></p>
 <h2 id="0x02-后记"><a href="#0x02-后记" class="headerlink" title="0x02 后记"></a>0x02 后记</h2><p>但是这个漏洞比较鸡肋的是查询<strong>user() database()</strong>等，不能进行子查询。原因是因为thinkphp框架使用参数化查询PDO，将参数与查询语句分离，降低了漏洞风险，后门将会针对该框架的PDO进行分析。</p>
@@ -368,9 +388,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/代码审计/" rel="tag"># 代码审计</a>
+            <a href="/tags/代码审计/" rel="tag"><i class="fa fa-tag"></i> 代码审计</a>
           
-            <a href="/tags/thinkphp/" rel="tag"># thinkphp</a>
+            <a href="/tags/thinkphp/" rel="tag"><i class="fa fa-tag"></i> thinkphp</a>
           
         </div>
       
@@ -472,7 +492,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -482,10 +502,10 @@
               
               
               <div class="site-state-item site-state-categories">
-                
+                <a href="/categories/index.html">
                   <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">categories</span>
-                
+                </a>
               </div>
             
 
@@ -493,10 +513,10 @@
               
               
               <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">13</span>
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">tags</span>
-                
+                </a>
               </div>
             
 
@@ -547,7 +567,8 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -557,6 +578,11 @@
 </div>
 
 
+  <div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
   <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 

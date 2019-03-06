@@ -187,6 +187,26 @@
         </li>
       
         
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
@@ -215,6 +235,157 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/24/thinkphp5-0-x-sql注入分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="boogle">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boogle's Blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/24/thinkphp5-0-x-sql注入分析/" itemprop="url">thinkphp5.0.x sql注入分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-24T23:58:23+08:00">
+                2019-01-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          0x00 影响版本12漏洞受影响的版本thinkphp 5.0.x &lt;= 5.0.15
+0x01 漏洞分析首先看一下官方commit，可以看到补丁对val[1]进行了判断，之前未作处理直接进行了拼接。
+
+根据补丁我们逆着分析，也就说只要控制了val[1],就能进行sql注入。补丁在parseD
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/24/thinkphp5-0-x-sql注入分析/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -773,7 +944,7 @@ payload1http://127.0.0.1/thinkphp5.1-master/public/index.php?order[id`,%27boo%27
       
         
           
-          红日安全团队的发出的一道题目1234567891011121314151617181920212223242526272829&lt;?php include &quot;./config.php&quot;;include &quot;./flag.php&quot;;error_reportin
+          红日安全团队的发出的一道题目1234567891011121314151617181920212223242526272829&lt;?php include "./config.php";include "./flag.php";error_reporting(0);$black_list = "
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1221,7 +1392,7 @@ payload1http://127.0.0.1/thinkphp5.1-master/public/index.php?order[id`,%27boo%27
           
           出自LCTF2018一道web题：bestphp’s revenge
 这道题目还是很有意思的，思路也很清奇。
-首先题目给出源码index.php123456789101112&lt;?phphighlight_file(__FILE__);$b = &apos;implode&apos;;call_
+首先题目给出源码index.php123456789101112&lt;?phphighlight_file(__FILE__);$b = 'implode';call_user_func(
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1370,7 +1541,7 @@ payload1http://127.0.0.1/thinkphp5.1-master/public/index.php?order[id`,%27boo%27
         
           
           0x00 前言来源于lctf2018的一道web题：Travel
-0x01 题目源码首先题目给出源码1234567891011121314151617181920212223242526@app.route(&apos;/upload/&lt;filename&gt;&apos;, methods 
+0x01 题目源码首先题目给出源码1234567891011121314151617181920212223242526@app.route('/upload/&lt;filename&gt;', methods = ['PUT'])
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1519,161 +1690,11 @@ payload1http://127.0.0.1/thinkphp5.1-master/public/index.php?order[id`,%27boo%27
         
           
           Input function在python2中，通过input输入的内容将作为python代码执行。
-1234567$ python2  &gt;&gt;&gt; input()  dir()  [&apos;__builtins__&apos;, &apos;__doc__&apos;, &apo
+1234567$ python2  &gt;&gt;&gt; input()  dir()  ['__builtins__', '__doc__', '__name__', '__package__
           ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/11/16/python-安全-tips/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/12/Unicode安全/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="boogle">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Boogle's Blogs">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/12/Unicode安全/" itemprop="url">Unicode安全</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-12T15:44:52+08:00">
-                2018-11-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web安全/" itemprop="url" rel="index">
-                    <span itemprop="name">web安全</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          结合HCTF2018的一道web题：admin
-题目源码
-这道题比较有意思，思路偏门新奇。题目的目标是以admin身份登陆，下载源码之后，是一个python基于flask框架写的一个web程序，审计代码之后发现，在注册、登陆、修改密码时都用到了strlower这个函数将username转化为小写。而
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/11/12/Unicode安全/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1761,7 +1782,7 @@ payload1http://127.0.0.1/thinkphp5.1-master/public/index.php?order[id`,%27boo%27
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1771,10 +1792,10 @@ payload1http://127.0.0.1/thinkphp5.1-master/public/index.php?order[id`,%27boo%27
               
               
               <div class="site-state-item site-state-categories">
-                
+                <a href="/categories/index.html">
                   <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">categories</span>
-                
+                </a>
               </div>
             
 
@@ -1782,10 +1803,10 @@ payload1http://127.0.0.1/thinkphp5.1-master/public/index.php?order[id`,%27boo%27
               
               
               <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">13</span>
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">tags</span>
-                
+                </a>
               </div>
             
 
@@ -1820,7 +1841,8 @@ payload1http://127.0.0.1/thinkphp5.1-master/public/index.php?order[id`,%27boo%27
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -1830,6 +1852,11 @@ payload1http://127.0.0.1/thinkphp5.1-master/public/index.php?order[id`,%27boo%27
 </div>
 
 
+  <div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
   <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 

