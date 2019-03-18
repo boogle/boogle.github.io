@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[burpsuite安装分块传输插件]]></title>
     <url>%2F2019%2F03%2F18%2Fburpsuite%E5%AE%89%E8%A3%85%E5%88%86%E5%9D%97%E4%BC%A0%E8%BE%93%E6%8F%92%E4%BB%B6%2F</url>
-    <content type="text"><![CDATA[0x01 前言关于分块传输的用处不多解释，感谢c0ny1编写的自动化插件,项目地址：https://github.com/c0ny1/chunked-coding-converter 0x02 mvn package命令打包下载完成后可直接在pom.xml根目录执行mvn package进行打包，成功后生成一个target文件夹，里面有打包好的burpsuite插件。 IDE打包我这里就用的myeclipse。这里简述一下步骤首先通过file-&gt;import导入目标，选择Existing Maven Projects执行下一步，选择下载好的包含pom.xml的上级目录即可然后稍等一会即可在Packahe Explorer视图中看到整个项目然后在pom.xml上右键执行run as-&gt;maven package操作。如果没有maven package操作可以选择maven build，新建一个，填写Goals为package然后等待其打包完成即可，完成后在target目录中机会生成目标.jar文件 然后启动burpsuite，执行插件添加操作，选择刚才打包好的jar文件 安装成功会有提示]]></content>
+    <content type="text"><![CDATA[0x01 前言关于分块传输的用处不多解释，感谢c0ny1编写的自动化插件,项目地址：https://github.com/c0ny1/chunked-coding-converter 0x02 mvn package命令打包下载完成后可直接在pom.xml根目录执行mvn package进行打包，成功后生成一个target文件夹，里面有打包好的burpsuite插件。 IDE打包我这里就用的myeclipse。这里简述一下步骤首先通过file-&gt;import导入目标，选择Existing Maven Projects执行下一步，选择下载好的包含pom.xml的上级目录即可然后稍等一会即可在Packahe Explorer视图中看到整个项目然后在pom.xml上右键执行run as-&gt;maven package操作。如果没有maven package操作可以选择maven build，新建一个，填写Goals为package然后等待其打包完成即可，完成后在target目录中机会生成目标.jar文件 然后启动burpsuite，执行插件添加操作，选择刚才打包好的jar文件 安装成功会有提示然后就可以享受这一利器带来的便利了]]></content>
       <categories>
         <category>web安全</category>
       </categories>
