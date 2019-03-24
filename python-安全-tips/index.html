@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+<meta name="baidu-site-verification" content="Apimgg1hM4">
+<meta name="google-site-verification" content="ifZoQ94LmUy8sy2SVlrhnNGumEzL2SSrC4MQAq67iic">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Input function在python2中，通过input输入的内容将作为python代码执行。 1234567$ python2  &amp;gt;&amp;gt;&amp;gt; input()  dir()  [&apos;__builtins__&apos;, &apos;__doc__&apos;, &apos;__name__&apos;, &apos;__package__&apos;] &amp;gt;&amp;gt;&amp;gt; input() __import__(&apos;sys&apos;).exit() $">
+<meta name="keywords" content="web安全 代码审计">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python安全tips">
+<meta property="og:url" content="http://zhengbao.wang/python-安全-tips/index.html">
+<meta property="og:site_name" content="Boogle&#39;s Blog">
+<meta property="og:description" content="Input function在python2中，通过input输入的内容将作为python代码执行。 1234567$ python2  &amp;gt;&amp;gt;&amp;gt; input()  dir()  [&apos;__builtins__&apos;, &apos;__doc__&apos;, &apos;__name__&apos;, &apos;__package__&apos;] &amp;gt;&amp;gt;&amp;gt; input() __import__(&apos;sys&apos;).exit() $">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-03-07T03:37:32.750Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python安全tips">
+<meta name="twitter:description" content="Input function在python2中，通过input输入的内容将作为python代码执行。 1234567$ python2  &amp;gt;&amp;gt;&amp;gt; input()  dir()  [&apos;__builtins__&apos;, &apos;__doc__&apos;, &apos;__name__&apos;, &apos;__package__&apos;] &amp;gt;&amp;gt;&amp;gt; input() __import__(&apos;sys&apos;).exit() $">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhengbao.wang/python-安全-tips/">
+
+
+
+
+
+  <title>python安全tips | Boogle's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Boogle's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">没有网络安全，就没有国家安全</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://zhengbao.wang/python-安全-tips/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="boogle">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/boogle.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boogle's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">python安全tips</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-16T11:16:38+08:00">
+                2018-11-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python安全/" itemprop="url" rel="index">
+                    <span itemprop="name">python安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/python-安全-tips/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/python-安全-tips/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/python-安全-tips/" class="leancloud_visitors" data-flag-title="python安全tips">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Input-function"><a href="#Input-function" class="headerlink" title="Input function"></a>Input function</h2><p>在python2中，通过input输入的内容将作为python代码执行。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ python2</span><br><span class="line">  &gt;&gt;&gt; input()</span><br><span class="line">  dir()</span><br><span class="line">  [<span class="string">'__builtins__'</span>, <span class="string">'__doc__'</span>, <span class="string">'__name__'</span>, <span class="string">'__package__'</span>]</span><br><span class="line"> &gt;&gt;&gt; input()</span><br><span class="line"> __import__(<span class="string">'sys'</span>).<span class="keyword">exit</span>()</span><br><span class="line"> $</span><br></pre></td></tr></table></figure>
+<p>安全的输入方式是使用raw_input()获取stdin内容，在python3中input已变得跟raw_input相等。</p>
+<h2 id="Assert"><a href="#Assert" class="headerlink" title="Assert"></a>Assert</h2><p>在python中使用assert语句使用断言，例如使用断言以判断程序是否可以继续执行。<br><figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">def verify_credentials(username, password):</span><br><span class="line">       assert username <span class="literal">and</span> password, <span class="string">'Credentials not supplied by caller'</span></span><br><span class="line"></span><br><span class="line">       <span class="params">...</span> authenticate possibly <span class="built_in">null</span> user <span class="keyword">with</span> <span class="built_in">null</span> password <span class="params">...</span></span><br></pre></td></tr></table></figure></p>
+<p>这样使用并没有什么问题，但是当程序使用python -O 编译为优化的字节码时，会导致asser语句被忽略。</p>
+<p>In Python 2.7, <strong>-O</strong> has the following effect:</p>
+<ul>
+<li>the byte code extension changes to <strong>.pyo</strong></li>
+<li><strong>sys.flags.optimize</strong> gets set to 1</li>
+<li><strong><strong>debug</strong></strong> is False</li>
+<li><strong>assert</strong> don’t get executed</li>
+</ul>
+<h2 id="可重复使用整数"><a href="#可重复使用整数" class="headerlink" title="可重复使用整数"></a>可重复使用整数</h2><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; <span class="number">999</span>+<span class="number">1</span> is <span class="number">1000</span></span><br><span class="line">    False</span><br><span class="line">&gt;&gt;&gt; <span class="number">1</span>+<span class="number">1</span> is <span class="number">2</span></span><br><span class="line">    True</span><br></pre></td></tr></table></figure>
+<p>这两个结果看起来有点匪夷所思，但实际上是我们对is有错误的理解。is操作符是在两个对象的标识上工作的，并不能用于比较数值。在python中，万物皆对象，每个对象都有一个唯一标识，可以用id函数来读取。要找出两个变量或两个属性是否都指向同一个对象，可以使用is操作符。</p>
+<h2 id="浮点数比较"><a href="#浮点数比较" class="headerlink" title="浮点数比较"></a>浮点数比较</h2><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; <span class="number">2.2</span> * <span class="number">3.0</span> == <span class="number">3.3</span> * <span class="number">2.0</span></span><br><span class="line">  False</span><br></pre></td></tr></table></figure>
+<p>上面的结果是由于固有受限精度导致舍入错误:<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; (<span class="number">2.2</span> * <span class="number">3.0</span>).hex()</span><br><span class="line">   '<span class="number">0x1</span>.a666666666667p+<span class="number">2</span>'</span><br><span class="line">   &gt;&gt;&gt; (<span class="number">3.3</span> * <span class="number">2.0</span>).hex()</span><br><span class="line">   '<span class="number">0x1</span>.a666666666666p+<span class="number">2</span>'</span><br></pre></td></tr></table></figure></p>
+<h2 id="float-gt-无穷"><a href="#float-gt-无穷" class="headerlink" title="float &gt; 无穷"></a>float &gt; 无穷</h2><p>在python中，float类型支持无穷大的概念:float(‘infinity’)<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;</span>&gt; <span class="number">10</span>**<span class="number">1000000</span> &gt; float(<span class="string">'infinity'</span>)</span><br><span class="line">   False</span><br></pre></td></tr></table></figure></p>
+<p>因此我们有理由相信，一切都比无穷小,但是一不小心，又翻车了</p>
+<p>任意type对象比无穷大<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; <span class="keyword">float</span> &gt; <span class="keyword">float</span>(<span class="string">'infinity'</span>)</span><br><span class="line">  <span class="keyword">True</span></span><br><span class="line">&gt;&gt;&gt; <span class="keyword">int</span> &gt; <span class="keyword">float</span>(<span class="string">'infinity'</span>)</span><br><span class="line">  <span class="keyword">True</span></span><br></pre></td></tr></table></figure></p>
+<p>这一车祸现场在python3中被处理，type()不能与float()进行比较。</p>
+<h2 id="私有属性"><a href="#私有属性" class="headerlink" title="私有属性"></a>私有属性</h2><p>python不支持对象隐藏属性，但是其提供一种使用双下划线__开头的属性隐藏方法。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span>:</span></span><br><span class="line">    __N=<span class="number">111111</span></span><br><span class="line">    N  =<span class="number">222222</span> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(<span class="keyword">self</span>,name)</span></span><span class="symbol">:</span></span><br><span class="line">        <span class="keyword">self</span>.__Name=name </span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__f1</span><span class="params">(<span class="keyword">self</span>)</span></span><span class="symbol">:</span></span><br><span class="line">        print <span class="keyword">self</span>.__Name</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">f2</span><span class="params">(<span class="keyword">self</span>)</span></span><span class="symbol">:</span></span><br><span class="line">        <span class="keyword">self</span>.__f1()</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_private</span><span class="params">(<span class="keyword">self</span>)</span></span><span class="symbol">:</span></span><br><span class="line">   ...     <span class="keyword">return</span> <span class="keyword">self</span>.__N</span><br></pre></td></tr></table></figure>
+<p>定义上面的class<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; f = Foo('boogle')</span><br><span class="line">&gt;&gt;&gt; f.N</span><br><span class="line">    222222</span><br><span class="line">&gt;&gt;&gt; f.__N</span><br><span class="line">    AttributeError: Foo<span class="built_in"> instance </span>has no attribute '__N'</span><br><span class="line">&gt;&gt;&gt; f.__f1()</span><br><span class="line">    AttributeError: Foo<span class="built_in"> instance </span>has no attribute '__f1'</span><br><span class="line">&gt;&gt;&gt; f.f2()</span><br><span class="line">    boogle</span><br></pre></td></tr></table></figure></p>
+<p>从上面的测试来看，使用__开头貌似确实实现了隐藏，而且其也成功在 getattr()/hasattr()中隐藏<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;</span>&gt; f.has_private()</span><br><span class="line">    False</span><br></pre></td></tr></table></figure></p>
+<p>但这种隐藏只是一种语法上的变形，并没有达到真正意义上的隐藏</p>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;print  Foo.__dict_<span class="number">_</span></span><br><span class="line">   &#123;<span class="string">'__module__'</span>: <span class="string">'__main__'</span>, <span class="string">'_Foo__f1'</span>: &lt;<span class="keyword">function</span> __f1 <span class="keyword">at</span> <span class="number">0x02D8D0B0</span>&gt;, <span class="string">'f2'</span>: &lt;<span class="keyword">function</span> f2 <span class="keyword">at</span> <span class="number">0x02D8D070</span>&gt;, <span class="string">'N'</span>: <span class="number">222222</span>, <span class="string">'_Foo__N'</span>: <span class="number">111111</span>, <span class="string">'__doc__'</span>: None, <span class="string">'__init__'</span>: &lt;<span class="keyword">function</span> __init_<span class="number">_</span> <span class="keyword">at</span> <span class="number">0x02D8D130</span>&gt;&#125;</span><br></pre></td></tr></table></figure>
+<p>得到Foo类的所有属性跟函数。<br>那么有没有办法直接查看这些属性的内容呢？答案是肯定的,我们可以用下划线_加类名加属性名的方法查看其内容（注意类名前是单下划线）<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;</span>&gt; f._Foo__N</span><br><span class="line">    <span class="number">111111</span></span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; f.__dict_<span class="number">_</span></span><br><span class="line">    &#123;<span class="string">'_Foo__Name'</span>: <span class="string">'boogle'</span>&#125;</span><br></pre></td></tr></table></figure></p>
+<p>另外当对属性进行重新赋值时，这些隐藏的属性也会被显示出来</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;</span>&gt; f.__N = <span class="number">333333</span></span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; f.__N</span><br><span class="line">    <span class="number">333333</span></span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; f.has_private()</span><br><span class="line">    True</span><br></pre></td></tr></table></figure>
+<h2 id="模块注入"><a href="#模块注入" class="headerlink" title="模块注入"></a>模块注入</h2><p>python的模块导入为python注入了活力，其功能强大而复杂，例如通过 <figure class="highlight plain"><figcaption><span>os ```可以导入系统命令模块，从而执行系统系统命令。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">python中模块和包可以通过定义在sys.path列表中的搜索路径找到的文件或目录名导入。搜索路径初始化是一个复杂的过程，它也依赖于Python版本，平台和本地配置。要想对其实施模块注入，就要知道其初始化的搜索路径，从来正确导入。</span><br><span class="line"></span><br><span class="line">我们可以运行下面的脚本知道其实际的搜索路径</span><br></pre></td></tr></table></figure></p>
+<p>$ cat myapp.py</p>
+<p>   #!/usr/bin/python</p>
+<p>   import sys<br>   import pprint</p>
+<p>   pprint.pprint(sys.path)</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">$ python -m myapp</span><br><span class="line">   ['',</span><br><span class="line">    '/usr/lib/python3<span class="number">.3</span>/site-packages/pip<span class="number">-7.1</span><span class="number">.2</span>-py3<span class="number">.3</span>.egg',</span><br><span class="line">    '/usr/lib/python3<span class="number">.3</span>/site-packages/setuptools<span class="number">-20.1</span><span class="number">.1</span>-py3<span class="number">.3</span>.egg',</span><br><span class="line">    ...]</span><br></pre></td></tr></table></figure>
+<p>从上面程序执行结果可以看到，其当前工作目录被自动插入到sys.path中。<br>那么便可以在sys.path中出现的任意一个我们具有操作权限的目录写入我们要导入的模块，从而进行导入。<br>两外在沙箱环境中，很有可能会删除<br>然会我们继续查看，会发现sys下面又一个modules。我们对sys.moudles做一些改动，看看会发生什么<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;</span>&gt; sys.modules[<span class="string">'os'</span>]=None</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; import os</span><br><span class="line">Traceback (most recent call last)<span class="symbol">:</span></span><br><span class="line">File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;<span class="class"><span class="keyword">module</span>&gt;</span></span><br><span class="line"><span class="symbol">ImportError:</span> No <span class="class"><span class="keyword">module</span> <span class="title">named</span> <span class="title">os</span></span></span><br></pre></td></tr></table></figure></p>
+<p>果然如我们所料,将os从 sys.modules 中删掉之后,就不能再引入了。<br>那么当一个沙箱环境通过这种方式将可能带来危险的模块删除时，我们便可以重新导入</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;</span>&gt; import sys</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; sys.modules[<span class="string">'os'</span>]=<span class="string">'/usr/lib/python2.7/os.py'</span> </span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; import os</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>另外如果sys也被禁止导入了呢？那么可以使用execfile()执行相应的代码<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;</span>&gt; execfile(<span class="string">'/usr/lib/python2.7/os.py'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; system(<span class="string">'cat /etc/passwd'</span>)</span><br><span class="line"><span class="symbol">root:</span><span class="symbol">x:</span><span class="number">0</span><span class="symbol">:</span><span class="number">0</span><span class="symbol">:root</span><span class="symbol">:/root</span><span class="symbol">:/bin/bash</span></span><br><span class="line"><span class="symbol">daemon:</span><span class="symbol">x:</span><span class="number">1</span><span class="symbol">:</span><span class="number">1</span><span class="symbol">:daemon</span><span class="symbol">:/usr/sbin</span><span class="symbol">:/usr/sbin/nologin</span></span><br><span class="line"><span class="symbol">bin:</span><span class="symbol">x:</span><span class="number">2</span><span class="symbol">:</span><span class="number">2</span><span class="symbol">:bin</span><span class="symbol">:/bin</span><span class="symbol">:/usr/sbin/nologin</span></span><br><span class="line"><span class="symbol">sys:</span><span class="symbol">x:</span><span class="number">3</span><span class="symbol">:</span><span class="number">3</span><span class="symbol">:sys</span><span class="symbol">:/dev</span><span class="symbol">:/usr/sbin/nologin</span></span><br><span class="line">...</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; getcwd()</span><br><span class="line"><span class="string">'/usr/lib/python2.7'</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="subprocess-shell注入"><a href="#subprocess-shell注入" class="headerlink" title="subprocess shell注入"></a>subprocess shell注入</h2><h3 id="shell-True时"><a href="#shell-True时" class="headerlink" title="shell = True时"></a>shell = True时</h3><p>此时如果命令参数可控，即可进行shell注入</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">s</span>=subprocess.Popen('ls;id', <span class="attribute">shell</span>=<span class="literal">True</span>, <span class="attribute">stderr</span>=subprocess.PIPE, <span class="attribute">stdout</span>=subprocess.PIPE)</span><br></pre></td></tr></table></figure>
+<h3 id="shell-False时"><a href="#shell-False时" class="headerlink" title="shell = False时"></a>shell = False时</h3><p>subprocess.call([]) 执行的是list拼接起来的命令，如果可控参数在拼接之后使得参数变成了参数选项，则存在命令注入风险<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;</span>&gt; from subprocess import call</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt;</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; call([<span class="string">'/bin/ls'</span>, <span class="string">'/tmp'</span>])</span><br></pre></td></tr></table></figure></p>
+<p>参考链接：<br><a href="https://access.redhat.com/blogs/766093/posts/2592591" target="_blank" rel="noopener">A bite of Python</a><br><a href="https://www.cnblogs.com/liuxiaowei/p/7414707.html" target="_blank" rel="noopener">Python 如何隐藏属性</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/python-安全-tips/">python安全tips</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
+  <p><span>发布时间:</span>2018年11月16日 - 11:16</p>
+  <p><span>最后更新:</span>2019年03月07日 - 11:37</p>
+  <p><span>原始链接:</span><a href="/python-安全-tips/" title="python安全tips">http://zhengbao.wang/python-安全-tips/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhengbao.wang/python-安全-tips/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      
+    </div>
+
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Unicode安全/" rel="next" title="Unicode安全">
+                <i class="fa fa-chevron-left"></i> Unicode安全
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/python-ssrf-put上传ssh公钥/" rel="prev" title="python ssrf+put上传ssh公钥">
+                python ssrf+put上传ssh公钥 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/boogle.jpg" alt="boogle">
+            
+              <p class="site-author-name" itemprop="name">boogle</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://aipp.me/" title="Aipp_SecurityBlog" target="_blank">Aipp_SecurityBlog</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+          
+    <div class="links-of-blogroll motion-element links-of-blogroll-block">
+      <div class="links-of-blogroll-title">
+        <!-- modify icon to fire by szw -->
+        <i class="fa fa-history fa-" aria-hidden="true"></i>
+        最近文章
+      </div>
+      <ul class="links-of-blogroll-list">
+        
+        
+          <li>
+            <a href="/Ljphpcms-v1-03代码审计之csrf-xss/" title="Ljphpcms_v1.03代码审计之csrf&&xss" target="_blank">Ljphpcms_v1.03代码审计之csrf&&xss</a>
+          </li>
+        
+          <li>
+            <a href="/burpsuite安装分块传输插件/" title="burpsuite安装分块传输插件" target="_blank">burpsuite安装分块传输插件</a>
+          </li>
+        
+          <li>
+            <a href="/semcms-php-v3-8任意文件刪除/" title="semcms_php_v3.8任意文件刪除" target="_blank">semcms_php_v3.8任意文件刪除</a>
+          </li>
+        
+          <li>
+            <a href="/semcms-php-v3-8-后台注入getshell/" title="semcms_php_v3.8 后台注入getshell" target="_blank">semcms_php_v3.8 后台注入getshell</a>
+          </li>
+        
+          <li>
+            <a href="/semcms-php-v3-8-时间盲注/" title="semcms_php_v3.8 时间盲注" target="_blank">semcms_php_v3.8 时间盲注</a>
+          </li>
+        
+      </ul>
+    </div>
+
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Input-function"><span class="nav-number">1.</span> <span class="nav-text">Input function</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Assert"><span class="nav-number">2.</span> <span class="nav-text">Assert</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可重复使用整数"><span class="nav-number">3.</span> <span class="nav-text">可重复使用整数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浮点数比较"><span class="nav-number">4.</span> <span class="nav-text">浮点数比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#float-gt-无穷"><span class="nav-number">5.</span> <span class="nav-text">float &gt; 无穷</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#私有属性"><span class="nav-number">6.</span> <span class="nav-text">私有属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模块注入"><span class="nav-number">7.</span> <span class="nav-text">模块注入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#subprocess-shell注入"><span class="nav-number">8.</span> <span class="nav-text">subprocess shell注入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#shell-True时"><span class="nav-number">8.1.</span> <span class="nav-text">shell = True时</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shell-False时"><span class="nav-number">8.2.</span> <span class="nav-text">shell = False时</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">boogle</span>
+
+  
+</div>
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '96DbJ7Tj8LDwhvF03Pcfymwl-gzGzoHsz',
+        appKey: 'DuUSj4dTajY34cjKfwsbgBJB',
+        placeholder: '如有不当，敬请指出 email:1473788702@qq.com',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("96DbJ7Tj8LDwhvF03Pcfymwl-gzGzoHsz", "DuUSj4dTajY34cjKfwsbgBJB");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

