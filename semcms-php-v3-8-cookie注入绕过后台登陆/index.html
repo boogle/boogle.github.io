@@ -81,23 +81,23 @@
 
 
 
-<meta name="description" content="0x00 前言此篇为审计semcms_php_v3.8的第二篇文章 SemCms是一套开源外贸企业网站管理系统，主要用于外贸企业，兼容IE、Firefox 等主流浏览器。SemCms非常适合在外贸企业，电子商务互联网应用上使用，2009年12月首次发布以来，SemCms依靠出色的用户体验和领先的技术不断扩大外贸场占有率，目前在国内已经成为最受欢迎的英文外贸网站之一。官网:[http://www.s">
+<meta name="description" content="0x00 前言此篇为审计semcms_php_v3.8的第二篇文章 SemCms是一套开源外贸企业网站管理系统，主要用于外贸企业，兼容IE、Firefox 等主流浏览器。SemCms非常适合在外贸企业，电子商务互联网应用上使用，2009年12月首次发布以来，SemCms依靠出色的用户体验和领先的技术不断扩大外贸场占有率，目前在国内已经成为最受欢迎的英文外贸网站之一。官网:http://www.se">
 <meta name="keywords" content="代码审计,0day挖掘">
 <meta property="og:type" content="article">
 <meta property="og:title" content="semcms_php_v3.8 cookie注入绕过后台登陆">
 <meta property="og:url" content="http://zhengbao.wang/semcms-php-v3-8-cookie注入绕过后台登陆/index.html">
 <meta property="og:site_name" content="Boogle&#39;s Blog">
-<meta property="og:description" content="0x00 前言此篇为审计semcms_php_v3.8的第二篇文章 SemCms是一套开源外贸企业网站管理系统，主要用于外贸企业，兼容IE、Firefox 等主流浏览器。SemCms非常适合在外贸企业，电子商务互联网应用上使用，2009年12月首次发布以来，SemCms依靠出色的用户体验和领先的技术不断扩大外贸场占有率，目前在国内已经成为最受欢迎的英文外贸网站之一。官网:[http://www.s">
+<meta property="og:description" content="0x00 前言此篇为审计semcms_php_v3.8的第二篇文章 SemCms是一套开源外贸企业网站管理系统，主要用于外贸企业，兼容IE、Firefox 等主流浏览器。SemCms非常适合在外贸企业，电子商务互联网应用上使用，2009年12月首次发布以来，SemCms依靠出色的用户体验和领先的技术不断扩大外贸场占有率，目前在国内已经成为最受欢迎的英文外贸网站之一。官网:http://www.se">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.loli.net/2019/03/14/5c89d09c2c001.png">
 <meta property="og:image" content="https://i.loli.net/2019/03/14/5c8a3d5daa79b.png">
 <meta property="og:image" content="https://i.loli.net/2019/03/14/5c8a3f84e17da.png">
 <meta property="og:image" content="https://i.loli.net/2019/03/14/5c8a406b88631.png">
 <meta property="og:image" content="https://i.loli.net/2019/03/14/5c8a418947e7e.png">
-<meta property="og:updated_time" content="2019-03-23T13:26:10.906Z">
+<meta property="og:updated_time" content="2019-03-25T00:34:59.569Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="semcms_php_v3.8 cookie注入绕过后台登陆">
-<meta name="twitter:description" content="0x00 前言此篇为审计semcms_php_v3.8的第二篇文章 SemCms是一套开源外贸企业网站管理系统，主要用于外贸企业，兼容IE、Firefox 等主流浏览器。SemCms非常适合在外贸企业，电子商务互联网应用上使用，2009年12月首次发布以来，SemCms依靠出色的用户体验和领先的技术不断扩大外贸场占有率，目前在国内已经成为最受欢迎的英文外贸网站之一。官网:[http://www.s">
+<meta name="twitter:description" content="0x00 前言此篇为审计semcms_php_v3.8的第二篇文章 SemCms是一套开源外贸企业网站管理系统，主要用于外贸企业，兼容IE、Firefox 等主流浏览器。SemCms非常适合在外贸企业，电子商务互联网应用上使用，2009年12月首次发布以来，SemCms依靠出色的用户体验和领先的技术不断扩大外贸场占有率，目前在国内已经成为最受欢迎的英文外贸网站之一。官网:http://www.se">
 <meta name="twitter:image" content="https://i.loli.net/2019/03/14/5c89d09c2c001.png">
 
 
@@ -410,7 +410,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  507 字
+                  506 字
                 </span>
               
 
@@ -448,7 +448,7 @@
 
       
         <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>此篇为审计semcms_php_v3.8的第二篇文章</p>
-<p>SemCms是一套开源外贸企业网站管理系统，主要用于外贸企业，兼容IE、Firefox 等主流浏览器。<br>SemCms非常适合在外贸企业，电子商务互联网应用上使用，2009年12月首次发布以来，SemCms依靠出色的用户体验和领先的技术不断扩大外贸场占有率，目前在国内已经成为最受欢迎的英文外贸网站之一。<br>官网:[<a href="http://www.sem-cms.com/][1]" target="_blank" rel="noopener">http://www.sem-cms.com/][1]</a><br>审计版本为最新php版 v3.8<br><img src="https://i.loli.net/2019/03/14/5c89d09c2c001.png" alt></p>
+<p>SemCms是一套开源外贸企业网站管理系统，主要用于外贸企业，兼容IE、Firefox 等主流浏览器。<br>SemCms非常适合在外贸企业，电子商务互联网应用上使用，2009年12月首次发布以来，SemCms依靠出色的用户体验和领先的技术不断扩大外贸场占有率，目前在国内已经成为最受欢迎的英文外贸网站之一。<br>官网:<a href="http://www.sem-cms.com" target="_blank" rel="noopener">http://www.sem-cms.com/</a><br>审计版本为最新php版 v3.8<br><img src="https://i.loli.net/2019/03/14/5c89d09c2c001.png" alt></p>
 <h2 id="0x01-cookie注入导致后台登陆绕过"><a href="#0x01-cookie注入导致后台登陆绕过" class="headerlink" title="0x01 cookie注入导致后台登陆绕过"></a>0x01 cookie注入导致后台登陆绕过</h2><p>首先查看后台主页<code>SEMCMS_Main.php</code>,包含了<code>SEMCMS_Top_include.php</code>,跟进看到<code>checkuser</code>函数，猜测应该时验证是否登陆的。<br><img src="https://i.loli.net/2019/03/14/5c8a3d5daa79b.png" alt><br>继续跟进<code>checkuser()</code>函数<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> checkuser(<span class="variable">$db_conn</span>)&#123; <span class="regexp">//</span>判断用户是否登陆</span><br><span class="line"></span><br><span class="line">    <span class="variable">$cookieuseradmin</span>=@verify_str(test_input(<span class="variable">$_COOKIE</span>[<span class="string">"scuseradmin"</span>]));</span><br><span class="line">    <span class="variable">$cookieuserpass</span>=@verify_str(test_input(<span class="variable">$_COOKIE</span>[<span class="string">"scuserpass"</span>]));</span><br><span class="line"></span><br><span class="line">    <span class="variable">$query</span>=<span class="variable">$db_conn</span>-&gt;query(<span class="string">"select * from sc_user where user_admin='$cookieuseradmin' and user_ps='$cookieuserpass'"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (mysqli_num_rows(<span class="variable">$query</span>)&gt;<span class="number">0</span>)&#123;</span><br><span class="line"></span><br><span class="line">         <span class="variable">$row</span>=mysqli_fetch_assoc(<span class="variable">$query</span>);</span><br><span class="line">         return <span class="variable">$row</span>[<span class="string">'user_qx'</span>];</span><br><span class="line"></span><br><span class="line">     &#125;<span class="keyword">else</span>&#123;</span><br><span class="line"></span><br><span class="line">        echo <span class="string">"&lt;script language='javascript'&gt;alert('账号密码不正确重新登陆！');top.location.href='index.html';&lt;/script&gt;"</span>;</span><br><span class="line">        <span class="keyword">exit</span>; </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>发现用户名和密码均来自cookie，然后带入sql语句查询，要传入的值经过了<code>test_input</code>和<code>verify_str</code>的过滤，跟进查看一下。<br><code>verify_str</code>的值我们上一篇审计的时候查看过了，过滤几个sql语句<br><img src="https://i.loli.net/2019/03/14/5c8a3f84e17da.png" alt><br>虽然过滤了单引号<code>&#39;</code>，但是并没有过滤<code>\</code>,看看是否能通过转义符<code>\</code>将<code>$cookieuseradmin</code>后面的单引号闭合，从而绕过检测。<br>继续查看<code>test_input</code><br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test_input</span><span class="params">($data)</span> </span>&#123; </span><br><span class="line">      $data = str_replace(<span class="string">"%"</span>, <span class="string">"percent"</span>, $data);</span><br><span class="line">      $data = trim($data);</span><br><span class="line">      $data = stripslashes($data);</span><br><span class="line">      $data = htmlspecialchars($data,ENT_QUOTES);</span><br><span class="line">      <span class="keyword">return</span> $data;</span><br><span class="line"></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
 <p>这里需要注意的是<code>stripslashes</code>，因为<code>stripslashes</code>对<code>\</code>作了处理，但是幸运的是两个反斜线<code>\\</code>时会返回一个。<br><img src="https://i.loli.net/2019/03/14/5c8a406b88631.png" alt></p>
@@ -476,7 +476,7 @@
   <p><span>本文标题:</span><a href="/semcms-php-v3-8-cookie注入绕过后台登陆/">semcms_php_v3.8 cookie注入绕过后台登陆</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
   <p><span>发布时间:</span>2019年03月15日 - 21:18</p>
-  <p><span>最后更新:</span>2019年03月23日 - 21:26</p>
+  <p><span>最后更新:</span>2019年03月25日 - 08:34</p>
   <p><span>原始链接:</span><a href="/semcms-php-v3-8-cookie注入绕过后台登陆/" title="semcms_php_v3.8 cookie注入绕过后台登陆">http://zhengbao.wang/semcms-php-v3-8-cookie注入绕过后台登陆/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhengbao.wang/semcms-php-v3-8-cookie注入绕过后台登陆/" aria-label="复制成功！"></i></span>
   </p>
