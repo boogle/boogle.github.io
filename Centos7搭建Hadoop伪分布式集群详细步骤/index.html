@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="ctf,">
+  <meta name="keywords" content="hadoop,">
 
 
 
@@ -81,20 +81,34 @@
 
 
 
-<meta name="description" content="1234567891011121314151617181920212223242526272829303132333435class RealSecureLoginManager &amp;#123;    private $em;    private $user;    private $password;    public function __construct($user, $password">
-<meta name="keywords" content="ctf">
+<meta name="description" content="0x00 前言Apache Hadoop是一款支持数据密集型分布式应用程序并以Apache 2.0许可协议发布的开源软件框架。它支持在商品硬件构建的大型集群上运行的应用程序。此处仅使用一台虚拟机进行hadoop集群搭建，因此称为伪分布式。 0x01 安装JAVA环境-jdk1.8下载安装包安装包可根据需要从官网下载也可以在centos中使用wget命令下载，如下图提取下载链接12#此链接很有可能失">
+<meta name="keywords" content="hadoop">
 <meta property="og:type" content="article">
-<meta property="og:title" content="md5($str,true)引发的sql注入">
-<meta property="og:url" content="http://zhengbao.wang/md5-true-引发的sql注入/index.html">
+<meta property="og:title" content="Centos7搭建Hadoop伪分布式集群详细步骤">
+<meta property="og:url" content="http://zhengbao.wang/Centos7搭建Hadoop伪分布式集群详细步骤/index.html">
 <meta property="og:site_name" content="Boogle&#39;s Blog">
-<meta property="og:description" content="1234567891011121314151617181920212223242526272829303132333435class RealSecureLoginManager &amp;#123;    private $em;    private $user;    private $password;    public function __construct($user, $password">
+<meta property="og:description" content="0x00 前言Apache Hadoop是一款支持数据密集型分布式应用程序并以Apache 2.0许可协议发布的开源软件框架。它支持在商品硬件构建的大型集群上运行的应用程序。此处仅使用一台虚拟机进行hadoop集群搭建，因此称为伪分布式。 0x01 安装JAVA环境-jdk1.8下载安装包安装包可根据需要从官网下载也可以在centos中使用wget命令下载，如下图提取下载链接12#此链接很有可能失">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://i.loli.net/2018/11/25/5bfab091240d7.png">
-<meta property="og:updated_time" content="2019-03-07T03:37:01.658Z">
+<meta property="og:image" content="https://i.loli.net/2019/03/25/5c98c2dc297db.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/25/5c98c32f5e1cc.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/25/5c98c4c776768.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/25/5c98c95909893.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/25/5c98c686835ff.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/25/5c98c7dd053db.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/25/5c98c9ee38c76.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/25/5c98cebc70764.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/25/5c98cf14e4f8a.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/25/5c98d15646d0a.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/25/5c98d2022c1ba.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/25/5c98d2395dad6.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/25/5c98d2b72c72a.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/25/5c98d3b4a5353.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/25/5c98dc2da232b.png">
+<meta property="og:updated_time" content="2019-03-25T13:53:42.262Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="md5($str,true)引发的sql注入">
-<meta name="twitter:description" content="1234567891011121314151617181920212223242526272829303132333435class RealSecureLoginManager &amp;#123;    private $em;    private $user;    private $password;    public function __construct($user, $password">
-<meta name="twitter:image" content="https://i.loli.net/2018/11/25/5bfab091240d7.png">
+<meta name="twitter:title" content="Centos7搭建Hadoop伪分布式集群详细步骤">
+<meta name="twitter:description" content="0x00 前言Apache Hadoop是一款支持数据密集型分布式应用程序并以Apache 2.0许可协议发布的开源软件框架。它支持在商品硬件构建的大型集群上运行的应用程序。此处仅使用一台虚拟机进行hadoop集群搭建，因此称为伪分布式。 0x01 安装JAVA环境-jdk1.8下载安装包安装包可根据需要从官网下载也可以在centos中使用wget命令下载，如下图提取下载链接12#此链接很有可能失">
+<meta name="twitter:image" content="https://i.loli.net/2019/03/25/5c98c2dc297db.png">
 
 
 
@@ -124,13 +138,13 @@
 
 
 
-  <link rel="canonical" href="http://zhengbao.wang/md5-true-引发的sql注入/">
+  <link rel="canonical" href="http://zhengbao.wang/Centos7搭建Hadoop伪分布式集群详细步骤/">
 
 
 
 
 
-  <title>md5($str,true)引发的sql注入 | Boogle's Blog</title>
+  <title>Centos7搭建Hadoop伪分布式集群详细步骤 | Boogle's Blog</title>
   
 
 
@@ -302,7 +316,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://zhengbao.wang/md5-true-引发的sql注入/">
+    <link itemprop="mainEntityOfPage" href="http://zhengbao.wang/Centos7搭建Hadoop伪分布式集群详细步骤/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="boogle">
@@ -319,7 +333,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">md5($str,true)引发的sql注入</h1>
+          <h1 class="post-title" itemprop="name headline">Centos7搭建Hadoop伪分布式集群详细步骤</h1>
         
 
         <div class="post-meta">
@@ -331,8 +345,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-25T15:12:31+08:00">
-                2018-01-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-25T21:50:52+08:00">
+                2019-03-25
               </time>
             
 
@@ -354,8 +368,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web安全/" itemprop="url" rel="index">
-                    <span itemprop="name">web安全</span>
+                  <a href="/categories/环境配置/" itemprop="url" rel="index">
+                    <span itemprop="name">环境配置</span>
                   </a>
                 </span>
 
@@ -372,8 +386,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/md5-true-引发的sql注入/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/md5-true-引发的sql注入/" itemprop="commentCount"></span>
+                <a href="/Centos7搭建Hadoop伪分布式集群详细步骤/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/Centos7搭建Hadoop伪分布式集群详细步骤/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -381,7 +395,7 @@
 
           
           
-             <span id="/md5-true-引发的sql注入/" class="leancloud_visitors" data-flag-title="md5($str,true)引发的sql注入">
+             <span id="/Centos7搭建Hadoop伪分布式集群详细步骤/" class="leancloud_visitors" data-flag-title="Centos7搭建Hadoop伪分布式集群详细步骤">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -406,7 +420,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  314 字
+                  1k 字
                 </span>
               
 
@@ -422,7 +436,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  3 分钟
+                  12 分钟
                 </span>
               
             </div>
@@ -443,9 +457,39 @@
       
 
       
-        <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RealSecureLoginManager</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> $em;</span><br><span class="line">    <span class="keyword">private</span> $user;</span><br><span class="line">    <span class="keyword">private</span> $password;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($user, $password)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;em = DoctrineManager::getEntityManager();</span><br><span class="line">        <span class="keyword">$this</span>-&gt;user = $user;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;password = $password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">isValid</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        $pass = md5(<span class="keyword">$this</span>-&gt;password, <span class="keyword">true</span>);</span><br><span class="line">        $user = <span class="keyword">$this</span>-&gt;sanitizeInput(<span class="keyword">$this</span>-&gt;user);</span><br><span class="line"></span><br><span class="line">        $queryBuilder = <span class="keyword">$this</span>-&gt;em-&gt;createQueryBuilder()</span><br><span class="line">            -&gt;select(<span class="string">"COUNT(p)"</span>)</span><br><span class="line">            -&gt;from(<span class="string">"User"</span>, <span class="string">"u"</span>)</span><br><span class="line">            -&gt;where(<span class="string">"password = '$pass' AND user = '$user'"</span>);</span><br><span class="line">        $query = $queryBuilder-&gt;getQuery();</span><br><span class="line">        <span class="keyword">return</span> boolval($query-&gt;getSingleScalarResult());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">sanitizeInput</span><span class="params">($input)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> addslashes($input);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$auth = <span class="keyword">new</span> RealSecureLoginManager(</span><br><span class="line">    $_POST[<span class="string">'user'</span>],</span><br><span class="line">    $_POST[<span class="string">'passwd'</span>]</span><br><span class="line">);</span><br><span class="line"><span class="keyword">if</span> (!$auth-&gt;isValid()) &#123;</span><br><span class="line">    <span class="keyword">exit</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面的代码中，$queryBuilder拼接了一条sql查询语句，但是对传入的user进行了addslashes函数过滤，也就是说没有办法通过user进行注入，而且pass变量是经过md5计算的散列值，理论上也没有办法进行注入，但是这里这里md5()函数的$raw_output值设置为true，那么这个md5报文摘要将以16字节长度的原始二进制格式返回。<br>什么意思呢？看一下下面的执行结果<br><img src="https://i.loli.net/2018/11/25/5bfab091240d7.png" alt><br>也就是说这个二进制格式的返回值会引入其他非预期的字符，比如说<strong>\</strong><br>这里经过fazz,发现 md5(128, true) 最后的结果带有反斜杠。因此这题最后的payload如下：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user= OR <span class="number">1</span>=<span class="number">1</span>#&amp;passwd=<span class="number">128</span></span><br></pre></td></tr></table></figure></p>
-<p>另外实验吧的一道题目类似<br><a href="http://ctf5.shiyanbar.com/web/houtai/ffifdyop.php" target="_blank" rel="noopener">http://ctf5.shiyanbar.com/web/houtai/ffifdyop.php</a></p>
+        <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>Apache Hadoop是一款支持数据密集型分布式应用程序并以Apache 2.0许可协议发布的开源软件框架。它支持在商品硬件构建的大型集群上运行的应用程序。此处仅使用一台虚拟机进行hadoop集群搭建，因此称为伪分布式。</p>
+<h2 id="0x01-安装JAVA环境-jdk1-8"><a href="#0x01-安装JAVA环境-jdk1-8" class="headerlink" title="0x01 安装JAVA环境-jdk1.8"></a>0x01 安装JAVA环境-jdk1.8</h2><h3 id="下载安装包"><a href="#下载安装包" class="headerlink" title="下载安装包"></a>下载安装包</h3><p>安装包可根据需要从<a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">官网下载</a><br>也可以在centos中使用<code>wget</code>命令下载，如下图提取下载链接<br><img src="https://i.loli.net/2019/03/25/5c98c2dc297db.png" alt><br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#此链接很有可能失效，如失效请重新提取</span></span><br><span class="line">wget https:<span class="regexp">//</span>download.oracle.com<span class="regexp">/otn-pub/</span>java<span class="regexp">/jdk/</span><span class="number">8</span>u201-b09<span class="regexp">/42970487e3af4f5aa5bca3f542482c60/</span>jdk-<span class="number">8</span>u201-linux-x64.tar.gz?AuthParam=<span class="number">1553514841</span>_9cc3afa073df0a90e3fbb39088a2cde9</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/03/25/5c98c32f5e1cc.png" alt></p>
+<h3 id="新建安装目录并解压"><a href="#新建安装目录并解压" class="headerlink" title="新建安装目录并解压"></a>新建安装目录并解压</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir <span class="regexp">/usr/</span>local<span class="regexp">/java/</span></span><br><span class="line">sudo tar -zxvf jdk-<span class="number">8</span>u171-linux-x64.tar.gz -C <span class="regexp">/usr/</span>local<span class="regexp">/java/</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/03/25/5c98c4c776768.png" alt></p>
+<h3 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 打开配置文件</span></span><br><span class="line">vi ~/.bashrc </span><br><span class="line"><span class="comment"># 添加并保存</span></span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">JAVA_HOME</span>=/usr/local/java/jdk1.8.0_201  #注意此处jdk目录与你解压目录相同</span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">JRE_HOME</span>=<span class="variable">$JAVA_HOME</span>/jre</span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">CLASSPATH</span>=.:$JAVA_HOME/lib:$JRE_HOME/lib</span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">PATH</span>=<span class="variable">$JAVA_HOME</span>/bin:$PATH </span><br><span class="line"><span class="comment"># 使环境变量生效</span></span><br><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/03/25/5c98c95909893.png" alt></p>
+<h3 id="测试是否配置成功"><a href="#测试是否配置成功" class="headerlink" title="测试是否配置成功"></a>测试是否配置成功</h3><p>然后可通过<code>java -version</code>查看是否配置成功<br><img src="https://i.loli.net/2019/03/25/5c98c686835ff.png" alt></p>
+<h2 id="0x02-下载Hadoop并配置"><a href="#0x02-下载Hadoop并配置" class="headerlink" title="0x02 下载Hadoop并配置"></a>0x02 下载Hadoop并配置</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>从官网下载:<a href="http://mirrors.shu.edu.cn/apache/hadoop/common/hadoop-3.2.0/hadoop-3.2.0.tar.gz" target="_blank" rel="noopener">http://mirrors.shu.edu.cn/apache/hadoop/common/hadoop-3.2.0/hadoop-3.2.0.tar.gz</a><br><img src="https://i.loli.net/2019/03/25/5c98c7dd053db.png" alt><br>下载后解压到想要放置的目录即可。</p>
+<h3 id="配置环境变量-1"><a href="#配置环境变量-1" class="headerlink" title="配置环境变量"></a>配置环境变量</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 打开配置文件</span></span><br><span class="line">vi ~/.bashrc </span><br><span class="line"><span class="comment"># 添加并保存</span></span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">HADOOP_HOME</span>=/home/wzb/hadoop-3.2.0 #注意此处hadoop目录与你解压目录相同</span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">PATH</span>=<span class="variable">$PATH</span>:$HADOOP_HOME/bin:$HADOOP_HOME/sbin</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使环境变量生效</span></span><br><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
+<p>配置hadoop-env.sh中的<code>$JAVA_HOME</code><br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi hadoop<span class="number">-3.2</span><span class="number">.0</span>/etc/hadoop/hadoop-env.sh</span><br></pre></td></tr></table></figure></p>
+<h3 id="测试是否配置成功-1"><a href="#测试是否配置成功-1" class="headerlink" title="测试是否配置成功"></a>测试是否配置成功</h3><p><code>hadoop version</code><br><img src="https://i.loli.net/2019/03/25/5c98c9ee38c76.png" alt></p>
+<h2 id="0x03-配置ssh免密登陆"><a href="#0x03-配置ssh免密登陆" class="headerlink" title="0x03 配置ssh免密登陆"></a>0x03 配置ssh免密登陆</h2><p>因为hadoop集群在进行验证时采用ssh公钥登陆，此处配置伪分布式集群，以本地免密登陆为例。</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>centos默认安装了openssh，如未安装，请先进行安装<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> openssh-<span class="keyword">server</span> -y</span><br></pre></td></tr></table></figure></p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>打开openssh主配置文件<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi <span class="regexp">/etc/</span>ssh<span class="regexp">/sshd_config</span></span><br></pre></td></tr></table></figure></p>
+<p>需开启并配置的文件如下，其他根据需要可自由配置<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">Port</span> <span class="number">22</span></span><br><span class="line"><span class="string">ListenAddress</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line"><span class="string">ListenAddress</span> <span class="string">::</span></span><br><span class="line"><span class="string">PermitRootLogin</span> <span class="literal">no</span></span><br><span class="line"><span class="string">StrictModes</span> <span class="literal">no</span></span><br><span class="line"><span class="string">PubkeyAuthentication</span> <span class="literal">yes</span></span><br><span class="line"><span class="string">AuthorizedKeysFile</span>      <span class="string">.ssh/authorized_keys</span></span><br><span class="line"><span class="string">PasswordAuthentication</span> <span class="literal">yes</span></span><br></pre></td></tr></table></figure></p>
+<p>配置完成后重启服务以使配置生效<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo<span class="built_in"> service </span>sshd restart</span><br></pre></td></tr></table></figure></p>
+<h2 id="生成公钥"><a href="#生成公钥" class="headerlink" title="生成公钥"></a>生成公钥</h2><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -P ''  <span class="comment">#生成公钥和私钥</span></span><br><span class="line"></span><br><span class="line">cat ~<span class="string">/.ssh/id_dsa.pub</span> &gt;&gt; ~<span class="string">/.ssh/authorized_keys</span> <span class="comment">#将本机的公钥添加进authorized_keys中，这样允许本机通过ssh的形式免密码登录，如配置其他主机免密登陆，请将其他主机公钥配置到`authorized_keys`</span></span><br><span class="line"></span><br><span class="line">sudo chmod 700 ~<span class="string">/.ssh</span> <span class="comment">#配置相应权限</span></span><br><span class="line">sudo chmod 600 ~<span class="string">/.ssh/authorized_keys</span></span><br></pre></td></tr></table></figure>
+<h2 id="测试本地免密登陆"><a href="#测试本地免密登陆" class="headerlink" title="测试本地免密登陆"></a>测试本地免密登陆</h2><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">ssh localhost</span></span><br></pre></td></tr></table></figure>
+<p>配置成功则无需密码直接登陆成功<br><img src="https://i.loli.net/2019/03/25/5c98cebc70764.png" alt></p>
+<p>如果失败请使用<code>ssh -vvv locoalhost</code>继续debug排查</p>
+<h2 id="0x04-配置hadoop伪分布式集群"><a href="#0x04-配置hadoop伪分布式集群" class="headerlink" title="0x04 配置hadoop伪分布式集群"></a>0x04 配置hadoop伪分布式集群</h2><h3 id="配置hadoop运行核心文件core-site-xml"><a href="#配置hadoop运行核心文件core-site-xml" class="headerlink" title="配置hadoop运行核心文件core-site.xml"></a>配置hadoop运行核心文件core-site.xml</h3><p><img src="https://i.loli.net/2019/03/25/5c98cf14e4f8a.png" alt><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">proprety</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.defaultFS<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://localhost:9000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">proprety</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="配置HDFS分布式储存的配置hdfs-site-xml"><a href="#配置HDFS分布式储存的配置hdfs-site-xml" class="headerlink" title="配置HDFS分布式储存的配置hdfs-site.xml"></a>配置HDFS分布式储存的配置hdfs-site.xml</h3><p>=<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="params">&lt;configuration&gt;</span></span><br><span class="line">        <span class="params">&lt;property&gt;</span></span><br><span class="line">                <span class="params">&lt;name&gt;</span>dfs.replication<span class="params">&lt;/name&gt;</span></span><br><span class="line">                <span class="params">&lt;value&gt;</span><span class="number">1</span><span class="params">&lt;/value&gt;</span></span><br><span class="line">        <span class="params">&lt;/property&gt;</span></span><br><span class="line">        <span class="params">&lt;property&gt;</span></span><br><span class="line">                <span class="params">&lt;name&gt;</span>dfs.name.dir<span class="params">&lt;/name&gt;</span></span><br><span class="line">                <span class="params">&lt;value&gt;</span><span class="meta-keyword">/home/</span>wzb<span class="meta-keyword">/hdfs-data/</span>name<span class="params">&lt;/value&gt;</span></span><br><span class="line">        <span class="params">&lt;/property&gt;</span></span><br><span class="line">        <span class="params">&lt;property&gt;</span></span><br><span class="line">                <span class="params">&lt;name&gt;</span>dfs.data.dir<span class="params">&lt;/name&gt;</span></span><br><span class="line">                <span class="params">&lt;value&gt;</span><span class="meta-keyword">/home/</span>wzb<span class="meta-keyword">/hdfs-data/</span>data<span class="params">&lt;/value&gt;</span></span><br><span class="line">        <span class="params">&lt;/property&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="params">&lt;/configuration&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="创建namenode和datanode进程的保存路径dfs-name-dir"><a href="#创建namenode和datanode进程的保存路径dfs-name-dir" class="headerlink" title="创建namenode和datanode进程的保存路径dfs.name.dir"></a>创建namenode和datanode进程的保存路径dfs.name.dir</h3><p>在上图中配置了<code>dfs.name.dir</code><br>按照配置进行创建<br><figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /home/wzb/hdfs-<span class="keyword">data</span>/<span class="keyword">name</span>  <span class="comment">//namenode进程的保存路径</span></span><br><span class="line">mkdir -p /home/wzb/hdfs-<span class="keyword">data</span>/<span class="keyword">data</span>  <span class="comment">//datanode进程的保存路径</span></span><br><span class="line">#注意在格式化之前保证<span class="keyword">name</span>和<span class="keyword">data</span>目录下为空</span><br></pre></td></tr></table></figure></p>
+<h3 id="数据目录格式化"><a href="#数据目录格式化" class="headerlink" title="数据目录格式化"></a>数据目录格式化</h3><figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hdfs namenode -<span class="built_in">format</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/03/25/5c98d15646d0a.png" alt></p>
+<h3 id="启动Hadoop"><a href="#启动Hadoop" class="headerlink" title="启动Hadoop"></a>启动Hadoop</h3><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">start-<span class="keyword">all</span>.<span class="keyword">sh</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/03/25/5c98d2022c1ba.png" alt><br>启动过程中下面进程无错误启动即启动成功。<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Starting namenodes</span></span><br><span class="line"><span class="attribute">Starting datanodes</span></span><br><span class="line"><span class="attribute">Starting secondary namenodes</span></span><br><span class="line"><span class="attribute">Starting resourcemanager</span></span><br><span class="line"><span class="attribute">Starting nodemanagers</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="查看java进程"><a href="#查看java进程" class="headerlink" title="查看java进程"></a>查看java进程</h3><p>使用命令<code>jps</code>可发现<code>ResourceManager</code>和<code>NodeManager</code>启动成功<br><img src="https://i.loli.net/2019/03/25/5c98d2395dad6.png" alt></p>
+<h3 id="查看端口"><a href="#查看端口" class="headerlink" title="查看端口"></a>查看端口</h3><p><code>netstat -ntpl |grep java</code><br>此处显示出的进程id与<code>ResourceManager</code>和<code>NodeManager</code>相符。<br><img src="https://i.loli.net/2019/03/25/5c98d2b72c72a.png" alt></p>
+<h3 id="访问端口"><a href="#访问端口" class="headerlink" title="访问端口"></a>访问端口</h3><p><code>http://127.0.0.1:8088</code><br><img src="https://i.loli.net/2019/03/25/5c98d3b4a5353.png" alt></p>
+<p><code>http://127.0.0.1:9870</code></p>
+<h2 id="0x05-未解决问题"><a href="#0x05-未解决问题" class="headerlink" title="0x05 未解决问题"></a>0x05 未解决问题</h2><p>其实通过上面的<code>jps</code>发现有一些进程使未正常启动的。<br>查看log发现namenode未正常启动，尚未解决，诸位如发现其中错误，还望告知。<br><img src="https://i.loli.net/2019/03/25/5c98dc2da232b.png" alt></p>
 
       
     </div>
@@ -462,12 +506,12 @@
   <!-- JS库 sweetalert 可修改路径 -->
   <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>本文标题:</span><a href="/md5-true-引发的sql注入/">md5($str,true)引发的sql注入</a></p>
+  <p><span>本文标题:</span><a href="/Centos7搭建Hadoop伪分布式集群详细步骤/">Centos7搭建Hadoop伪分布式集群详细步骤</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
-  <p><span>发布时间:</span>2018年01月25日 - 15:12</p>
-  <p><span>最后更新:</span>2019年03月07日 - 11:37</p>
-  <p><span>原始链接:</span><a href="/md5-true-引发的sql注入/" title="md5($str,true)引发的sql注入">http://zhengbao.wang/md5-true-引发的sql注入/</a>
-    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhengbao.wang/md5-true-引发的sql注入/" aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2019年03月25日 - 21:50</p>
+  <p><span>最后更新:</span>2019年03月25日 - 21:53</p>
+  <p><span>原始链接:</span><a href="/Centos7搭建Hadoop伪分布式集群详细步骤/" title="Centos7搭建Hadoop伪分布式集群详细步骤">http://zhengbao.wang/Centos7搭建Hadoop伪分布式集群详细步骤/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhengbao.wang/Centos7搭建Hadoop伪分布式集群详细步骤/" aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
 </div>
@@ -526,7 +570,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/ctf/" rel="tag"><i class="fa fa-tag"></i> ctf</a>
+            <a href="/tags/hadoop/" rel="tag"><i class="fa fa-tag"></i> hadoop</a>
           
         </div>
       
@@ -539,8 +583,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/linux端口转发/" rel="next" title="linux端口转发">
-                <i class="fa fa-chevron-left"></i> linux端口转发
+              <a href="/Ljphpcms-v1-03代码审计之csrf-xss/" rel="next" title="Ljphpcms_v1.03代码审计之csrf&&xss">
+                <i class="fa fa-chevron-left"></i> Ljphpcms_v1.03代码审计之csrf&&xss
               </a>
             
           </div>
@@ -548,10 +592,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/XSS-Game-解题记录/" rel="prev" title="XSS-Game 解题记录">
-                XSS-Game 解题记录 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -606,8 +646,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -720,6 +769,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-前言"><span class="nav-number">1.</span> <span class="nav-text">0x00 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-安装JAVA环境-jdk1-8"><span class="nav-number">2.</span> <span class="nav-text">0x01 安装JAVA环境-jdk1.8</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载安装包"><span class="nav-number">2.1.</span> <span class="nav-text">下载安装包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新建安装目录并解压"><span class="nav-number">2.2.</span> <span class="nav-text">新建安装目录并解压</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置环境变量"><span class="nav-number">2.3.</span> <span class="nav-text">配置环境变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试是否配置成功"><span class="nav-number">2.4.</span> <span class="nav-text">测试是否配置成功</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-下载Hadoop并配置"><span class="nav-number">3.</span> <span class="nav-text">0x02 下载Hadoop并配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载"><span class="nav-number">3.1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置环境变量-1"><span class="nav-number">3.2.</span> <span class="nav-text">配置环境变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试是否配置成功-1"><span class="nav-number">3.3.</span> <span class="nav-text">测试是否配置成功</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-配置ssh免密登陆"><span class="nav-number">4.</span> <span class="nav-text">0x03 配置ssh免密登陆</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">4.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置"><span class="nav-number">4.2.</span> <span class="nav-text">配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成公钥"><span class="nav-number">5.</span> <span class="nav-text">生成公钥</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试本地免密登陆"><span class="nav-number">6.</span> <span class="nav-text">测试本地免密登陆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x04-配置hadoop伪分布式集群"><span class="nav-number">7.</span> <span class="nav-text">0x04 配置hadoop伪分布式集群</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置hadoop运行核心文件core-site-xml"><span class="nav-number">7.1.</span> <span class="nav-text">配置hadoop运行核心文件core-site.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置HDFS分布式储存的配置hdfs-site-xml"><span class="nav-number">7.2.</span> <span class="nav-text">配置HDFS分布式储存的配置hdfs-site.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建namenode和datanode进程的保存路径dfs-name-dir"><span class="nav-number">7.3.</span> <span class="nav-text">创建namenode和datanode进程的保存路径dfs.name.dir</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据目录格式化"><span class="nav-number">7.4.</span> <span class="nav-text">数据目录格式化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动Hadoop"><span class="nav-number">7.5.</span> <span class="nav-text">启动Hadoop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看java进程"><span class="nav-number">7.6.</span> <span class="nav-text">查看java进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看端口"><span class="nav-number">7.7.</span> <span class="nav-text">查看端口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问端口"><span class="nav-number">7.8.</span> <span class="nav-text">访问端口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x05-未解决问题"><span class="nav-number">8.</span> <span class="nav-text">0x05 未解决问题</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
