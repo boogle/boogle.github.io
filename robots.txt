@@ -12,5 +12,5 @@ Disallow: /vendors/
 Disallow: /fancybox/
 Disallow: /about/
 
-Sitemap: http://zhengbao.wang/about/sitemap.xml
-Sitemap: http://zhengbao.wang/about/baidusitemap.xml
+Sitemap: http://zhengbao.wang/sitemap.xml
+Sitemap: http://zhengbao.wang/baidusitemap.xml
