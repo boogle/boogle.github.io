@@ -1,3 +1,3 @@
+http://zhengbao.wang/使用Hadoop-JAVA-API-远程连接HDFS/
+http://zhengbao.wang/内部AWD攻防对抗web记录/
 http://zhengbao.wang/Centos7搭建Hadoop伪分布式集群详细步骤/
-http://zhengbao.wang/Ljphpcms-v1-03代码审计之csrf-xss/
-http://zhengbao.wang/burpsuite安装分块传输插件/
