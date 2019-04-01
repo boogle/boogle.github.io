@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://zhengbao.wang/"/>
-  <updated>2019-03-29T13:50:17.610Z</updated>
+  <updated>2019-04-01T13:07:07.150Z</updated>
   <id>https://zhengbao.wang/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Docker网络模式详解</title>
+    <link href="https://zhengbao.wang/Docker%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F%E8%AF%A6%E8%A7%A3/"/>
+    <id>https://zhengbao.wang/Docker网络模式详解/</id>
+    <published>2019-04-01T12:50:42.000Z</published>
+    <updated>2019-04-01T13:07:07.150Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>在最近使用docker搭建环境的过程中，发现docker容器默认的网络模式并不能很好的满足需求，然后便查看了一下docker关于网络配置的<a href="https://docs.docker.com/network/" target="_blank" rel="noopener">官方文档</a>，发现在官方文档中,给出了五种docker的网络模式，还是能比较全面的满足各种需求的，下面介绍一下这几种模式。</p><h2 id="0x01-bridge模式"><a href="#0x01-bridge模式" class="headerlink" title="0x01 bridge模式"></a>0x01 bridge模式</h2><p>bridge模式，这是docker容器启动时默认的网络模式，当启动容器时不提供<code>--net</code>参数时，docker容器便默认以这种模式配置网络环境。这也是在使用docker容器时，最常用的网络模式。<br>关于桥接模式，官方文档时这样说的<code>当您的应用程序在需要通信的独立容器中运行时，通常会使用桥接网络</code>。<br>简单画了个图帮助理解这种模式<br><img src="https://i.loli.net/2019/04/01/5ca1fc408a530.png" alt></p><p>实际演示：<br>首先使用默认模式即桥接模式启动两个docker容器,并查看其ip<br><img src="https://i.loli.net/2019/04/01/5ca1fcf6edf1f.png" alt><br>测试两台容器间互通<br><img src="https://i.loli.net/2019/04/01/5ca1fdb37bd30.png" alt><br>通过命令<code>docker exec bridge1 ip addr show</code>看到两个容器均虚拟出了自己的网卡<code>eth0</code><br><img src="https://i.loli.net/2019/04/01/5ca2006ed9253.png" alt><br>查看宿主机网卡，可发现多出来<code>docker0</code>，而此网卡即为各桥接模式启动的容器的网关<br><img src="https://i.loli.net/2019/04/01/5ca1fde0568e0.png" alt><br>同时宿主机上还多出来两个<code>veth</code>开头的网卡，其伴随着桥接模式容器的<code>eth0</code>网卡出现而出现。其作用为连通docker0与容器内网卡eth0。因此docker0并不只是一个简单的网卡了，而是一个网桥。<br><img src="https://i.loli.net/2019/04/01/5ca1fefd9ccfa.png" alt></p><h2 id="0x02-host模式"><a href="#0x02-host模式" class="headerlink" title="0x02 host模式"></a>0x02 host模式</h2><p>使用host模式时容器将不会获得一个独立的Network Namespace，而是和宿主机共用一个Network Namespace。容器将不会虚拟出自己的网卡，配置自己的IP等，而是使用宿主机的IP和端口。但是，容器的其他方面，如文件系统、进程列表等还是和宿主机隔离的。<br>实际演示<br><code>docker run -itd  --net=host --name=host awd_zentao /bin/bash</code><br>查看其网卡发现其与主机一样<br><img src="https://i.loli.net/2019/04/01/5ca2022710509.png" alt></p><h2 id="0x03-container模式"><a href="#0x03-container模式" class="headerlink" title="0x03 container模式"></a>0x03 container模式</h2><p>该模式类似于host模式，只不过host模式是主机与容器共享Network Namespace,而container模式是容器之间共享Network Namespace。新创建的容器不会创建自己的网卡，配置自己的 IP，而是和一个指定的容器共享 IP、端口范围等。同样，两个容器除了网络方面，其他的如文件系统、进程列表等还是隔离的。两个容器的进程可以通过 lo 网卡设备通信。<br>实际演示：<br>其配置方式为<code>--net=container:&lt;name_or_id&gt;</code><br>这里选择与之前的bridge1共享<br><img src="https://i.loli.net/2019/04/01/5ca2071085441.png" alt></p><h2 id="0x04-none模式"><a href="#0x04-none模式" class="headerlink" title="0x04 none模式"></a>0x04 none模式</h2><p>使用none模式不会对docker容器进行任何网络配置，只有lo本地环回网络，Docker容器没有网卡、IP、路由等信息。需要我们自己为Docker容器添加网卡、配置IP等。<br>实际演示：<br><img src="https://i.loli.net/2019/04/01/5ca2084a0187d.png" alt></p><h2 id="0x05-macvlan模式"><a href="#0x05-macvlan模式" class="headerlink" title="0x05 macvlan模式"></a>0x05 macvlan模式</h2><p>本次学习正式因为想搭建docker集群与宿主机在同一个c段，以使宿主机同c段主机可以连同docker容器，本来也可以使用bridge模式加端口映射的方法，但发现使用macvlan方式更为合适。<br>macvlan模式可以创建出一个新的macvlan模式，其新启动的容器可以按新的模式配置网络环境。<br>实例演示：<br>创建新的macvlan<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker<span class="built_in"> network </span>create -d macvlan  <span class="attribute">--subnet</span>=192.168.111.0/24 <span class="attribute">--gateway</span>=192.168.111.1 -o <span class="attribute">parent</span>=ens33 gitlab-net</span><br></pre></td></tr></table></figure></p><p>使用<code>docker network ls</code>可以看到新创建的gitlab-net网络<br><img src="https://i.loli.net/2019/04/01/5ca2039cb202a.png" alt></p><p>使用<code>docker run --net=gitlab-net --ip=192.168.111.201 -dit --name test1 awd_zentao</code>即可创建新的容器，可通过<code>--net=gitlab-net</code>指定其为新的模式,<code>--ip</code>参数指定容器ip<br>查看其网卡信息<br><img src="https://i.loli.net/2019/04/01/5ca20480b8cfa.png" alt></p><p>相对于前面及中国，该模式更加灵活，可根据实际需求配置出新的模式，满足较为复杂的网络需求。</p><h2 id="0x06-overlay模式"><a href="#0x06-overlay模式" class="headerlink" title="0x06 overlay模式"></a>0x06 overlay模式</h2><p>overlay模式可用于连接不同机器上的docker容器，允许不同机器上的容器相互通信，同时支持对消息进行加密。<br>笔者暂时未用过该模式，具体可参考<a href="https://docs.docker.com/network/overlay/" target="_blank" rel="noopener">https://docs.docker.com/network/overlay/</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;0x00-前言&quot;&gt;&lt;a href=&quot;#0x00-前言&quot; class=&quot;headerlink&quot; title=&quot;0x00 前言&quot;&gt;&lt;/a&gt;0x00 前言&lt;/h2&gt;&lt;p&gt;在最近使用docker搭建环境的过程中，发现docker容器默认的网络模式并不能很好的满足需求，然后
+      
+    
+    </summary>
+    
+      <category term="环境配置" scheme="https://zhengbao.wang/categories/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"/>
+    
+    
+      <category term="docker" scheme="https://zhengbao.wang/tags/docker/"/>
+    
+  </entry>
   
   <entry>
     <title>使用Hadoop JAVA API 远程连接HDFS</title>
@@ -499,34 +524,6 @@
       
       
         &lt;h2 id=&quot;影响版本&quot;&gt;&lt;a href=&quot;#影响版本&quot; class=&quot;headerlink&quot; title=&quot;影响版本&quot;&gt;&lt;/a&gt;影响版本&lt;/h2&gt;&lt;p&gt;根据thinkphp发布的5.0.24的补丁可以看到问题出在核心类Request的method方法。补丁增加了对传入的$me
-      
-    
-    </summary>
-    
-      <category term="web安全" scheme="https://zhengbao.wang/categories/web%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="代码审计" scheme="https://zhengbao.wang/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="thinkphp" scheme="https://zhengbao.wang/tags/thinkphp/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>thinkphp 缓存函数设计缺陷 getshell</title>
-    <link href="https://zhengbao.wang/thinkphp-%E7%BC%93%E5%AD%98%E5%87%BD%E6%95%B0%E8%AE%BE%E8%AE%A1%E7%BC%BA%E9%99%B7-getshell/"/>
-    <id>https://zhengbao.wang/thinkphp-缓存函数设计缺陷-getshell/</id>
-    <published>2019-01-26T14:01:22.000Z</published>
-    <updated>2019-03-07T03:38:12.200Z</updated>
-    
-    <content type="html"><![CDATA[<p>thinkphp 缓存函数设计缺陷 getshell</p><h2 id="0x00-前言-amp-amp-影响版本"><a href="#0x00-前言-amp-amp-影响版本" class="headerlink" title="0x00 前言&amp;&amp;影响版本"></a>0x00 前言&amp;&amp;影响版本</h2><p>不能说是thinkphp漏洞，因为官方压根就没承认，按照官方手册配置使用这个缓存功能是没有任何问题的，但单从其缓存函数上看确实存在因为未加过滤引起的可能getshell。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">影响版本</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">thinkphp</span> 3<span class="selector-class">.2</span><span class="selector-class">.3-5</span><span class="selector-class">.0</span><span class="selector-class">.10</span></span><br></pre></td></tr></table></figure></p><h2 id="0x01-利用条件"><a href="#0x01-利用条件" class="headerlink" title="0x01 利用条件"></a>0x01 利用条件</h2><p>以下分析仅在理想环境下用于本地漏洞复现，生产环境下咯多漏洞利用难度系数较高，需要满足以下几个条件</p><ul><li>开启缓存功能</li><li>缓存文件所在目录可以从浏览器直接访问，因为缓存文件可能不部署在web目录</li><li>需要能够猜解出缓存的文件名（文件名生成有一定规律）</li><li>同时可以控制缓存文件里的内容（比如通过写入到数据库进而生成缓存文件）</li></ul><h2 id="0x02-分析过程"><a href="#0x02-分析过程" class="headerlink" title="0x02 分析过程"></a>0x02 分析过程</h2><p>以5.0.10版本为例。</p><p>生成新的Home模块<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php think build --<span class="keyword">module</span> <span class="built_in">home</span></span><br></pre></td></tr></table></figure></p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//demo</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="keyword">namespace</span> <span class="title">app</span>\<span class="title">home</span>\<span class="title">controller</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">use</span> <span class="title">think</span>\<span class="title">Controller</span>;</span><br><span class="line">    <span class="keyword">use</span> <span class="title">think</span>\<span class="title">Request</span>;</span><br><span class="line">    <span class="keyword">use</span> <span class="title">think</span>\<span class="title">View</span>;</span><br><span class="line">    <span class="keyword">use</span> <span class="title">think</span>\<span class="title">Url</span>;</span><br><span class="line">    <span class="keyword">use</span> <span class="title">think</span>\<span class="title">Session</span>;</span><br><span class="line">    <span class="keyword">use</span> <span class="title">think</span>\<span class="title">Db</span>;</span><br><span class="line">    <span class="keyword">use</span> <span class="title">app</span>\<span class="title">home</span>\<span class="title">model</span>\<span class="title">Test</span> <span class="title">as</span> <span class="title">t</span>;</span><br><span class="line">    <span class="keyword">use</span> <span class="title">think</span>\<span class="title">Cache</span>;</span><br><span class="line">    <span class="keyword">use</span> <span class="title">app</span>\<span class="title">home</span>\<span class="title">model</span>\<span class="title">Article</span> <span class="title">as</span> <span class="title">a</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Index</span> <span class="keyword">extends</span> <span class="title">Controller</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">()</span></span>&#123;      </span><br><span class="line">        $post = input(<span class="string">'post.'</span>);</span><br><span class="line">        $article = Db::name(<span class="string">'articles'</span>)-&gt;insert($post);</span><br><span class="line">        var_dump($article);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">Cache</span><span class="params">()</span></span>&#123;</span><br><span class="line">        $article = Db::name(<span class="string">'articles'</span>)-&gt;field(<span class="string">'*'</span>)-&gt;select();</span><br><span class="line">        Cache::set(<span class="string">'name'</span>,$article,<span class="number">3600</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>Demo建好了，add()方法用于向数据库中插入数据，cache()方法用于缓存数据。<br>下面开始分析代码。<br>当访问下面的url调用cache方法时</p><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="regexp">//</span><span class="number">127.0</span>.<span class="number">0.1</span><span class="regexp">/thinkphp_5.0.10_full/</span>public<span class="regexp">/index.php/</span>Home<span class="regexp">/index/</span>cache</span><br></pre></td></tr></table></figure><p>函数调用栈<br><img src="https://i.loli.net/2019/01/25/5c4afd118b5cd.png" alt><br>这里重点说一下 <strong>thinkphp\cache]driver\File</strong>下的set()方法</p><p><img src="https://i.loli.net/2019/01/25/5c4afd772fc88.png" alt></p><p>首先跟入getCacheKey方法可以看到，获取到的是缓存文件目录，其将缓存名称经过md5()，前两位作为目录名，后面的作为缓存文件名。</p><p><img src="https://i.loli.net/2019/01/25/5c4afdef52fe6.png" alt></p><p>其通过<strong>$this-&gt;option[‘path’]</strong>获得目录前缀，其默认是在 <strong>Runtime/cache/</strong>,可以通过修改CACHE_PATH使缓存目录放在非web目录，从而避免漏洞被利用。</p><p><img src="https://i.loli.net/2019/01/25/5c4aff4ce2996.png" alt></p><p>获取到缓存文件名之后继续向下运行，可以看到将要缓存的数据进行序列化之后直接拼接写入到了缓存目录，也就是这里的数据没有做任何过滤，所以出现了漏洞。<br>这里的data虽然拼接到了注释语句中，但是因为没有任何过滤可以通过注入换行符跳出单行注释，而且序列化函数不会对换行符做任何处理。</p><p>那么我们便可以通过demo中的add()方法先向数据库存入payload<br><img src="https://i.loli.net/2019/01/25/5c4b037507c9f.png" alt><br>数据中<br><img src="https://i.loli.net/2019/01/25/5c4b038a31104.png" alt></p><p>然后访问cache方法，既可以看到paylaod进入到了缓存文件<br><img src="https://i.loli.net/2019/01/25/5c4b03e2639b9.png" alt></p><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//payload</span></span><br><span class="line">content=%<span class="number">2</span>f%<span class="number">2</span>f%<span class="number">0</span>d%<span class="number">0</span>a%<span class="number">24</span>a%<span class="number">3</span>deval(%<span class="number">24</span>_POST%<span class="number">5</span>b%<span class="number">27</span>a3%<span class="number">27</span>%<span class="number">5</span>d)%<span class="number">3</span>b%<span class="number">23</span></span><br></pre></td></tr></table></figure><h2 id="0x03-修复方法"><a href="#0x03-修复方法" class="headerlink" title="0x03 修复方法"></a>0x03 修复方法</h2><ol><li><p>完善框架中set()方法，在/thinkphp/library/think/cache/driver/File.php 中的set()函数中对于$value参数进行过滤，去除换行符号。添加代码<strong>$data = str_replace(PHP_EOL, ‘’, $data);</strong>但存在因为去除换行符导致的文本布局改变。</p></li><li><p>从上面的审计中可以知道文件名是由缓存索引的md5值决定的，所以可以设置复杂的缓存索引。</p></li><li><p>修改CHCHE_PATH,使缓存目录放在用户不可访问的地方。</p></li><li><p>从php的配置入手，关闭eval等危险函数。</p></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;thinkphp 缓存函数设计缺陷 getshell&lt;/p&gt;
-&lt;h2 id=&quot;0x00-前言-amp-amp-影响版本&quot;&gt;&lt;a href=&quot;#0x00-前言-amp-amp-影响版本&quot; class=&quot;headerlink&quot; title=&quot;0x00 前言&amp;amp;&amp;amp;影
       
     
     </summary>

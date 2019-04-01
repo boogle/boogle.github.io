@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://zhengbao.wang/Docker%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F%E8%AF%A6%E8%A7%A3/</loc>
+    <lastmod>2019-04-01</lastmod>
+  </url>  <url>
     <loc>https://zhengbao.wang/%E4%BD%BF%E7%94%A8Hadoop-JAVA-API-%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5HDFS/</loc>
     <lastmod>2019-03-29</lastmod>
   </url>  <url>
