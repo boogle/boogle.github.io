@@ -102,7 +102,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/04/01/5ca2084a0187d.png">
 <meta property="og:image" content="https://i.loli.net/2019/04/01/5ca2039cb202a.png">
 <meta property="og:image" content="https://i.loli.net/2019/04/01/5ca20480b8cfa.png">
-<meta property="og:updated_time" content="2019-04-01T13:07:07.150Z">
+<meta property="og:updated_time" content="2019-04-02T01:09:14.171Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker网络模式详解">
 <meta name="twitter:description" content="0x00 前言在最近使用docker搭建环境的过程中，发现docker容器默认的网络模式并不能很好的满足需求，然后便查看了一下docker关于网络配置的官方文档，发现在官方文档中,给出了五种docker的网络模式，还是能比较全面的满足各种需求的，下面介绍一下这几种模式。 0x01 bridge模式bridge模式，这是docker容器启动时默认的网络模式，当启动容器时不提供--net参数时，doc">
@@ -461,10 +461,10 @@
 <h2 id="0x02-host模式"><a href="#0x02-host模式" class="headerlink" title="0x02 host模式"></a>0x02 host模式</h2><p>使用host模式时容器将不会获得一个独立的Network Namespace，而是和宿主机共用一个Network Namespace。容器将不会虚拟出自己的网卡，配置自己的IP等，而是使用宿主机的IP和端口。但是，容器的其他方面，如文件系统、进程列表等还是和宿主机隔离的。<br>实际演示<br><code>docker run -itd  --net=host --name=host awd_zentao /bin/bash</code><br>查看其网卡发现其与主机一样<br><img src="https://i.loli.net/2019/04/01/5ca2022710509.png" alt></p>
 <h2 id="0x03-container模式"><a href="#0x03-container模式" class="headerlink" title="0x03 container模式"></a>0x03 container模式</h2><p>该模式类似于host模式，只不过host模式是主机与容器共享Network Namespace,而container模式是容器之间共享Network Namespace。新创建的容器不会创建自己的网卡，配置自己的 IP，而是和一个指定的容器共享 IP、端口范围等。同样，两个容器除了网络方面，其他的如文件系统、进程列表等还是隔离的。两个容器的进程可以通过 lo 网卡设备通信。<br>实际演示：<br>其配置方式为<code>--net=container:&lt;name_or_id&gt;</code><br>这里选择与之前的bridge1共享<br><img src="https://i.loli.net/2019/04/01/5ca2071085441.png" alt></p>
 <h2 id="0x04-none模式"><a href="#0x04-none模式" class="headerlink" title="0x04 none模式"></a>0x04 none模式</h2><p>使用none模式不会对docker容器进行任何网络配置，只有lo本地环回网络，Docker容器没有网卡、IP、路由等信息。需要我们自己为Docker容器添加网卡、配置IP等。<br>实际演示：<br><img src="https://i.loli.net/2019/04/01/5ca2084a0187d.png" alt></p>
-<h2 id="0x05-macvlan模式"><a href="#0x05-macvlan模式" class="headerlink" title="0x05 macvlan模式"></a>0x05 macvlan模式</h2><p>本次学习正式因为想搭建docker集群与宿主机在同一个c段，以使宿主机同c段主机可以连同docker容器，本来也可以使用bridge模式加端口映射的方法，但发现使用macvlan方式更为合适。<br>macvlan模式可以创建出一个新的macvlan模式，其新启动的容器可以按新的模式配置网络环境。<br>实例演示：<br>创建新的macvlan<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker<span class="built_in"> network </span>create -d macvlan  <span class="attribute">--subnet</span>=192.168.111.0/24 <span class="attribute">--gateway</span>=192.168.111.1 -o <span class="attribute">parent</span>=ens33 gitlab-net</span><br></pre></td></tr></table></figure></p>
+<h2 id="0x05-macvlan模式"><a href="#0x05-macvlan模式" class="headerlink" title="0x05 macvlan模式"></a>0x05 macvlan模式</h2><p>本次学习正式因为想搭建docker集群与宿主机在同一个c段，以使宿主机同c段主机可以连同docker容器，本来也可以使用bridge模式加端口映射的方法，但发现使用macvlan方式更为合适。<br>macvlan模式可以创建出一个新的自定义模式，其新启动的容器可以按新的模式配置网络环境。<br>实例演示：<br>创建新的macvlan<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker<span class="built_in"> network </span>create -d macvlan  <span class="attribute">--subnet</span>=192.168.111.0/24 <span class="attribute">--gateway</span>=192.168.111.1 -o <span class="attribute">parent</span>=ens33 gitlab-net</span><br></pre></td></tr></table></figure></p>
 <p>使用<code>docker network ls</code>可以看到新创建的gitlab-net网络<br><img src="https://i.loli.net/2019/04/01/5ca2039cb202a.png" alt></p>
 <p>使用<code>docker run --net=gitlab-net --ip=192.168.111.201 -dit --name test1 awd_zentao</code>即可创建新的容器，可通过<code>--net=gitlab-net</code>指定其为新的模式,<code>--ip</code>参数指定容器ip<br>查看其网卡信息<br><img src="https://i.loli.net/2019/04/01/5ca20480b8cfa.png" alt></p>
-<p>相对于前面及中国，该模式更加灵活，可根据实际需求配置出新的模式，满足较为复杂的网络需求。</p>
+<p>相对于前面几种模式，该模式更加灵活，可根据实际需求配置出新的模式，满足较为复杂的网络需求。</p>
 <h2 id="0x06-overlay模式"><a href="#0x06-overlay模式" class="headerlink" title="0x06 overlay模式"></a>0x06 overlay模式</h2><p>overlay模式可用于连接不同机器上的docker容器，允许不同机器上的容器相互通信，同时支持对消息进行加密。<br>笔者暂时未用过该模式，具体可参考<a href="https://docs.docker.com/network/overlay/" target="_blank" rel="noopener">https://docs.docker.com/network/overlay/</a></p>
 
       
@@ -485,7 +485,7 @@
   <p><span>本文标题:</span><a href="/Docker网络模式详解/">Docker网络模式详解</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
   <p><span>发布时间:</span>2019年04月01日 - 20:50</p>
-  <p><span>最后更新:</span>2019年04月01日 - 21:07</p>
+  <p><span>最后更新:</span>2019年04月02日 - 09:09</p>
   <p><span>原始链接:</span><a href="/Docker网络模式详解/" title="Docker网络模式详解">http://zhengbao.wang/Docker网络模式详解/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhengbao.wang/Docker网络模式详解/" aria-label="复制成功！"></i></span>
   </p>
@@ -804,7 +804,7 @@
     
       <span class="post-meta-item-text">全站总计字数&#58;</span>
     
-    <span title="全站总计字数">38.4k</span>
+    <span title="全站总计字数">38.5k</span>
   
 </div>
 
