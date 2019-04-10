@@ -14,3 +14,6 @@ Disallow: /about/
 
 Sitemap: http://zhengbao.wang/sitemap.xml
 Sitemap: http://zhengbao.wang/baidusitemap.xml
+Sitemap: https://zhengbao.wang/sitemap.xml
+Sitemap: https://zhengbao.wang/baidusitemap.xml
+
