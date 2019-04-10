@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="burpsuite,">
+  <meta name="keywords" content="hadoop,hbase,">
 
 
 
@@ -83,27 +83,34 @@
 
 
 
-<meta name="description" content="0x01 前言关于分块传输的用处不多解释，感谢c0ny1编写的自动化插件,项目地址：https://github.com/c0ny1/chunked-coding-converter 0x02 mvn package命令打包下载完成后可直接在pom.xml根目录执行mvn package进行打包，成功后生成一个target文件夹，里面有打包好的burpsuite插件。 IDE打包我这里就用的mye">
-<meta name="keywords" content="burpsuite">
+<meta name="description" content="0x00 前言Hbase全称为Hadoop Database，是一个分布式的存储系统。Hbase使用Hadoop的HDFS作为其文件存储系统，使用Hadoop的MapReduce来处理Hbase中的海量数据，使用zookeeper作为其协调工具。 查看本教程之前，请确保已安装配置好Hadoop，可参考Centos7搭建Hadoop伪分布式集群详细步骤,使用Hadoop JAVA API 远程连接H">
+<meta name="keywords" content="hadoop,hbase">
 <meta property="og:type" content="article">
-<meta property="og:title" content="burpsuite安装分块传输插件">
-<meta property="og:url" content="https://zhengbao.wang/burpsuite安装分块传输插件/index.html">
+<meta property="og:title" content="Hadoop之Hbase架构环境搭建">
+<meta property="og:url" content="https://zhengbao.wang/Hadoop之Hbase架构环境搭建/index.html">
 <meta property="og:site_name" content="Boogle&#39;s Blog">
-<meta property="og:description" content="0x01 前言关于分块传输的用处不多解释，感谢c0ny1编写的自动化插件,项目地址：https://github.com/c0ny1/chunked-coding-converter 0x02 mvn package命令打包下载完成后可直接在pom.xml根目录执行mvn package进行打包，成功后生成一个target文件夹，里面有打包好的burpsuite插件。 IDE打包我这里就用的mye">
+<meta property="og:description" content="0x00 前言Hbase全称为Hadoop Database，是一个分布式的存储系统。Hbase使用Hadoop的HDFS作为其文件存储系统，使用Hadoop的MapReduce来处理Hbase中的海量数据，使用zookeeper作为其协调工具。 查看本教程之前，请确保已安装配置好Hadoop，可参考Centos7搭建Hadoop伪分布式集群详细步骤,使用Hadoop JAVA API 远程连接H">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://i.loli.net/2019/03/18/5c8ef5589fe5a.png">
-<meta property="og:image" content="https://i.loli.net/2019/03/18/5c8ef614e87b5.png">
-<meta property="og:image" content="https://i.loli.net/2019/03/18/5c8ef65fbfb83.png">
-<meta property="og:image" content="https://i.loli.net/2019/03/18/5c8ef75b39b21.png">
-<meta property="og:image" content="https://i.loli.net/2019/03/18/5c8ef83018b3c.png">
-<meta property="og:image" content="https://i.loli.net/2019/03/18/5c8ef868ba29d.png">
-<meta property="og:image" content="https://i.loli.net/2019/03/18/5c8ef8c54ec3f.png">
-<meta property="og:image" content="https://i.loli.net/2019/03/18/5c8ef9079e7cc.png">
-<meta property="og:updated_time" content="2019-03-18T02:22:10.065Z">
+<meta property="og:image" content="https://i.loli.net/2019/04/10/5cad52022e1ed.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/10/5cad5233119c1.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/10/5cad5357a9309.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/10/5cad53b262f1e.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/10/5cad54b3853b2.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/10/5cad5563ddb7e.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/10/5cad583900c70.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/10/5cad58dbebb50.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/10/5cad59b844412.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/10/5cad5a028b379.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/10/5cad5b4b6c9dd.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/10/5cad60b6d5103.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/10/5cad5cb6557ef.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/10/5cad5fde7f4e3.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/10/5cad5e8b86672.png">
+<meta property="og:updated_time" content="2019-04-10T03:39:09.749Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="burpsuite安装分块传输插件">
-<meta name="twitter:description" content="0x01 前言关于分块传输的用处不多解释，感谢c0ny1编写的自动化插件,项目地址：https://github.com/c0ny1/chunked-coding-converter 0x02 mvn package命令打包下载完成后可直接在pom.xml根目录执行mvn package进行打包，成功后生成一个target文件夹，里面有打包好的burpsuite插件。 IDE打包我这里就用的mye">
-<meta name="twitter:image" content="https://i.loli.net/2019/03/18/5c8ef5589fe5a.png">
+<meta name="twitter:title" content="Hadoop之Hbase架构环境搭建">
+<meta name="twitter:description" content="0x00 前言Hbase全称为Hadoop Database，是一个分布式的存储系统。Hbase使用Hadoop的HDFS作为其文件存储系统，使用Hadoop的MapReduce来处理Hbase中的海量数据，使用zookeeper作为其协调工具。 查看本教程之前，请确保已安装配置好Hadoop，可参考Centos7搭建Hadoop伪分布式集群详细步骤,使用Hadoop JAVA API 远程连接H">
+<meta name="twitter:image" content="https://i.loli.net/2019/04/10/5cad52022e1ed.png">
 
 
 
@@ -133,13 +140,13 @@
 
 
 
-  <link rel="canonical" href="https://zhengbao.wang/burpsuite安装分块传输插件/">
+  <link rel="canonical" href="https://zhengbao.wang/Hadoop之Hbase架构环境搭建/">
 
 
 
 
 
-  <title>burpsuite安装分块传输插件 | Boogle's Blog</title>
+  <title>Hadoop之Hbase架构环境搭建 | Boogle's Blog</title>
   
 
 
@@ -311,7 +318,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengbao.wang/burpsuite安装分块传输插件/">
+    <link itemprop="mainEntityOfPage" href="https://zhengbao.wang/Hadoop之Hbase架构环境搭建/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="boogle">
@@ -328,7 +335,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">burpsuite安装分块传输插件</h1>
+          <h1 class="post-title" itemprop="name headline">Hadoop之Hbase架构环境搭建</h1>
         
 
         <div class="post-meta">
@@ -340,8 +347,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-18T10:14:07+08:00">
-                2019-03-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-10T11:38:19+08:00">
+                2019-04-10
               </time>
             
 
@@ -363,8 +370,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web安全/" itemprop="url" rel="index">
-                    <span itemprop="name">web安全</span>
+                  <a href="/categories/环境配置/" itemprop="url" rel="index">
+                    <span itemprop="name">环境配置</span>
                   </a>
                 </span>
 
@@ -381,8 +388,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/burpsuite安装分块传输插件/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/burpsuite安装分块传输插件/" itemprop="commentCount"></span>
+                <a href="/Hadoop之Hbase架构环境搭建/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/Hadoop之Hbase架构环境搭建/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -390,7 +397,7 @@
 
           
           
-             <span id="/burpsuite安装分块传输插件/" class="leancloud_visitors" data-flag-title="burpsuite安装分块传输插件">
+             <span id="/Hadoop之Hbase架构环境搭建/" class="leancloud_visitors" data-flag-title="Hadoop之Hbase架构环境搭建">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -415,7 +422,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  273 字
+                  1.1k 字
                 </span>
               
 
@@ -431,7 +438,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  3 分钟
+                  12 分钟
                 </span>
               
             </div>
@@ -452,11 +459,38 @@
       
 
       
-        <h2 id="0x01-前言"><a href="#0x01-前言" class="headerlink" title="0x01 前言"></a>0x01 前言</h2><p>关于分块传输的用处不多解释，感谢c0ny1编写的自动化插件,项目地址：<a href="https://github.com/c0ny1/chunked-coding-converter" target="_blank" rel="noopener">https://github.com/c0ny1/chunked-coding-converter</a></p>
-<h2 id="0x02-mvn-package"><a href="#0x02-mvn-package" class="headerlink" title="0x02 mvn package"></a>0x02 mvn package</h2><h3 id="命令打包"><a href="#命令打包" class="headerlink" title="命令打包"></a>命令打包</h3><p>下载完成后可直接在<code>pom.xml</code>根目录执行<code>mvn package</code>进行打包，成功后生成一个<code>target</code>文件夹，里面有打包好的burpsuite插件。</p>
-<h3 id="IDE打包"><a href="#IDE打包" class="headerlink" title="IDE打包"></a>IDE打包</h3><p>我这里就用的<code>myeclipse</code>。这里简述一下步骤<br>首先通过<code>file-&gt;import</code>导入目标，选择<code>Existing Maven Projects</code><br><img src="https://i.loli.net/2019/03/18/5c8ef5589fe5a.png" alt><br>执行下一步，选择下载好的包含<code>pom.xml</code>的上级目录即可<br><img src="https://i.loli.net/2019/03/18/5c8ef614e87b5.png" alt><br>然后稍等一会即可在<code>Packahe Explorer</code>视图中看到整个项目<br><img src="https://i.loli.net/2019/03/18/5c8ef65fbfb83.png" alt><br>然后在<code>pom.xml</code>上右键执行<code>run as-&gt;maven package</code>操作。<br>如果没有<code>maven package</code>操作可以选择<code>maven build</code>，新建一个，填写Goals为package<br><img src="https://i.loli.net/2019/03/18/5c8ef75b39b21.png" alt><br>然后等待其打包完成即可，完成后在target目录中机会生成目标<code>.jar</code>文件<br><img src="https://i.loli.net/2019/03/18/5c8ef83018b3c.png" alt></p>
-<p>然后启动burpsuite，执行插件添加操作，选择刚才打包好的jar文件<br><img src="https://i.loli.net/2019/03/18/5c8ef868ba29d.png" alt></p>
-<p>安装成功会有提示<br><img src="https://i.loli.net/2019/03/18/5c8ef8c54ec3f.png" alt><br>然后就可以享受这一利器带来的便利了<br><img src="https://i.loli.net/2019/03/18/5c8ef9079e7cc.png" alt></p>
+        <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>Hbase全称为Hadoop Database，是一个分布式的存储系统。Hbase使用Hadoop的HDFS作为其文件存储系统，使用Hadoop的MapReduce来处理Hbase中的海量数据，使用zookeeper作为其协调工具。</p>
+<p>查看本教程之前，请确保已安装配置好Hadoop，可参考<a href="https://zhengbao.wang/Centos7%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F%E9%9B%86%E7%BE%A4%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/">Centos7搭建Hadoop伪分布式集群详细步骤</a>,<a href="https://zhengbao.wang/%E4%BD%BF%E7%94%A8Hadoop-JAVA-API-%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5HDFS/">使用Hadoop JAVA API 远程连接HDFS</a></p>
+<h2 id="0x01-下载安装"><a href="#0x01-下载安装" class="headerlink" title="0x01 下载安装"></a>0x01 下载安装</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>首先在<a href="https://hbase.apache.org/downloads.html" target="_blank" rel="noopener">官网下载Hbase</a><br><img src="https://i.loli.net/2019/04/10/5cad52022e1ed.png" alt><br>选择对应版本的bin文件，国内根据推荐的清华源下载即可。<br><img src="https://i.loli.net/2019/04/10/5cad5233119c1.png" alt><br>linux下可使用<code>wget</code>命令下载，我下载的为<code>2.1.4</code>版本<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http:<span class="regexp">//mi</span>rrors.tuna.tsinghua.edu.cn<span class="regexp">/apache/</span>hbase<span class="regexp">/2.1.4/</span>hbase-<span class="number">2.1</span>.<span class="number">4</span>-bin.tar.gz</span><br></pre></td></tr></table></figure></p>
+<h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><p>下载后即可解压到目录,我这里直接在当前目录解压<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">tar</span> <span class="selector-tag">-zxvf</span> <span class="selector-tag">hbase-2</span><span class="selector-class">.1</span><span class="selector-class">.4-bin</span><span class="selector-class">.tar</span><span class="selector-class">.gz</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/04/10/5cad5357a9309.png" alt></p>
+<h3 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h3><p>进入解压后的目录使用<code>pwd</code>命令查看路径<br><img src="https://i.loli.net/2019/04/10/5cad53b262f1e.png" alt><br>然后修改<code>.bashrc</code>配置环境变量</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vi ~/.bashrc</span><br><span class="line">在最后添加</span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">HBASE_HOME</span>=/home/wzb/hbase-2.1.4</span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">PATH</span>=<span class="variable">$PATH</span>:$HBASE_HOME/bin</span><br><span class="line">保存后退出</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/04/10/5cad54b3853b2.png" alt><br>然后使用<code>source ~/.bashrc</code>命令使配置生效<br>然后输入命令<code>hbase</code>可看到环境变量配置成功<br><img src="https://i.loli.net/2019/04/10/5cad5563ddb7e.png" alt></p>
+<h2 id="0x02-启动Hbase"><a href="#0x02-启动Hbase" class="headerlink" title="0x02 启动Hbase"></a>0x02 启动Hbase</h2><p>在启动hbase之前。首先进行相应的配置修改</p>
+<h3 id="配置hbase-env-sh"><a href="#配置hbase-env-sh" class="headerlink" title="配置hbase-env.sh"></a>配置hbase-env.sh</h3><p>修改hbase所在目录下的<code>conf</code>目录的<code>hbase-env.sh</code><br>如我的位置为<code>/home/wzb/hbase-2.1.4/conf/hbase-env.sh</code><br>首先配置环境变量<code>export JAVA_HOME=/usr/local/java/jdk1.8.0_201</code>,此处修改为你的java环境变量，如不知道，可通过<code>echo $JAVA_HOME</code>查看<br>然后配置<code>export HBASE_MANAGES_ZK=true</code>,使用其自带的<code>zookeeper</code><br><img src="https://i.loli.net/2019/04/10/5cad583900c70.png" alt></p>
+<h3 id="配置hbase-site-xml"><a href="#配置hbase-site-xml" class="headerlink" title="配置hbase-site.xml"></a>配置hbase-site.xml</h3><p>然后继续配置<code>conf</code>目录下的<code>hbase-site.xml</code><br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="params">&lt;configuration&gt;</span></span><br><span class="line">	<span class="params">&lt;property&gt;</span></span><br><span class="line">                <span class="params">&lt;name&gt;</span>hbase.rootdir<span class="params">&lt;/name&gt;</span></span><br><span class="line">                <span class="params">&lt;value&gt;</span>hdfs:<span class="comment">//192.168.111.147:9000/hbase&lt;/value&gt;</span></span><br><span class="line">	<span class="params">&lt;/property&gt;</span></span><br><span class="line">	<span class="params">&lt;property&gt;</span></span><br><span class="line">		<span class="params">&lt;name&gt;</span>hbase.zookeeper.quorum<span class="params">&lt;/name&gt;</span>  </span><br><span class="line">		<span class="params">&lt;value&gt;</span><span class="number">192.168</span><span class="number">.111</span><span class="number">.147</span><span class="params">&lt;/value&gt;</span>  </span><br><span class="line">	<span class="params">&lt;/property&gt;</span></span><br><span class="line">        <span class="params">&lt;property&gt;</span></span><br><span class="line">		<span class="params">&lt;name&gt;</span>hbase.cluster.distributed<span class="params">&lt;/name&gt;</span></span><br><span class="line">		<span class="params">&lt;value&gt;</span>true<span class="params">&lt;/value&gt;</span></span><br><span class="line">	<span class="params">&lt;/property&gt;</span></span><br><span class="line">	<span class="params">&lt;property&gt;</span></span><br><span class="line">                <span class="params">&lt;name&gt;</span>hbase.zookeeper.property.dataDir<span class="params">&lt;/name&gt;</span></span><br><span class="line">                <span class="params">&lt;value&gt;</span><span class="meta-keyword">/home/</span>wzb/Hbase<span class="meta-keyword">/zookeeper/</span>tmp<span class="params">&lt;/value&gt;</span></span><br><span class="line">        <span class="params">&lt;/property&gt;</span></span><br><span class="line">	<span class="params">&lt;property&gt;</span></span><br><span class="line">	 <span class="params">&lt;name&gt;</span>hbase.unsafe.stream.capability.enforce<span class="params">&lt;/name&gt;</span></span><br><span class="line">	 <span class="params">&lt;value&gt;</span>false<span class="params">&lt;/value&gt;</span></span><br><span class="line">	<span class="params">&lt;/property&gt;</span></span><br><span class="line">	<span class="params">&lt;property&gt;</span></span><br><span class="line">		<span class="params">&lt;name&gt;</span>hbase.wal.provider<span class="params">&lt;/name&gt;</span></span><br><span class="line">		<span class="params">&lt;value&gt;</span>filesystem<span class="params">&lt;/value&gt;</span></span><br><span class="line">	<span class="params">&lt;/property&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="params">&lt;/configuration&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>注意标识处根据自己环境修改<br><img src="https://i.loli.net/2019/04/10/5cad58dbebb50.png" alt></p>
+<h3 id="启动start-hbase-sh"><a href="#启动start-hbase-sh" class="headerlink" title="启动start-hbase.sh"></a>启动<code>start-hbase.sh</code></h3><p>配置修改好后即可通过<code>start-hbase.sh</code>命令启动<br>在启动之前，请先使用<code>start-all.sh</code>启动hadoop相关进程<br><img src="https://i.loli.net/2019/04/10/5cad59b844412.png" alt><br>然后即可使用命令<code>start-hbase.sh</code>启动hbase<br><img src="https://i.loli.net/2019/04/10/5cad5a028b379.png" alt><br>通过<code>jps</code>可看到比刚才多出来<code>HMaster`</code>HRegionServer<code></code>HQuorumPeer`三个进程，如后面出现错误可看查这些进程是否正常启动，如未启动移步文章末尾问题解决可查笔者记录的解决办法。</p>
+<h3 id="访问apache-Hbase"><a href="#访问apache-Hbase" class="headerlink" title="访问apache Hbase"></a>访问apache Hbase</h3><p>此处正常启动后继续<br>然后通过浏览器访问<code>http://192.168.111.147:16010/master-status</code><br>此处ip即为你在<code>hbase-site.xml</code>文件中配置的ip<br><img src="https://i.loli.net/2019/04/10/5cad5b4b6c9dd.png" alt><br>至此Hbase启动成功。</p>
+<h2 id="0x03-问题解决"><a href="#0x03-问题解决" class="headerlink" title="0x03 问题解决"></a>0x03 问题解决</h2><p>此处容易出现的问题为<code>HMaster</code>启动后闪退。<br>可通过查看hbase安装目录下的<code>logs</code>文件内log日志确定该问题。</p>
+<ul>
+<li><p>HDFS问题<br>首先查看<code>hbase-wzb-master-wzb_node1.log</code>，此处查看你的<code>master</code>日志文件<br><img src="https://i.loli.net/2019/04/10/5cad60b6d5103.png" alt><br>发现9000的HDFS连接失败<br>首先浏览器访问你的ip的9000端口，即<code>hdfs</code>服务，访问成功如下图<br><img src="https://i.loli.net/2019/04/10/5cad5cb6557ef.png" alt><br>如果未访问成功，查看hadoop配置文件<code>core-site.xml</code><br><img src="https://i.loli.net/2019/04/10/5cad5fde7f4e3.png" alt><br>查看hdfs是否正确配置为你的ip，不是请修改，确保hbase配置文件中连接的hdfs服务器与你启动的服务器路径相同。<br>配置成功后重启hadoop，再次访问</p>
+</li>
+<li><p>权限问题<br>同样查看日志问题，如发现前面配置的Hbase文件夹有权限问题，请将Hbase文件夹赋予777权限</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chomd <span class="number">777</span> Hbase <span class="comment">//此处Hbase请添加你hbase-site.xml中配置的hbase.zookeeper.property.dataDir目录</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>zookeeper未正常启动问题<br>查看<code>hbase-wzb-regionserver-wzb_node1.log</code>此处应修改为你的<code>regionserve</code>log文件<br>出现以下错误说明<code>zookeeper</code>未启动成功。<br><img src="https://i.loli.net/2019/04/10/5cad5e8b86672.png" alt><br>首先查看<code>sudo netstat -anp | grep 2181</code>端口是否被占用，如果占用，找到占用程序并kill掉相关进程。</p>
+</li>
+<li><p>如果出现其他端口无法访问问题，请修改<code>hosts</code>文件</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi <span class="regexp">/etc/</span>hosts</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>修改为<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0<span class="selector-class">.0</span><span class="selector-class">.1</span>    <span class="selector-tag">localhost</span><span class="selector-class">.localdomain</span> <span class="selector-tag">localhost4</span> <span class="selector-tag">localhost4</span><span class="selector-class">.localdomain4</span></span><br><span class="line"><span class="selector-pseudo">::1</span>          <span class="selector-tag">localhost</span><span class="selector-class">.localdomain</span> <span class="selector-tag">localhost6</span> <span class="selector-tag">localhost6</span><span class="selector-class">.localdomain6</span></span><br><span class="line">0<span class="selector-class">.0</span><span class="selector-class">.0</span><span class="selector-class">.0</span> <span class="selector-tag">node</span></span><br></pre></td></tr></table></figure></p>
+<p>重启network生效<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/rc.d/init.d<span class="built_in">/network </span>restart</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>其他问题<br>配置过程中可能出现其他各种问题，可查看log文件出现的问题并解决。</li>
+</ul>
 
       
     </div>
@@ -473,12 +507,12 @@
   <!-- JS库 sweetalert 可修改路径 -->
   <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>本文标题:</span><a href="/burpsuite安装分块传输插件/">burpsuite安装分块传输插件</a></p>
+  <p><span>本文标题:</span><a href="/Hadoop之Hbase架构环境搭建/">Hadoop之Hbase架构环境搭建</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
-  <p><span>发布时间:</span>2019年03月18日 - 10:14</p>
-  <p><span>最后更新:</span>2019年03月18日 - 10:22</p>
-  <p><span>原始链接:</span><a href="/burpsuite安装分块传输插件/" title="burpsuite安装分块传输插件">https://zhengbao.wang/burpsuite安装分块传输插件/</a>
-    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhengbao.wang/burpsuite安装分块传输插件/" aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2019年04月10日 - 11:38</p>
+  <p><span>最后更新:</span>2019年04月10日 - 11:39</p>
+  <p><span>原始链接:</span><a href="/Hadoop之Hbase架构环境搭建/" title="Hadoop之Hbase架构环境搭建">https://zhengbao.wang/Hadoop之Hbase架构环境搭建/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhengbao.wang/Hadoop之Hbase架构环境搭建/" aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
 </div>
@@ -537,7 +571,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/burpsuite/" rel="tag"><i class="fa fa-tag"></i> burpsuite</a>
+            <a href="/tags/hadoop/" rel="tag"><i class="fa fa-tag"></i> hadoop</a>
+          
+            <a href="/tags/hbase/" rel="tag"><i class="fa fa-tag"></i> hbase</a>
           
         </div>
       
@@ -550,8 +586,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/semcms-php-v3-8任意文件刪除/" rel="next" title="semcms_php_v3.8任意文件刪除">
-                <i class="fa fa-chevron-left"></i> semcms_php_v3.8任意文件刪除
+              <a href="/Docker网络模式详解/" rel="next" title="Docker网络模式详解">
+                <i class="fa fa-chevron-left"></i> Docker网络模式详解
               </a>
             
           </div>
@@ -559,10 +595,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/Ljphpcms-v1-03代码审计之csrf-xss/" rel="prev" title="Ljphpcms_v1.03代码审计之csrf&&xss">
-                Ljphpcms_v1.03代码审计之csrf&&xss <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -757,7 +789,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-前言"><span class="nav-number">1.</span> <span class="nav-text">0x01 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-mvn-package"><span class="nav-number">2.</span> <span class="nav-text">0x02 mvn package</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#命令打包"><span class="nav-number">2.1.</span> <span class="nav-text">命令打包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IDE打包"><span class="nav-number">2.2.</span> <span class="nav-text">IDE打包</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-前言"><span class="nav-number">1.</span> <span class="nav-text">0x00 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-下载安装"><span class="nav-number">2.</span> <span class="nav-text">0x01 下载安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载"><span class="nav-number">2.1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解压"><span class="nav-number">2.2.</span> <span class="nav-text">解压</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置环境变量"><span class="nav-number">2.3.</span> <span class="nav-text">配置环境变量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-启动Hbase"><span class="nav-number">3.</span> <span class="nav-text">0x02 启动Hbase</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置hbase-env-sh"><span class="nav-number">3.1.</span> <span class="nav-text">配置hbase-env.sh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置hbase-site-xml"><span class="nav-number">3.2.</span> <span class="nav-text">配置hbase-site.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动start-hbase-sh"><span class="nav-number">3.3.</span> <span class="nav-text">启动start-hbase.sh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问apache-Hbase"><span class="nav-number">3.4.</span> <span class="nav-text">访问apache Hbase</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-问题解决"><span class="nav-number">4.</span> <span class="nav-text">0x03 问题解决</span></a></li></ol></div>
             
 
           </div>
