@@ -1,4 +1,4 @@
-https://zhengbao.wang/Hadoop之Hbase架构环境搭建/
+https://zhengbao.wang/Hadoop之Hbase架构环境搭建及使用JAVA API远程连接/
 https://zhengbao.wang/Docker网络模式详解/
 https://zhengbao.wang/使用Hadoop-JAVA-API-远程连接HDFS/
 https://zhengbao.wang/内部AWD攻防对抗web记录/
