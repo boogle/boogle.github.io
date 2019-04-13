@@ -1,3 +1,4 @@
+https://zhengbao.wang/java代码审计入门之s2-001复现分析/
 https://zhengbao.wang/Hadoop之Hbase架构环境搭建及使用JAVA API远程连接/
 https://zhengbao.wang/Docker网络模式详解/
 https://zhengbao.wang/使用Hadoop-JAVA-API-远程连接HDFS/
@@ -27,4 +28,3 @@ https://zhengbao.wang/thinkphp5-x-远程代码执行漏洞/
 https://zhengbao.wang/phpmyadmin4-8-0-4-8-3任意文件包含/
 https://zhengbao.wang/regexp盲注/
 https://zhengbao.wang/phar-实现php反序列化/
-https://zhengbao.wang/sql注入-服务端模板注入（SSTI）/
