@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="web安全">
+  <meta name="keywords" content="代码审计,java,struts2,">
 
 
 
@@ -83,14 +83,30 @@
 
 
 
-<meta name="keywords" content="web安全 代码审计">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Boogle&#39;s Blog">
-<meta property="og:url" content="https://zhengbao.wang/tags/struct2/index.html">
+<meta name="description" content="0x00 前言入门JAVA代码审计的第二篇文章，复现分析S2-001 xss漏洞。 0x01 环境搭建本环境可以在s1-001漏洞环境上搭建，可参考前面的文章java代码审计入门之s2-001复现分析 在上面环境的基础上，继续创建xss_test.jsp12345678910&amp;lt;%@ taglib prefix=&quot;s&quot; uri=&quot;/struts-tags&quot; %&amp;gt;&amp;lt;%@ page c">
+<meta name="keywords" content="代码审计,java,struts2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java代码审计入门之s2-002复现分析">
+<meta property="og:url" content="https://zhengbao.wang/java代码审计入门之s2-002复现分析/index.html">
 <meta property="og:site_name" content="Boogle&#39;s Blog">
+<meta property="og:description" content="0x00 前言入门JAVA代码审计的第二篇文章，复现分析S2-001 xss漏洞。 0x01 环境搭建本环境可以在s1-001漏洞环境上搭建，可参考前面的文章java代码审计入门之s2-001复现分析 在上面环境的基础上，继续创建xss_test.jsp12345678910&amp;lt;%@ taglib prefix=&quot;s&quot; uri=&quot;/struts-tags&quot; %&amp;gt;&amp;lt;%@ page c">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2019/04/16/5cb5e4019070d.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/16/5cb5e6016f1be.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/17/5cb6999ce1263.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/17/5cb69a62d7947.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/17/5cb693baf10db.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/17/5cb69cedead85.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/17/5cb69f9785c27.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/17/5cb6a10e054a2.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/17/5cb6a41aafcce.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/17/5cb6a5dcce68a.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/17/5cb6a836a26eb.png">
+<meta property="og:updated_time" content="2019-04-17T04:26:35.373Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Boogle&#39;s Blog">
+<meta name="twitter:title" content="java代码审计入门之s2-002复现分析">
+<meta name="twitter:description" content="0x00 前言入门JAVA代码审计的第二篇文章，复现分析S2-001 xss漏洞。 0x01 环境搭建本环境可以在s1-001漏洞环境上搭建，可参考前面的文章java代码审计入门之s2-001复现分析 在上面环境的基础上，继续创建xss_test.jsp12345678910&amp;lt;%@ taglib prefix=&quot;s&quot; uri=&quot;/struts-tags&quot; %&amp;gt;&amp;lt;%@ page c">
+<meta name="twitter:image" content="https://i.loli.net/2019/04/16/5cb5e4019070d.png">
 
 
 
@@ -120,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="https://zhengbao.wang/tags/struct2/">
+  <link rel="canonical" href="https://zhengbao.wang/java代码审计入门之s2-002复现分析/">
 
 
 
 
 
-  <title>标签: struct2 | Boogle's Blog</title>
+  <title>java代码审计入门之s2-002复现分析 | Boogle's Blog</title>
   
 
 
@@ -148,7 +164,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -284,52 +300,298 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>struct2<small>标签</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengbao.wang/java代码审计入门之s2-002复现分析/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="boogle">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/boogle.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boogle's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/java代码审计入门之s2-001复现分析/" itemprop="url">
-              
-                <span itemprop="name">java代码审计入门之s2-001复现分析</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">java代码审计入门之s2-002复现分析</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-13T17:56:47+08:00" content="2019-04-13">
-          04-13
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-17T12:25:20+08:00">
+                2019-04-17
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/java代码审计入门之s2-002复现分析/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/java代码审计入门之s2-002复现分析/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/java代码审计入门之s2-002复现分析/" class="leancloud_visitors" data-flag-title="java代码审计入门之s2-002复现分析">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.1k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  12 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>入门JAVA代码审计的第二篇文章，复现分析<code>S2-001</code> xss漏洞。</p>
+<h2 id="0x01-环境搭建"><a href="#0x01-环境搭建" class="headerlink" title="0x01 环境搭建"></a>0x01 环境搭建</h2><p>本环境可以在<code>s1-001</code>漏洞环境上搭建，可参考前面的文章<a href="https://zhengbao.wang/java%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%85%A5%E9%97%A8%E4%B9%8Bs2-001%E5%A4%8D%E7%8E%B0%E5%88%86%E6%9E%90/">java代码审计入门之s2-001复现分析</a></p>
+<p>在上面环境的基础上，继续创建<code>xss_test.jsp</code><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">taglib</span> <span class="attr">prefix</span>=<span class="string">"s"</span> <span class="attr">uri</span>=<span class="string">"/struts-tags"</span> %&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">page</span> <span class="attr">contentType</span>=<span class="string">"text/html;charset=UTF-8"</span> <span class="attr">language</span>=<span class="string">"java"</span> %&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>S2-002<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&lt;s:url action="</span><span class="attr">Xss</span>" <span class="attr">includeParams</span>=<span class="string">"all"</span> &gt;</span><span class="tag">&lt;/<span class="name">s:url</span>&gt;</span>"&gt;你好Struts2<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>创建<code>Xss.java</code> class<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo.action;</span><br><span class="line"><span class="keyword">import</span> com.opensymphony.xwork2.<span class="type">ActionSupport</span>;</span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">Xss</span>  <span class="keyword">extends</span> <span class="title">ActionSupport</span></span>&#123;</span><br><span class="line">    public <span class="type">String</span> execute() <span class="keyword">throws</span> <span class="type">Exception</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="type">SUCCESS</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>struct.xml</code>中添加<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;action <span class="built_in">name</span>=<span class="string">"Xss"</span> <span class="built_in">class</span>=<span class="string">"com.demo.action.Xss"</span>&gt;</span><br><span class="line">        &lt;<span class="literal">result</span> <span class="built_in">name</span>=<span class="string">"success"</span>&gt;xss_test.jsp&lt;/<span class="literal">result</span>&gt;</span><br><span class="line">&lt;/action&gt;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/04/16/5cb5e4019070d.png" alt></p>
+<h2 id="0x02-代码分析"><a href="#0x02-代码分析" class="headerlink" title="0x02 代码分析"></a>0x02 代码分析</h2><p>首先看一下官方关于漏洞的描述<br><img src="https://i.loli.net/2019/04/16/5cb5e6016f1be.png" alt><br>可以看到漏洞主要原因是Struts 2框架在处理<code>&lt;s:url&gt;</code> 和<code>&lt;s:a&gt;</code>标签时，未对标签内的字符进行转义，导致XSS漏洞。<br>在我们搭建的Demo中，以<code>&lt;s:url&gt;</code>标签为例进行分析<br>这里需要说明的是struts2允许使用自定义的其自定义的标签，如上面的<code>&lt;s:url&gt;</code>即为struct2 url标签。在使用struts2标签时需在页面中添加<code>&lt;%@ taglib uri =&quot;/struts-tags&quot; prefix =&quot;s&quot; %&gt;</code>。引入标签配置。该配置在<code>struts2-core</code>核心jar包中,<code>META-INF/struts-tags.tld</code>对struts2标签进行了定义。<br>比如我们本次使用的<code>&lt;s:url&gt;</code><br><img src="https://i.loli.net/2019/04/17/5cb6999ce1263.png" alt><br><code>&lt;tag-class&gt;org.apache.struts2.views.jsp.URLTag&lt;/tag-class&gt;</code>说明了标签的具体实现类为<code>org.apache.struts2.views.jsp.URLTag</code><br><img src="https://i.loli.net/2019/04/17/5cb69a62d7947.png" alt><br>在本例中<code>&lt;s:url&gt;</code>标签在<code>xss_test.jps</code>中，jsp的本质也是一个Servlet，在执行jsp的时候tomcat会将其转化为java代码，当struts2在解析到标签时，实际上是继承了http servlet中可扩展的BodyTagSupport类。<br>然后依次执行<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">doStartTag</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="title">setBodyContent</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="title">doInitBody</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="title">doAfterBody</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="title">doEndTag</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure></p>
+<p>我们从<code>doStartTag</code>方法下断开始跟踪。<br>使用payload访问<code>localhost:8080/test_war_exploded/Xss.action?&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;=boogle</code><br><img src="https://i.loli.net/2019/04/17/5cb693baf10db.png" alt><br>在<code>doStartTag</code>方法中通过<code>gettBean()</code>方法获取URL组件,然后通过<code>populateParams()</code>方法对获取的URL组件中属性进行赋值。<br>然后执行<code>this.component.start(this.pageContext.getOut())</code>方法，即前面提到的<code>URL</code>组件的start方法。<br>跟进该方法<br><img src="https://i.loli.net/2019/04/17/5cb69cedead85.png" alt><br>首先会判断<code>&lt;s:url&gt;</code>标签中设置的<code>includeParams</code>参数，该属性有三个值：<code>none</code> <code>get</code> <code>all</code>，默认值为get。属性值为get时，该url会将访问其所在jsp的的请求的所有get方法的参数添加到自身来 ，属性值为all时更是将get和post的的参数值全部添加到自身来，属性值为none时不添加。<br>本例中我们设置的参数值为<code>all</code>，之后便进入到<code>includeParams</code>值为<code>all</code>的流程，执行<code>mergeRequestParameters</code>方法。<br>跟进<br><img src="https://i.loli.net/2019/04/17/5cb69f9785c27.png" alt><br>在该方法中取到我们的payload，并保存在<code>parameters</code>中。<br>然后回到URL组件的<code>start</code>方法中，继续执行进入到<code>includeGetParameters</code>方法。<br><img src="https://i.loli.net/2019/04/17/5cb6a10e054a2.png" alt><br>该方法中使用<code>extractQueryString</code>方法获得参数信息，该方法会直接调用<code>HttpServletRequest</code>的<code>getQueryString</code>的方法直接获取浏览器发送的请求信息。<br>之后又调用<code>UrlHelper.parseQueryString(query)</code>以<code>&amp;</code>为分隔符将获取的请求信息分隔出不同的参数。将参数保存在<code>queryParams</code><br><img src="https://i.loli.net/2019/04/17/5cb6a41aafcce.png" alt><br>在该过程中会对参数的value值使用<code>translateAndDecode</code>编码处理，而不会对参数name进行任何处理。<br>然后继续执行进入<code>mergeRequestParameters</code>将参数名称和值保存到<code>parameters</code>中。<br>至此<code>doStartTag</code>工作完成，然后进入到<code>doEndTag</code>方法<br><img src="https://i.loli.net/2019/04/17/5cb6a5dcce68a.png" alt><br>然后进入<code>end</code>方法，实现对标签的内容渲染工作。<br><img src="https://i.loli.net/2019/04/17/5cb6a836a26eb.png" alt></p>
+<h2 id="0x03-补丁分析"><a href="#0x03-补丁分析" class="headerlink" title="0x03 补丁分析"></a>0x03 补丁分析</h2><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">//<span class="keyword">if</span> the action was <span class="keyword">not</span> explicitly <span class="built_in">set</span> grab the params <span class="keyword">from</span> the request</span><br><span class="line">        <span class="keyword">if</span> (escapeAmp) &#123;</span><br><span class="line">            buildParametersString(params, link);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            buildParametersString(params, link, <span class="string">"&amp;"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">String</span> <span class="literal">result</span> = link.toString();</span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">result</span>.indexOf(<span class="string">"&lt;script&gt;"</span>) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="literal">result</span> = <span class="literal">result</span>.replaceAll(<span class="string">"&lt;script&gt;"</span>, <span class="string">"script"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">             <span class="literal">result</span> = encodeResult ? response.encodeURL(<span class="literal">result</span>) : <span class="literal">result</span>;</span><br><span class="line">        &#125; catch (<span class="type">Exception</span> ex) &#123;</span><br><span class="line">            // <span class="type">Could</span> <span class="keyword">not</span> encode the <span class="type">URL</span> <span class="keyword">for</span> some reason</span><br><span class="line">            // <span class="type">Use</span> it unchanged</span><br><span class="line">            <span class="literal">result</span> = link.toString();</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>补丁使用<code>while</code>循环对<code>&lt;script&gt;</code>进行去除，仍可使用<code>&lt;script boogle&gt;</code>样式绕过。<br>payload<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">"&gt;<span class="tag">&lt;<span class="name">script</span> <span class="attr">boogle</span>&gt;</span><span class="undefined">alert(1)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>=boogle</span><br></pre></td></tr></table></figure></p>
+<h2 id="0x04-参考"><a href="#0x04-参考" class="headerlink" title="0x04  参考"></a>0x04  参考</h2><p><a href="https://www.angelwhu.com/blog/?p=312" target="_blank" rel="noopener">Struts2标签原理分析</a><br><a href="https://www.iflym.com/index.php/code/resolve-error-codec-problem-while-use-s-url-or-s-a-on-struts2.html" target="_blank" rel="noopener">https://www.iflym.com/index.php/code/resolve-error-codec-problem-while-use-s-url-or-s-a-on-struts2.html</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/java代码审计入门之s2-002复现分析/">java代码审计入门之s2-002复现分析</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
+  <p><span>发布时间:</span>2019年04月17日 - 12:25</p>
+  <p><span>最后更新:</span>2019年04月17日 - 12:26</p>
+  <p><span>原始链接:</span><a href="/java代码审计入门之s2-002复现分析/" title="java代码审计入门之s2-002复现分析">https://zhengbao.wang/java代码审计入门之s2-002复现分析/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhengbao.wang/java代码审计入门之s2-002复现分析/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
 
       
     </div>
 
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>感觉写的不错，给买个棒棒糖呗</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="boogle 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="boogle 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/代码审计/" rel="tag"><i class="fa fa-tag"></i> 代码审计</a>
+          
+            <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> java</a>
+          
+            <a href="/tags/struts2/" rel="tag"><i class="fa fa-tag"></i> struts2</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Centos7配置安装HIVE/" rel="next" title="Centos7配置安装HIVE">
+                <i class="fa fa-chevron-left"></i> Centos7配置安装HIVE
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -337,6 +599,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -357,8 +626,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -375,7 +653,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-count">52</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -450,6 +728,10 @@
         
         
           <li>
+            <a href="/java代码审计入门之s2-002复现分析/" title="java代码审计入门之s2-002复现分析" target="_blank">java代码审计入门之s2-002复现分析</a>
+          </li>
+        
+          <li>
             <a href="/Centos7配置安装HIVE/" title="Centos7配置安装HIVE" target="_blank">Centos7配置安装HIVE</a>
           </li>
         
@@ -465,10 +747,6 @@
             <a href="/Docker网络模式详解/" title="Docker网络模式详解" target="_blank">Docker网络模式详解</a>
           </li>
         
-          <li>
-            <a href="/使用Hadoop-JAVA-API-远程连接HDFS/" title="使用Hadoop JAVA API 远程连接HDFS" target="_blank">使用Hadoop JAVA API 远程连接HDFS</a>
-          </li>
-        
       </ul>
     </div>
 
@@ -478,6 +756,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-前言"><span class="nav-number">1.</span> <span class="nav-text">0x00 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-环境搭建"><span class="nav-number">2.</span> <span class="nav-text">0x01 环境搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-代码分析"><span class="nav-number">3.</span> <span class="nav-text">0x02 代码分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-补丁分析"><span class="nav-number">4.</span> <span class="nav-text">0x03 补丁分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x04-参考"><span class="nav-number">5.</span> <span class="nav-text">0x04  参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -514,7 +808,7 @@
     
       <span class="post-meta-item-text">全站总计字数&#58;</span>
     
-    <span title="全站总计字数">42.2k</span>
+    <span title="全站总计字数">43.3k</span>
   
 </div>
 
@@ -648,6 +942,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
