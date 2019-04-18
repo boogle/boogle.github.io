@@ -83,13 +83,13 @@
 
 
 
-<meta name="description" content="0x00 前言入门JAVA代码审计的第二篇文章，复现分析S2-001 xss漏洞。 0x01 环境搭建本环境可以在s1-001漏洞环境上搭建，可参考前面的文章java代码审计入门之s2-001复现分析 在上面环境的基础上，继续创建xss_test.jsp12345678910&amp;lt;%@ taglib prefix=&quot;s&quot; uri=&quot;/struts-tags&quot; %&amp;gt;&amp;lt;%@ page c">
+<meta name="description" content="0x00 前言入门JAVA代码审计的第二篇文章，复现分析S2-002 xss漏洞。 本篇在漏洞分析的基础上，重点追踪了struts2标签解析过程。 0x01 环境搭建官方公告中给出的漏洞影响版本为Struts 2.0.0 - Struts 2.0.11，因此本环境可以在之前分析s1-001漏洞环境上搭建，可参考前面的文章java代码审计入门之s2-001复现分析 在上面环境的基础上，继续创建xss">
 <meta name="keywords" content="代码审计,java,struts2">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java代码审计入门之s2-002复现分析">
 <meta property="og:url" content="https://zhengbao.wang/java代码审计入门之s2-002复现分析/index.html">
 <meta property="og:site_name" content="Boogle&#39;s Blog">
-<meta property="og:description" content="0x00 前言入门JAVA代码审计的第二篇文章，复现分析S2-001 xss漏洞。 0x01 环境搭建本环境可以在s1-001漏洞环境上搭建，可参考前面的文章java代码审计入门之s2-001复现分析 在上面环境的基础上，继续创建xss_test.jsp12345678910&amp;lt;%@ taglib prefix=&quot;s&quot; uri=&quot;/struts-tags&quot; %&amp;gt;&amp;lt;%@ page c">
+<meta property="og:description" content="0x00 前言入门JAVA代码审计的第二篇文章，复现分析S2-002 xss漏洞。 本篇在漏洞分析的基础上，重点追踪了struts2标签解析过程。 0x01 环境搭建官方公告中给出的漏洞影响版本为Struts 2.0.0 - Struts 2.0.11，因此本环境可以在之前分析s1-001漏洞环境上搭建，可参考前面的文章java代码审计入门之s2-001复现分析 在上面环境的基础上，继续创建xss">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.loli.net/2019/04/16/5cb5e4019070d.png">
 <meta property="og:image" content="https://i.loli.net/2019/04/16/5cb5e6016f1be.png">
@@ -102,10 +102,10 @@
 <meta property="og:image" content="https://i.loli.net/2019/04/17/5cb6a41aafcce.png">
 <meta property="og:image" content="https://i.loli.net/2019/04/17/5cb6a5dcce68a.png">
 <meta property="og:image" content="https://i.loli.net/2019/04/17/5cb6a836a26eb.png">
-<meta property="og:updated_time" content="2019-04-17T04:26:35.373Z">
+<meta property="og:updated_time" content="2019-04-17T08:30:01.754Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java代码审计入门之s2-002复现分析">
-<meta name="twitter:description" content="0x00 前言入门JAVA代码审计的第二篇文章，复现分析S2-001 xss漏洞。 0x01 环境搭建本环境可以在s1-001漏洞环境上搭建，可参考前面的文章java代码审计入门之s2-001复现分析 在上面环境的基础上，继续创建xss_test.jsp12345678910&amp;lt;%@ taglib prefix=&quot;s&quot; uri=&quot;/struts-tags&quot; %&amp;gt;&amp;lt;%@ page c">
+<meta name="twitter:description" content="0x00 前言入门JAVA代码审计的第二篇文章，复现分析S2-002 xss漏洞。 本篇在漏洞分析的基础上，重点追踪了struts2标签解析过程。 0x01 环境搭建官方公告中给出的漏洞影响版本为Struts 2.0.0 - Struts 2.0.11，因此本环境可以在之前分析s1-001漏洞环境上搭建，可参考前面的文章java代码审计入门之s2-001复现分析 在上面环境的基础上，继续创建xss">
 <meta name="twitter:image" content="https://i.loli.net/2019/04/16/5cb5e4019070d.png">
 
 
@@ -455,8 +455,9 @@
       
 
       
-        <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>入门JAVA代码审计的第二篇文章，复现分析<code>S2-001</code> xss漏洞。</p>
-<h2 id="0x01-环境搭建"><a href="#0x01-环境搭建" class="headerlink" title="0x01 环境搭建"></a>0x01 环境搭建</h2><p>本环境可以在<code>s1-001</code>漏洞环境上搭建，可参考前面的文章<a href="https://zhengbao.wang/java%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%85%A5%E9%97%A8%E4%B9%8Bs2-001%E5%A4%8D%E7%8E%B0%E5%88%86%E6%9E%90/">java代码审计入门之s2-001复现分析</a></p>
+        <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>入门JAVA代码审计的第二篇文章，复现分析<code>S2-002</code> xss漏洞。</p>
+<p>本篇在漏洞分析的基础上，重点追踪了struts2标签解析过程。</p>
+<h2 id="0x01-环境搭建"><a href="#0x01-环境搭建" class="headerlink" title="0x01 环境搭建"></a>0x01 环境搭建</h2><p>官方公告中给出的漏洞影响版本为Struts 2.0.0 - Struts 2.0.11，因此本环境可以在之前分析<code>s1-001</code>漏洞环境上搭建，可参考前面的文章<a href="https://zhengbao.wang/java%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%85%A5%E9%97%A8%E4%B9%8Bs2-001%E5%A4%8D%E7%8E%B0%E5%88%86%E6%9E%90/">java代码审计入门之s2-001复现分析</a></p>
 <p>在上面环境的基础上，继续创建<code>xss_test.jsp</code><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">taglib</span> <span class="attr">prefix</span>=<span class="string">"s"</span> <span class="attr">uri</span>=<span class="string">"/struts-tags"</span> %&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">page</span> <span class="attr">contentType</span>=<span class="string">"text/html;charset=UTF-8"</span> <span class="attr">language</span>=<span class="string">"java"</span> %&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>S2-002<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&lt;s:url action="</span><span class="attr">Xss</span>" <span class="attr">includeParams</span>=<span class="string">"all"</span> &gt;</span><span class="tag">&lt;/<span class="name">s:url</span>&gt;</span>"&gt;你好Struts2<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>创建<code>Xss.java</code> class<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo.action;</span><br><span class="line"><span class="keyword">import</span> com.opensymphony.xwork2.<span class="type">ActionSupport</span>;</span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">Xss</span>  <span class="keyword">extends</span> <span class="title">ActionSupport</span></span>&#123;</span><br><span class="line">    public <span class="type">String</span> execute() <span class="keyword">throws</span> <span class="type">Exception</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="type">SUCCESS</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p><code>struct.xml</code>中添加<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;action <span class="built_in">name</span>=<span class="string">"Xss"</span> <span class="built_in">class</span>=<span class="string">"com.demo.action.Xss"</span>&gt;</span><br><span class="line">        &lt;<span class="literal">result</span> <span class="built_in">name</span>=<span class="string">"success"</span>&gt;xss_test.jsp&lt;/<span class="literal">result</span>&gt;</span><br><span class="line">&lt;/action&gt;</span><br></pre></td></tr></table></figure></p>
@@ -485,7 +486,7 @@
   <p><span>本文标题:</span><a href="/java代码审计入门之s2-002复现分析/">java代码审计入门之s2-002复现分析</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
   <p><span>发布时间:</span>2019年04月17日 - 12:25</p>
-  <p><span>最后更新:</span>2019年04月17日 - 12:26</p>
+  <p><span>最后更新:</span>2019年04月17日 - 16:30</p>
   <p><span>原始链接:</span><a href="/java代码审计入门之s2-002复现分析/" title="java代码审计入门之s2-002复现分析">https://zhengbao.wang/java代码审计入门之s2-002复现分析/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhengbao.wang/java代码审计入门之s2-002复现分析/" aria-label="复制成功！"></i></span>
   </p>
@@ -808,7 +809,7 @@
     
       <span class="post-meta-item-text">全站总计字数&#58;</span>
     
-    <span title="全站总计字数">43.3k</span>
+    <span title="全站总计字数">43.4k</span>
   
 </div>
 
