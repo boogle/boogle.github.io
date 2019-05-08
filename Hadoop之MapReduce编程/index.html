@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="ctf,">
+  <meta name="keywords" content="hadoop,">
 
 
 
@@ -83,20 +83,18 @@
 
 
 
-<meta name="description" content="1234567891011121314151617181920212223242526272829303132333435class RealSecureLoginManager &amp;#123;    private $em;    private $user;    private $password;    public function __construct($user, $password">
-<meta name="keywords" content="ctf">
+<meta name="description" content="0x00 前言MapReduce是Google提出的一个软件架构，用于大规模数据集（大于1TB）的并行运算。概念“Map（映射）”和“Reduce（归纳）”，及他们的主要思想，都是从函数式编程语言借来的，还有从矢量编程语言借来的特性。关于其原理，网上有很多资料，这里不细讲。笔者也仅是入门，此篇仅贴出入门的几个编程例子。 0x01 代码给出的例子使用java api,利用IDEA远程连接。代码实现了">
+<meta name="keywords" content="hadoop">
 <meta property="og:type" content="article">
-<meta property="og:title" content="md5($str,true)引发的sql注入">
-<meta property="og:url" content="https://zhengbao.wang/md5-true-引发的sql注入/index.html">
+<meta property="og:title" content="Hadoop之MapReduce编程">
+<meta property="og:url" content="https://zhengbao.wang/Hadoop之MapReduce编程/index.html">
 <meta property="og:site_name" content="Boogle&#39;s Blog">
-<meta property="og:description" content="1234567891011121314151617181920212223242526272829303132333435class RealSecureLoginManager &amp;#123;    private $em;    private $user;    private $password;    public function __construct($user, $password">
+<meta property="og:description" content="0x00 前言MapReduce是Google提出的一个软件架构，用于大规模数据集（大于1TB）的并行运算。概念“Map（映射）”和“Reduce（归纳）”，及他们的主要思想，都是从函数式编程语言借来的，还有从矢量编程语言借来的特性。关于其原理，网上有很多资料，这里不细讲。笔者也仅是入门，此篇仅贴出入门的几个编程例子。 0x01 代码给出的例子使用java api,利用IDEA远程连接。代码实现了">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://i.loli.net/2018/11/25/5bfab091240d7.png">
-<meta property="og:updated_time" content="2019-03-07T03:37:01.658Z">
+<meta property="og:updated_time" content="2019-05-08T02:51:07.426Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="md5($str,true)引发的sql注入">
-<meta name="twitter:description" content="1234567891011121314151617181920212223242526272829303132333435class RealSecureLoginManager &amp;#123;    private $em;    private $user;    private $password;    public function __construct($user, $password">
-<meta name="twitter:image" content="https://i.loli.net/2018/11/25/5bfab091240d7.png">
+<meta name="twitter:title" content="Hadoop之MapReduce编程">
+<meta name="twitter:description" content="0x00 前言MapReduce是Google提出的一个软件架构，用于大规模数据集（大于1TB）的并行运算。概念“Map（映射）”和“Reduce（归纳）”，及他们的主要思想，都是从函数式编程语言借来的，还有从矢量编程语言借来的特性。关于其原理，网上有很多资料，这里不细讲。笔者也仅是入门，此篇仅贴出入门的几个编程例子。 0x01 代码给出的例子使用java api,利用IDEA远程连接。代码实现了">
 
 
 
@@ -126,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="https://zhengbao.wang/md5-true-引发的sql注入/">
+  <link rel="canonical" href="https://zhengbao.wang/Hadoop之MapReduce编程/">
 
 
 
 
 
-  <title>md5($str,true)引发的sql注入 | Boogle's Blog</title>
+  <title>Hadoop之MapReduce编程 | Boogle's Blog</title>
   
 
 
@@ -304,7 +302,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengbao.wang/md5-true-引发的sql注入/">
+    <link itemprop="mainEntityOfPage" href="https://zhengbao.wang/Hadoop之MapReduce编程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="boogle">
@@ -321,7 +319,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">md5($str,true)引发的sql注入</h1>
+          <h1 class="post-title" itemprop="name headline">Hadoop之MapReduce编程</h1>
         
 
         <div class="post-meta">
@@ -333,8 +331,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-25T15:12:31+08:00">
-                2018-01-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-08T10:45:24+08:00">
+                2019-04-08
               </time>
             
 
@@ -356,8 +354,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web安全/" itemprop="url" rel="index">
-                    <span itemprop="name">web安全</span>
+                  <a href="/categories/环境配置/" itemprop="url" rel="index">
+                    <span itemprop="name">环境配置</span>
                   </a>
                 </span>
 
@@ -374,8 +372,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/md5-true-引发的sql注入/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/md5-true-引发的sql注入/" itemprop="commentCount"></span>
+                <a href="/Hadoop之MapReduce编程/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/Hadoop之MapReduce编程/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -383,7 +381,7 @@
 
           
           
-             <span id="/md5-true-引发的sql注入/" class="leancloud_visitors" data-flag-title="md5($str,true)引发的sql注入">
+             <span id="/Hadoop之MapReduce编程/" class="leancloud_visitors" data-flag-title="Hadoop之MapReduce编程">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -408,7 +406,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  314 字
+                  815 字
                 </span>
               
 
@@ -424,7 +422,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  3 分钟
+                  12 分钟
                 </span>
               
             </div>
@@ -445,9 +443,9 @@
       
 
       
-        <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RealSecureLoginManager</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> $em;</span><br><span class="line">    <span class="keyword">private</span> $user;</span><br><span class="line">    <span class="keyword">private</span> $password;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($user, $password)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;em = DoctrineManager::getEntityManager();</span><br><span class="line">        <span class="keyword">$this</span>-&gt;user = $user;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;password = $password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">isValid</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        $pass = md5(<span class="keyword">$this</span>-&gt;password, <span class="keyword">true</span>);</span><br><span class="line">        $user = <span class="keyword">$this</span>-&gt;sanitizeInput(<span class="keyword">$this</span>-&gt;user);</span><br><span class="line"></span><br><span class="line">        $queryBuilder = <span class="keyword">$this</span>-&gt;em-&gt;createQueryBuilder()</span><br><span class="line">            -&gt;select(<span class="string">"COUNT(p)"</span>)</span><br><span class="line">            -&gt;from(<span class="string">"User"</span>, <span class="string">"u"</span>)</span><br><span class="line">            -&gt;where(<span class="string">"password = '$pass' AND user = '$user'"</span>);</span><br><span class="line">        $query = $queryBuilder-&gt;getQuery();</span><br><span class="line">        <span class="keyword">return</span> boolval($query-&gt;getSingleScalarResult());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">sanitizeInput</span><span class="params">($input)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> addslashes($input);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$auth = <span class="keyword">new</span> RealSecureLoginManager(</span><br><span class="line">    $_POST[<span class="string">'user'</span>],</span><br><span class="line">    $_POST[<span class="string">'passwd'</span>]</span><br><span class="line">);</span><br><span class="line"><span class="keyword">if</span> (!$auth-&gt;isValid()) &#123;</span><br><span class="line">    <span class="keyword">exit</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面的代码中，$queryBuilder拼接了一条sql查询语句，但是对传入的user进行了addslashes函数过滤，也就是说没有办法通过user进行注入，而且pass变量是经过md5计算的散列值，理论上也没有办法进行注入，但是这里这里md5()函数的$raw_output值设置为true，那么这个md5报文摘要将以16字节长度的原始二进制格式返回。<br>什么意思呢？看一下下面的执行结果<br><img src="https://i.loli.net/2018/11/25/5bfab091240d7.png" alt><br>也就是说这个二进制格式的返回值会引入其他非预期的字符，比如说<strong>\</strong><br>这里经过fazz,发现 md5(128, true) 最后的结果带有反斜杠。因此这题最后的payload如下：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user= OR <span class="number">1</span>=<span class="number">1</span>#&amp;passwd=<span class="number">128</span></span><br></pre></td></tr></table></figure></p>
-<p>另外实验吧的一道题目类似<br><a href="http://ctf5.shiyanbar.com/web/houtai/ffifdyop.php" target="_blank" rel="noopener">http://ctf5.shiyanbar.com/web/houtai/ffifdyop.php</a></p>
+        <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>MapReduce是Google提出的一个软件架构，用于大规模数据集（大于1TB）的并行运算。概念“Map（映射）”和“Reduce（归纳）”，及他们的主要思想，都是从函数式编程语言借来的，还有从矢量编程语言借来的特性。<br>关于其原理，网上有很多资料，这里不细讲。<br>笔者也仅是入门，此篇仅贴出入门的几个编程例子。</p>
+<h2 id="0x01-代码"><a href="#0x01-代码" class="headerlink" title="0x01 代码"></a>0x01 代码</h2><p>给出的例子使用java api,利用IDEA远程连接。<br>代码实现了几个简单的map 及reduce例子</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> hadoop;</span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.util.StringTokenizer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.commons.lang3.ObjectUtils;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.conf.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.fs.Path;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.io.*;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.*;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.lib.input.FileInputFormat;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.util.GenericOptionsParser;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Map_reduce</span> </span>&#123;</span><br><span class="line">   <span class="comment">//统计词频</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">TokenizerMapper</span> <span class="keyword"><span class="keyword">extends</span> <span class="type">Mapper</span></span>&lt;<span class="title">Object</span>, <span class="title">Text</span>, <span class="title">Text</span>, <span class="title">IntWritable</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">private</span> final <span class="keyword">static</span> IntWritable one = <span class="keyword">new</span> <span class="type">IntWritable</span>(<span class="number">1</span>);</span><br><span class="line">       <span class="keyword">private</span> Text word = <span class="keyword">new</span> <span class="type">Text</span>();</span><br><span class="line"></span><br><span class="line">       <span class="keyword">public</span> void map(Object key, Text value, Context context</span><br><span class="line">       ) throws IOException, InterruptedException &#123;</span><br><span class="line">           StringTokenizer itr = <span class="keyword">new</span> <span class="type">StringTokenizer</span>(value.toString());</span><br><span class="line">           <span class="keyword">while</span> (itr.hasMoreTokens()) &#123;</span><br><span class="line">               word.<span class="keyword">set</span>(itr.nextToken());</span><br><span class="line">               context.write(word, one);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">//统计大小写字母、数字、其他频率</span></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ZimuMapper</span> <span class="keyword"><span class="keyword">extends</span> <span class="type">Mapper</span></span>&lt;<span class="title">Object</span>, <span class="title">Text</span>, <span class="title">Text</span>, <span class="title">IntWritable</span>&gt;</span></span><br><span class="line"><span class="class">   </span>&#123;</span><br><span class="line"></span><br><span class="line">       <span class="comment">//private final static IntWritable one = new IntWritable(1);</span></span><br><span class="line">       <span class="comment">//private Text word = new Text();</span></span><br><span class="line"></span><br><span class="line">       <span class="keyword">public</span> void map(Object key, Text value, Context context</span><br><span class="line">       ) throws IOException, InterruptedException &#123;</span><br><span class="line">           <span class="keyword">String</span> str = value.toString();</span><br><span class="line">           <span class="keyword">for</span>(int i=<span class="number">0</span>;i&lt;str.length();i++)&#123;</span><br><span class="line">               char ch = str.charAt(i);</span><br><span class="line">               <span class="keyword">if</span>(ch&gt;=<span class="string">'a'</span>&amp;&amp;ch&lt;=<span class="string">'z'</span>)</span><br><span class="line">                   context.write(<span class="keyword">new</span> <span class="type">Text</span>(<span class="string">"Lowwer"</span>),<span class="keyword">new</span> <span class="type">IntWritable</span>(<span class="number">1</span>));</span><br><span class="line">               <span class="keyword">else</span> <span class="keyword">if</span> (ch&gt;=<span class="string">'A'</span>&amp;&amp;ch&lt;=<span class="string">'Z'</span>)&#123;</span><br><span class="line">                   context.write(<span class="keyword">new</span> <span class="type">Text</span>(<span class="string">"Upper"</span>),<span class="keyword">new</span> <span class="type">IntWritable</span>(<span class="number">1</span>));</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">else</span> <span class="keyword">if</span>(ch&gt;=<span class="string">'0'</span>&amp;&amp;ch&lt;=<span class="string">'9'</span>)</span><br><span class="line">               &#123;</span><br><span class="line">                   context.write(<span class="keyword">new</span> <span class="type">Text</span>(<span class="string">"Nummer"</span>),<span class="keyword">new</span> <span class="type">IntWritable</span>(<span class="number">1</span>));</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">else</span>&#123;</span><br><span class="line">                   context.write(<span class="keyword">new</span> <span class="type">Text</span>(<span class="string">"Else"</span>),<span class="keyword">new</span> <span class="type">IntWritable</span>(<span class="number">1</span>));</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">//统计每个字母个数</span></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">geshuMapper</span> <span class="keyword"><span class="keyword">extends</span> <span class="type">Mapper</span></span>&lt;<span class="title">Object</span>, <span class="title">Text</span>, <span class="title">Text</span>, <span class="title">IntWritable</span>&gt;</span></span><br><span class="line"><span class="class">   </span>&#123;</span><br><span class="line"></span><br><span class="line">       <span class="comment">//private final static IntWritable one = new IntWritable(1);</span></span><br><span class="line">       <span class="comment">//private Text word = new Text();</span></span><br><span class="line"></span><br><span class="line">       <span class="keyword">public</span> void map(Object key, Text value, Context context</span><br><span class="line">       ) throws IOException, InterruptedException &#123;</span><br><span class="line">           <span class="keyword">String</span> str = value.toString();</span><br><span class="line">           <span class="keyword">for</span>(int i=<span class="number">0</span>;i&lt;str.length();i++)&#123;</span><br><span class="line">               char ch = str.charAt(i);</span><br><span class="line">               context.write(<span class="keyword">new</span> <span class="type">Text</span>(<span class="keyword">String</span>.valueOf(ch)),<span class="keyword">new</span> <span class="type">IntWritable</span>(<span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//最长单词</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MaxworldMapper</span> <span class="keyword"><span class="keyword">extends</span> <span class="type">Mapper</span></span>&lt;<span class="title">Object</span>, <span class="title">Text</span>, <span class="title">IntWritable</span>, <span class="title">Text</span>&gt;</span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> final <span class="keyword">static</span> IntWritable one = <span class="keyword">new</span> <span class="type">IntWritable</span>(<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">private</span> Text word = <span class="keyword">new</span> <span class="type">Text</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> void map(Object key, Text value, Context context</span><br><span class="line">        ) throws IOException, InterruptedException &#123;</span><br><span class="line">            StringTokenizer itr = <span class="keyword">new</span> <span class="type">StringTokenizer</span>(value.toString());</span><br><span class="line">            <span class="keyword">while</span> (itr.hasMoreTokens()) &#123;</span><br><span class="line">                word.<span class="keyword">set</span>(itr.nextToken());</span><br><span class="line">                context.write(one, word);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">// 最长词频reduce</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MaxworldReducer</span></span></span><br><span class="line"><span class="class">            <span class="keyword"><span class="keyword">extends</span> <span class="type">Reducer</span></span>&lt;<span class="title">IntWritable</span>,<span class="title">Text</span>,<span class="title">Text</span>,<span class="title">IntWritable</span>&gt; </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> IntWritable result = <span class="keyword">new</span> <span class="type">IntWritable</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> void reduce(IntWritable key, Iterable&lt;Text&gt; values,</span><br><span class="line">                           Context context</span><br><span class="line">        ) throws IOException, InterruptedException &#123;</span><br><span class="line">            int num = <span class="number">0</span>;</span><br><span class="line">            Text k = <span class="keyword">new</span> <span class="type">Text</span>();</span><br><span class="line">            <span class="keyword">for</span>(Text val:<span class="type">values</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(num &lt;val.getLength())</span><br><span class="line">                &#123;</span><br><span class="line">                    num = val.getLength();</span><br><span class="line">                    k= val;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            result.<span class="keyword">set</span>(num);</span><br><span class="line">            context.write(k, <span class="keyword">new</span> <span class="type">IntWritable</span>(num));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//词频统计</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">IntSumReducer</span></span></span><br><span class="line"><span class="class">                <span class="keyword"><span class="keyword">extends</span> <span class="type">Reducer</span></span>&lt;<span class="title">Text</span>,<span class="title">IntWritable</span>,<span class="title">Text</span>,<span class="title">IntWritable</span>&gt; </span>&#123;</span><br><span class="line">            <span class="keyword">private</span> IntWritable result = <span class="keyword">new</span> <span class="type">IntWritable</span>();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">public</span> void reduce(Text key, Iterable&lt;IntWritable&gt; values,</span><br><span class="line">                               Context context</span><br><span class="line">            ) throws IOException, InterruptedException &#123;</span><br><span class="line">                int sum = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">for</span> (IntWritable val : <span class="type">values</span>) &#123;</span><br><span class="line">                    sum += val.<span class="keyword">get</span>();</span><br><span class="line">                &#125;</span><br><span class="line">                result.<span class="keyword">set</span>(sum);</span><br><span class="line">                context.write(key, result);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> void main(<span class="keyword">String</span>[] args) throws Exception &#123;</span><br><span class="line">            Configuration conf = <span class="keyword">new</span> <span class="type">Configuration</span>();</span><br><span class="line">            <span class="keyword">String</span> inPutPath = <span class="string">"hdfs://192.168.111.151:9000/user/input/"</span>;</span><br><span class="line">            <span class="keyword">String</span> outPutPath = <span class="string">"hdfs://192.168.111.151:9000/user/output"</span>;</span><br><span class="line"></span><br><span class="line">            Job job = Job.getInstance(conf, <span class="string">"word count"</span>);</span><br><span class="line">            job.setJarByClass(Map_reduce.class);</span><br><span class="line">            <span class="comment">//job.setMapperClass(TokenizerMapper.class);</span></span><br><span class="line">            <span class="comment">//job.setMapperClass(ZimuMapper.class);</span></span><br><span class="line">            <span class="comment">//job.setCombinerClass(IntSumReducer.class);</span></span><br><span class="line">            <span class="comment">//job.setReducerClass(IntSumReducer.class);</span></span><br><span class="line">            <span class="comment">//选择合适的map reduce 类</span></span><br><span class="line">            job.setMapperClass(geshuMapper.class);</span><br><span class="line">            job.setReducerClass(IntSumReducer.class);</span><br><span class="line">            <span class="comment">//改输出类型</span></span><br><span class="line">		<span class="comment">//job.setMapOutputKeyClass(IntWritable.class);</span></span><br><span class="line">		<span class="comment">//ob.setMapOutputValueClass(Text.class);</span></span><br><span class="line">            job.setOutputKeyClass(Text.class);</span><br><span class="line">            job.setOutputValueClass(IntWritable.class);</span><br><span class="line">            FileInputFormat.addInputPath(job,<span class="keyword">new</span> <span class="type">Path</span>(inPutPath));</span><br><span class="line">            FileOutputFormat.setOutputPath(job,<span class="keyword">new</span> <span class="type">Path</span>(outPutPath));</span><br><span class="line">            System.exit(job.waitForCompletion(<span class="literal">true</span>) ? <span class="number">0</span> : <span class="type">1</span>);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -464,12 +462,12 @@
   <!-- JS库 sweetalert 可修改路径 -->
   <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>本文标题:</span><a href="/md5-true-引发的sql注入/">md5($str,true)引发的sql注入</a></p>
+  <p><span>本文标题:</span><a href="/Hadoop之MapReduce编程/">Hadoop之MapReduce编程</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
-  <p><span>发布时间:</span>2018年01月25日 - 15:12</p>
-  <p><span>最后更新:</span>2019年03月07日 - 11:37</p>
-  <p><span>原始链接:</span><a href="/md5-true-引发的sql注入/" title="md5($str,true)引发的sql注入">https://zhengbao.wang/md5-true-引发的sql注入/</a>
-    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhengbao.wang/md5-true-引发的sql注入/" aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2019年04月08日 - 10:45</p>
+  <p><span>最后更新:</span>2019年05月08日 - 10:51</p>
+  <p><span>原始链接:</span><a href="/Hadoop之MapReduce编程/" title="Hadoop之MapReduce编程">https://zhengbao.wang/Hadoop之MapReduce编程/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhengbao.wang/Hadoop之MapReduce编程/" aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
 </div>
@@ -528,7 +526,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/ctf/" rel="tag"><i class="fa fa-tag"></i> ctf</a>
+            <a href="/tags/hadoop/" rel="tag"><i class="fa fa-tag"></i> hadoop</a>
           
         </div>
       
@@ -541,8 +539,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/linux端口转发/" rel="next" title="linux端口转发">
-                <i class="fa fa-chevron-left"></i> linux端口转发
+              <a href="/Docker网络模式详解/" rel="next" title="Docker网络模式详解">
+                <i class="fa fa-chevron-left"></i> Docker网络模式详解
               </a>
             
           </div>
@@ -551,8 +549,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/XSS-Game-解题记录/" rel="prev" title="XSS-Game 解题记录">
-                XSS-Game 解题记录 <i class="fa fa-chevron-right"></i>
+              <a href="/Hadoop之Hbase架构环境搭建及使用JAVA API远程连接/" rel="prev" title="Hadoop之Hbase架构环境搭建及使用JAVA API远程连接">
+                Hadoop之Hbase架构环境搭建及使用JAVA API远程连接 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -608,8 +606,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -729,6 +736,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-前言"><span class="nav-number">1.</span> <span class="nav-text">0x00 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-代码"><span class="nav-number">2.</span> <span class="nav-text">0x01 代码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

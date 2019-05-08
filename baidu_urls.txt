@@ -5,6 +5,7 @@ https://zhengbao.wang/java代码审计入门之s2-002复现分析/
 https://zhengbao.wang/Centos7配置安装HIVE/
 https://zhengbao.wang/java代码审计入门之s2-001复现分析/
 https://zhengbao.wang/Hadoop之Hbase架构环境搭建及使用JAVA API远程连接/
+https://zhengbao.wang/Hadoop之MapReduce编程/
 https://zhengbao.wang/Docker网络模式详解/
 https://zhengbao.wang/使用Hadoop-JAVA-API-远程连接HDFS/
 https://zhengbao.wang/内部AWD攻防对抗web记录/
@@ -27,4 +28,3 @@ https://zhengbao.wang/Typecho-反序列化漏洞分析/
 https://zhengbao.wang/thinkphp5-Request-远程代码执行漏洞分析/
 https://zhengbao.wang/thinkphp-缓存函数设计缺陷-getshell/
 https://zhengbao.wang/thinkphp-5-0-10-sql注入漏洞-支持子查询/
-https://zhengbao.wang/thinkphp5-0-x-sql注入分析/
