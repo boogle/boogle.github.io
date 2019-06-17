@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://zhengbao.wang/XSS%E5%A7%BF%E5%8A%BF%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2019-06-17</lastmod>
+  </url>  <url>
     <loc>https://zhengbao.wang/Hadoop%E4%B9%8BMapReduce%E7%BC%96%E7%A8%8B/</loc>
     <lastmod>2019-05-08</lastmod>
   </url>  <url>

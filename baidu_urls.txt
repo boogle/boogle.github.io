@@ -1,3 +1,4 @@
+https://zhengbao.wang/XSS姿势学习/
 https://zhengbao.wang/SSRF的一些利用姿势/
 https://zhengbao.wang/XSSRF攻击内网redis/
 https://zhengbao.wang/文件上传功能的一些另类利用/
@@ -27,4 +28,3 @@ https://zhengbao.wang/ectouch2-微信支付xxe漏洞/
 https://zhengbao.wang/Typecho-反序列化漏洞分析/
 https://zhengbao.wang/thinkphp5-Request-远程代码执行漏洞分析/
 https://zhengbao.wang/thinkphp-缓存函数设计缺陷-getshell/
-https://zhengbao.wang/thinkphp-5-0-10-sql注入漏洞-支持子查询/
