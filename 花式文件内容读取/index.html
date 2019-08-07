@@ -100,7 +100,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/08/07/zxh6BDfgUmRecid.png">
 <meta property="og:image" content="https://i.loli.net/2019/08/07/WEzZkxXRLT5Fj76.png">
 <meta property="og:image" content="https://i.loli.net/2019/08/07/3ZF7uQ1fURC9yPN.png">
-<meta property="og:updated_time" content="2019-08-07T08:39:32.968Z">
+<meta property="og:updated_time" content="2019-08-07T08:42:42.895Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="花式文件内容读取">
 <meta name="twitter:description" content="0x00 前言今天在客户机器上测试时发现cat命令被禁了，由此想到还有哪些命令可以用于读取文件内容。网上一搜，果然发现不少，特此记录一下。  0x01 常用文件内容读取命令按正常来说，常用的几个文件读取命令有cat head more less nl tail tailf tac 其中tailf 用于读取文件最后10行内容，一般用于读取最新的日志文件，也可以使用-n参数改变读取的行数。但这个命令在">
@@ -416,7 +416,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  450 字
+                  451 字
                 </span>
               
 
@@ -459,7 +459,7 @@
 <p>其中<code>tailf</code> 用于读取文件最后10行内容，一般用于读取最新的日志文件，也可以使用<code>-n</code>参数改变读取的行数。但这个命令在一些linux系统中并没有在装机时安装。</p>
 <p>另外<code>tac</code> 命令跟<code>cat</code>相反，用于按行倒着输出文件内容。</p>
 <p><img src="https://i.loli.net/2019/08/07/m3rqLBTPXZ4hSsw.png" alt></p>
-<p>此外，less命令用于分页显示，如果在远程命令执行漏洞环境下可能读取的内容并不能直接返回，此时可以使<code>echo \</code>less flag.txt` <code>或者</code>less flag.txt |grep ‘’`</p>
+<p>此外，less命令用于分页显示，如果在远程命令执行漏洞环境下可能读取的内容并不能直接返回，此时可以<code>echo `less flag.txt`</code>  或者   <code>less flag.txt |grep &#39;&#39;</code></p>
 <p><img src="https://i.loli.net/2019/08/07/4skPlFJb3GugNxw.png" alt></p>
 <p>除了直接读取外，一些内容编辑软件也可以用来读取文件内容，例如<code>vi</code> <code>vim</code></p>
 <h2 id="0x02-花式文件内容读取命令"><a href="#0x02-花式文件内容读取命令" class="headerlink" title="0x02 花式文件内容读取命令"></a>0x02 花式文件内容读取命令</h2><p>除了常用的文件内容读取命令外，在搜索过程中发现了大佬们总结的其他花式文件内容读取命令:<a href="https://xz.aliyun.com/t/2281" target="_blank" rel="noopener">https://xz.aliyun.com/t/2281</a></p>
@@ -511,7 +511,7 @@
   <p><span>本文标题:</span><a href="/花式文件内容读取/">花式文件内容读取</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
   <p><span>发布时间:</span>2019年08月07日 - 16:29</p>
-  <p><span>最后更新:</span>2019年08月07日 - 16:39</p>
+  <p><span>最后更新:</span>2019年08月07日 - 16:42</p>
   <p><span>原始链接:</span><a href="/花式文件内容读取/" title="花式文件内容读取">https://zhengbao.wang/花式文件内容读取/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhengbao.wang/花式文件内容读取/" aria-label="复制成功！"></i></span>
   </p>
