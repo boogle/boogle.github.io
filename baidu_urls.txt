@@ -1,3 +1,4 @@
+https://zhengbao.wang/UEditor-net版本任意文件上传/
 https://zhengbao.wang/Linux提权姿势/
 https://zhengbao.wang/ubuntu网络问题记录/
 https://zhengbao.wang/jsonp劫持漏洞/
@@ -27,4 +28,3 @@ https://zhengbao.wang/semcms-php-v3-8-前台鸡肋sql注入/
 https://zhengbao.wang/Bypass-PCREWAF/
 https://zhengbao.wang/从http协议层面和数据库层面绕过waf/
 https://zhengbao.wang/wordpress5-0-0-远程代码执行漏洞分析/
-https://zhengbao.wang/windows-apache-php7-0安装php扩展之imagick踩过的大坑/
