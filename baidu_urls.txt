@@ -1,3 +1,6 @@
+https://zhengbao.wang/phpstudy后门漏洞利用/
+https://zhengbao.wang/泛微OA远程代码执行漏洞利用/
+https://zhengbao.wang/BEA-Weblogic-Server-ssrf漏洞利用/
 https://zhengbao.wang/UEditor-net版本任意文件上传/
 https://zhengbao.wang/Linux提权姿势/
 https://zhengbao.wang/ubuntu网络问题记录/
@@ -25,6 +28,3 @@ https://zhengbao.wang/semcms-php-v3-8-后台注入getshell/
 https://zhengbao.wang/semcms-php-v3-8-时间盲注/
 https://zhengbao.wang/semcms-php-v3-8-cookie注入绕过后台登陆/
 https://zhengbao.wang/semcms-php-v3-8-前台鸡肋sql注入/
-https://zhengbao.wang/Bypass-PCREWAF/
-https://zhengbao.wang/从http协议层面和数据库层面绕过waf/
-https://zhengbao.wang/wordpress5-0-0-远程代码执行漏洞分析/
