@@ -1,3 +1,4 @@
+https://zhengbao.wang/vBulletin-5-x远程代码执行漏洞利用/
 https://zhengbao.wang/phpstudy后门漏洞利用/
 https://zhengbao.wang/泛微OA远程代码执行漏洞利用/
 https://zhengbao.wang/BEA-Weblogic-Server-ssrf漏洞利用/
@@ -27,4 +28,3 @@ https://zhengbao.wang/semcms-php-v3-8任意文件刪除/
 https://zhengbao.wang/semcms-php-v3-8-后台注入getshell/
 https://zhengbao.wang/semcms-php-v3-8-时间盲注/
 https://zhengbao.wang/semcms-php-v3-8-cookie注入绕过后台登陆/
-https://zhengbao.wang/semcms-php-v3-8-前台鸡肋sql注入/
