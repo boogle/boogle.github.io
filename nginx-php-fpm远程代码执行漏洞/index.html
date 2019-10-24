@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="web安全">
+  <meta name="keywords" content="代码执行,">
 
 
 
@@ -83,14 +83,23 @@
 
 
 
-<meta name="keywords" content="web安全 代码审计">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Boogle&#39;s Blog">
-<meta property="og:url" content="https://zhengbao.wang/tags/0day挖掘/index.html">
+<meta name="description" content="0x00 前言2019年9月26日，PHP官方发布了Ngnix+php-fpm在错误配置下造成的远程代码执行漏洞(CVE-2019-11043)，2019年10月22日，漏洞poc被公开: https://github.com/neex/phuip-fpizdam  0x01 漏洞复现漏洞原因在Ngnix+php-fpm环境下，如果Ngnix有如下配置，将会产生漏洞 1234567location">
+<meta name="keywords" content="代码执行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx+php-fpm远程代码执行漏洞">
+<meta property="og:url" content="https://zhengbao.wang/nginx-php-fpm远程代码执行漏洞/index.html">
 <meta property="og:site_name" content="Boogle&#39;s Blog">
+<meta property="og:description" content="0x00 前言2019年9月26日，PHP官方发布了Ngnix+php-fpm在错误配置下造成的远程代码执行漏洞(CVE-2019-11043)，2019年10月22日，漏洞poc被公开: https://github.com/neex/phuip-fpizdam  0x01 漏洞复现漏洞原因在Ngnix+php-fpm环境下，如果Ngnix有如下配置，将会产生漏洞 1234567location">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2019/10/24/AX4JFgGafVwCMYd.png">
+<meta property="og:image" content="https://i.loli.net/2019/10/24/eyJmW6SpdnUZL9c.png">
+<meta property="og:image" content="https://i.loli.net/2019/10/24/Eh6g9I7tG3CTHbj.png">
+<meta property="og:image" content="https://i.loli.net/2019/10/24/3WokGrzdgXAtU1y.png">
+<meta property="og:updated_time" content="2019-10-24T01:12:19.901Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Boogle&#39;s Blog">
+<meta name="twitter:title" content="nginx+php-fpm远程代码执行漏洞">
+<meta name="twitter:description" content="0x00 前言2019年9月26日，PHP官方发布了Ngnix+php-fpm在错误配置下造成的远程代码执行漏洞(CVE-2019-11043)，2019年10月22日，漏洞poc被公开: https://github.com/neex/phuip-fpizdam  0x01 漏洞复现漏洞原因在Ngnix+php-fpm环境下，如果Ngnix有如下配置，将会产生漏洞 1234567location">
+<meta name="twitter:image" content="https://i.loli.net/2019/10/24/AX4JFgGafVwCMYd.png">
 
 
 
@@ -120,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="https://zhengbao.wang/tags/0day挖掘/">
+  <link rel="canonical" href="https://zhengbao.wang/nginx-php-fpm远程代码执行漏洞/">
 
 
 
 
 
-  <title>标签: 0day挖掘 | Boogle's Blog</title>
+  <title>nginx+php-fpm远程代码执行漏洞 | Boogle's Blog</title>
   
 
 
@@ -148,7 +157,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -284,182 +293,305 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block tag">
-
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>0day挖掘<small>标签</small>
-        </h1>
-      </div>
-
-      
-        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengbao.wang/nginx-php-fpm远程代码执行漏洞/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="boogle">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/boogle.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boogle's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/Ljphpcms-v1-03代码审计之csrf-xss/" itemprop="url">
-              
-                <span itemprop="name">Ljphpcms_v1.03代码审计之csrf&&xss</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">nginx+php-fpm远程代码执行漏洞</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-21T21:12:06+08:00" content="2019-03-21">
-          03-21
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-24T09:11:06+08:00">
+                2019-10-24
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/nginx-php-fpm远程代码执行漏洞/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/nginx-php-fpm远程代码执行漏洞/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/nginx-php-fpm远程代码执行漏洞/" class="leancloud_visitors" data-flag-title="nginx+php-fpm远程代码执行漏洞">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  330 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  3 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/semcms-php-v3-8任意文件刪除/" itemprop="url">
-              
-                <span itemprop="name">semcms_php_v3.8任意文件刪除</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-16T16:24:25+08:00" content="2019-03-16">
-          03-16
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/semcms-php-v3-8-后台注入getshell/" itemprop="url">
-              
-                <span itemprop="name">semcms_php_v3.8 后台注入getshell</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-16T11:20:02+08:00" content="2019-03-16">
-          03-16
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+        <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>2019年9月26日，PHP官方发布了<a href="https://bugs.php.net/bug.php?id=78599" target="_blank" rel="noopener">Ngnix+php-fpm在错误配置下造成的远程代码执行漏洞</a>(CVE-2019-11043)，2019年10月22日，漏洞poc被公开:<a href="https://github.com/neex/phuip-fpizdam" target="_blank" rel="noopener"> https://github.com/neex/phuip-fpizdam </a></p>
+<h2 id="0x01-漏洞复现"><a href="#0x01-漏洞复现" class="headerlink" title="0x01 漏洞复现"></a>0x01 漏洞复现</h2><h3 id="漏洞原因"><a href="#漏洞原因" class="headerlink" title="漏洞原因"></a>漏洞原因</h3><p>在Ngnix+php-fpm环境下，如果Ngnix有如下配置，将会产生漏洞</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">location</span> <span class="title">~ [^/]\.php</span>(/|$) &#123;</span><br><span class="line">        fastcgi_split_path_<span class="literal">inf</span>o ^(.+?\.php)(/.*)$;</span><br><span class="line">        fastcgi_param PATH_<span class="literal">INF</span>O       $fastcgi_path_<span class="literal">inf</span>o;</span><br><span class="line">        fastcgi_pass   php:<span class="number">9000</span>;</span><br><span class="line">        ...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><p>使用docker搭建漏洞，vubhub已有漏洞环境<a href="https://github.com/vulhub/vulhub/tree/master/php/CVE-2019-11043" target="_blank" rel="noopener">https://github.com/vulhub/vulhub/tree/master/php/CVE-2019-11043</a></p>
+<p>docker-compose.yml</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">version: <span class="string">'2'</span></span><br><span class="line">services:</span><br><span class="line"> nginx:</span><br><span class="line">   image: nginx:<span class="number">1</span></span><br><span class="line">   volumes:</span><br><span class="line">    - ./www:/usr/share/nginx/html</span><br><span class="line">    - ./default.conf:/etc/nginx/conf.d/default.conf</span><br><span class="line">   depends_on:</span><br><span class="line">    - php</span><br><span class="line">   ports:</span><br><span class="line">    - <span class="string">"8080:80"</span></span><br><span class="line"> php:</span><br><span class="line">   image: php:<span class="number">7.2</span>.<span class="number">10</span>-fpm</span><br><span class="line">   volumes:</span><br><span class="line">    - ./www:/var/www/html</span><br></pre></td></tr></table></figure>
+<p>ngnix配置文件 default.conf</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span> default_server;</span><br><span class="line">    <span class="attribute">listen</span> [::]:<span class="number">80</span> default_server;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">root</span> /usr/share/nginx/html;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">index</span> index.html index.php;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">server_name</span> _;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ =<span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> <span class="regexp">~ [^/]\.php(/|$)</span> &#123;</span><br><span class="line">        <span class="attribute">fastcgi_split_path_info</span><span class="regexp"> ^(.+?\.php)(/.*)$</span>;</span><br><span class="line">        <span class="attribute">include</span> fastcgi_params;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">fastcgi_param</span> PATH_INFO       <span class="variable">$fastcgi_path_info</span>;</span><br><span class="line">        <span class="attribute">fastcgi_index</span> index.php;</span><br><span class="line">        <span class="attribute">fastcgi_param</span>  REDIRECT_STATUS    <span class="number">200</span>;</span><br><span class="line">        <span class="attribute">fastcgi_param</span>  SCRIPT_FILENAME /var/www/html<span class="variable">$fastcgi_script_name</span>;</span><br><span class="line">        <span class="attribute">fastcgi_param</span>  DOCUMENT_ROOT /var/www/html;</span><br><span class="line">        <span class="attribute">fastcgi_pass</span> php:<span class="number">9000</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后<code>docker-compose up -d</code>启动漏洞环境</p>
+<p><img src="https://i.loli.net/2019/10/24/AX4JFgGafVwCMYd.png" alt></p>
+<h3 id="安装-phuip-fpizdam"><a href="#安装-phuip-fpizdam" class="headerlink" title="安装 phuip-fpizdam"></a>安装 phuip-fpizdam</h3><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">go</span> <span class="built_in">get</span> github.<span class="keyword">com</span>/neex/phuip-fpizdam</span><br><span class="line"></span><br><span class="line"><span class="keyword">go</span> install github.<span class="keyword">com</span>/neex/phuip-fpizdam</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/10/24/eyJmW6SpdnUZL9c.png" alt></p>
+<p>然后使用phuip-fpizdam进行利用<code>./phuip-fpizdam url</code>,成功如下。</p>
+<p><img src="https://i.loli.net/2019/10/24/Eh6g9I7tG3CTHbj.png" alt></p>
+<p>然后加参数<code>?a=cmd</code>即可执行任意命令。</p>
+<p><img src="https://i.loli.net/2019/10/24/3WokGrzdgXAtU1y.png" alt></p>
+<h2 id="0x02-修复建议"><a href="#0x02-修复建议" class="headerlink" title="0x02 修复建议"></a>0x02 修复建议</h2><ul>
+<li><p>在业务不需要的情况下删除配置<code>fastcgi_split_path_info ^(.+?\.php)(/.*)$;</code> <code>fastcgi_param PATH_INFO  $fastcgi_path_info;</code></p>
+</li>
+<li><p>ngnix配置文件存在检查  <code>try_files $uri =404</code> 或者 <code>if (-f $uri)</code> </p>
+</li>
+</ul>
 
       
-        
+    </div>
+    
+    
+    
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/semcms-php-v3-8-时间盲注/" itemprop="url">
-              
-                <span itemprop="name">semcms_php_v3.8 时间盲注</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-15T21:23:02+08:00" content="2019-03-15">
-          03-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+    <div>
       
         
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/semcms-php-v3-8-cookie注入绕过后台登陆/" itemprop="url">
-              
-                <span itemprop="name">semcms_php_v3.8 cookie注入绕过后台登陆</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-15T21:18:18+08:00" content="2019-03-15">
-          03-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/semcms-php-v3-8-前台鸡肋sql注入/" itemprop="url">
-              
-                <span itemprop="name">semcms_php_v3.8 前台鸡肋sql注入</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-14T21:16:03+08:00" content="2019-03-14">
-          03-14
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/nginx-php-fpm远程代码执行漏洞/">nginx+php-fpm远程代码执行漏洞</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
+  <p><span>发布时间:</span>2019年10月24日 - 09:11</p>
+  <p><span>最后更新:</span>2019年10月24日 - 09:12</p>
+  <p><span>原始链接:</span><a href="/nginx-php-fpm远程代码执行漏洞/" title="nginx+php-fpm远程代码执行漏洞">https://zhengbao.wang/nginx-php-fpm远程代码执行漏洞/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhengbao.wang/nginx-php-fpm远程代码执行漏洞/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
 
       
     </div>
 
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>感觉写的不错，给买个棒棒糖呗</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="boogle 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="boogle 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/代码执行/" rel="tag"><i class="fa fa-tag"></i> 代码执行</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/泛微OA前台sql注入漏洞检测-ORACLE数据库/" rel="next" title="泛微OA前台sql注入漏洞检测(ORACLE数据库)">
+                <i class="fa fa-chevron-left"></i> 泛微OA前台sql注入漏洞检测(ORACLE数据库)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -467,6 +599,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -487,8 +626,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -608,6 +756,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-前言"><span class="nav-number">1.</span> <span class="nav-text">0x00 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-漏洞复现"><span class="nav-number">2.</span> <span class="nav-text">0x01 漏洞复现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#漏洞原因"><span class="nav-number">2.1.</span> <span class="nav-text">漏洞原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#环境搭建"><span class="nav-number">2.2.</span> <span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-phuip-fpizdam"><span class="nav-number">2.3.</span> <span class="nav-text">安装 phuip-fpizdam</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-修复建议"><span class="nav-number">3.</span> <span class="nav-text">0x02 修复建议</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -778,6 +942,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

@@ -1,3 +1,4 @@
+https://zhengbao.wang/nginx-php-fpm远程代码执行漏洞/
 https://zhengbao.wang/泛微OA前台sql注入漏洞检测-ORACLE数据库/
 https://zhengbao.wang/joomla3-4-6反序列化漏洞利用/
 https://zhengbao.wang/vBulletin-5-x远程代码执行漏洞利用/
@@ -27,4 +28,3 @@ https://zhengbao.wang/Centos7搭建Hadoop伪分布式集群详细步骤/
 https://zhengbao.wang/Ljphpcms-v1-03代码审计之csrf-xss/
 https://zhengbao.wang/burpsuite安装分块传输插件/
 https://zhengbao.wang/semcms-php-v3-8任意文件刪除/
-https://zhengbao.wang/semcms-php-v3-8-后台注入getshell/
