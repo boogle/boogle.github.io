@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://zhengbao.wang/about/index.html</loc>
+    
+    <lastmod>2019-10-29T15:29:55.339Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://zhengbao.wang/nginx-php-fpm%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/</loc>
     
     <lastmod>2019-10-24T01:12:19.901Z</lastmod>
@@ -229,13 +236,6 @@
     <loc>http://zhengbao.wang/Ljphpcms-v1-03%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E4%B9%8Bcsrf-xss/</loc>
     
     <lastmod>2019-03-23T13:33:49.581Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://zhengbao.wang/about/index.html</loc>
-    
-    <lastmod>2019-03-23T12:58:19.216Z</lastmod>
     
   </url>
   
