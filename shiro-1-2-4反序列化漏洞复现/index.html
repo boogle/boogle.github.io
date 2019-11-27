@@ -96,8 +96,8 @@
 <meta property="og:image" content="https://i.loli.net/2019/11/19/Jx3bFv8ltQXAKD5.png">
 <meta property="og:image" content="https://i.loli.net/2019/11/19/SrUHc9ejEMCgTpG.png">
 <meta property="og:image" content="https://i.loli.net/2019/11/19/FrNWE3SYXj1kdI4.png">
-<meta property="og:image" content="c:/Users/14737/AppData/Roaming/Typora/typora-user-images/1574149518940.png">
-<meta property="og:updated_time" content="2019-11-19T07:46:35.123Z">
+<meta property="og:image" content="https://i.loli.net/2019/11/27/8GpNBT1gW6jJOSA.png">
+<meta property="og:updated_time" content="2019-11-27T12:47:30.428Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="shiro 1.2.4反序列化漏洞复现">
 <meta name="twitter:description" content="0x00 前言在官网中可以得到该漏洞的描述，主要原因是因为shiro默认使用了CookieRememberMeManager, 其处理cookie的流程是：得到rememberMe的cookie值–&amp;gt;Base64解码–&amp;gt;AES解密–&amp;gt;反序列化。然而AES的密钥是硬编码的，其密钥硬编码在代码中为kPH+bIxk5D2deZiIxcaaaA==。导致攻击者可以构造任意数据从而造成反序">
@@ -473,7 +473,7 @@
 <p>然后进行抓包，将cookie中的<code>remeberMe</code>值替换即可。</p>
 <p><img src="https://i.loli.net/2019/11/19/FrNWE3SYXj1kdI4.png" alt></p>
 <p>然后便可收到反弹回的shell</p>
-<p><img src="C:\Users\14737\AppData\Roaming\Typora\typora-user-images\1574149518940.png" alt="1574149518940"></p>
+<p><img src="https://i.loli.net/2019/11/27/8GpNBT1gW6jJOSA.png" alt></p>
 
       
     </div>
@@ -493,7 +493,7 @@
   <p><span>本文标题:</span><a href="/shiro-1-2-4反序列化漏洞复现/">shiro 1.2.4反序列化漏洞复现</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
   <p><span>发布时间:</span>2019年11月19日 - 14:49</p>
-  <p><span>最后更新:</span>2019年11月19日 - 15:46</p>
+  <p><span>最后更新:</span>2019年11月27日 - 20:47</p>
   <p><span>原始链接:</span><a href="/shiro-1-2-4反序列化漏洞复现/" title="shiro 1.2.4反序列化漏洞复现">http://zhengbao.wang/shiro-1-2-4反序列化漏洞复现/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhengbao.wang/shiro-1-2-4反序列化漏洞复现/" aria-label="复制成功！"></i></span>
   </p>
