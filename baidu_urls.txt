@@ -1,3 +1,5 @@
+http://zhengbao.wang/java反序列化入门/
+http://zhengbao.wang/shiro-1-2-4反序列化漏洞复现/
 http://zhengbao.wang/rConfig远程代码执行漏洞复现/
 http://zhengbao.wang/apache-solr远程命令执行漏洞复现/
 http://zhengbao.wang/泛微OA数据库配置信息泄露漏洞/
@@ -26,5 +28,3 @@ http://zhengbao.wang/Hadoop之Hbase架构环境搭建及使用JAVA API远程连�
 http://zhengbao.wang/Hadoop之MapReduce编程/
 http://zhengbao.wang/Docker网络模式详解/
 http://zhengbao.wang/使用Hadoop-JAVA-API-远程连接HDFS/
-http://zhengbao.wang/内部AWD攻防对抗web记录/
-http://zhengbao.wang/Centos7搭建Hadoop伪分布式集群详细步骤/
