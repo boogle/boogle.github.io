@@ -101,7 +101,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/11/27/SsZp4Xo6YvEcuiH.png">
 <meta property="og:image" content="https://i.loli.net/2019/11/27/puPkyxXLhRr8jQ7.png">
 <meta property="og:image" content="https://i.loli.net/2019/11/27/xt6WDrYXZjoa4iI.png">
-<meta property="og:updated_time" content="2019-11-27T12:37:18.241Z">
+<meta property="og:updated_time" content="2019-11-28T06:19:08.980Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java反序列化入门">
 <meta name="twitter:description" content="0x00 序列化与反序列化什么是序列化和反序列化 序列化是一个用于将对象状态转换为字节流的过程，可以将其保存到磁盘文件中或通过网络发送到任何其他程序；从字节流创建对象的相反的过程称为反序列化。 为什么要序列化和反序列化类的对象会随着程序的终止而被垃圾收集器销毁。如果要在不重新创建对象的情况下调用该类，就需要通过序列化将数据转换为字节流进行存储或者传输，在合适的地方通过对字节流反序列化继续调用该类。">
@@ -488,7 +488,7 @@
 <p><img src="https://i.loli.net/2019/11/27/NxSZBvh4zpD6MbG.png" alt></p>
 <p>此时在序列化时将<code>cmd</code>赋值为任意命令，便可以执行任意命令。</p>
 <p><img src="https://i.loli.net/2019/11/27/aMrJC8OvkxAHudU.png" alt></p>
-<p>当然，这仅仅是一个测试的Demo，真实的代码中可能并不会出现入此低级的问题，但在真实环境中，可以通过一些列的调用代码链，最终达到上述Demo所实现的执行任意命令的效果。下面引入一个实例: Apache Commons Collections反序列化漏洞。</p>
+<p>当然，这仅仅是一个测试的Demo，真实的代码中可能并不会出现如此低级的问题，但在真实环境中，可以通过一些列的调用代码链，最终达到上述Demo所实现的执行任意命令的效果。下面引入一个实例: Apache Commons Collections反序列化漏洞。</p>
 <h2 id="0x02-Apache-Commons-Collections反序列化漏洞"><a href="#0x02-Apache-Commons-Collections反序列化漏洞" class="headerlink" title="0x02  Apache Commons Collections反序列化漏洞"></a>0x02  Apache Commons Collections反序列化漏洞</h2><p> Apache Commons Collections 是一个扩展了Java标准库里的Collection结构的第三方基础库。它包含有很多jar工具包，提供了很多强有力的数据结构类型并且实现了各种集合工具类。  WebLogic、WebSphere、JBoss、Jenkins、OpenNMS等均使用了该第三方库。</p>
 <p>在2015年11月6日FoxGlove Security安全团队的@breenmachine公布了Apache Commons Collections配合java反序列化漏洞实现远程命令执行的真实案例，使用了该库的各大java Web Server都受到影响。</p>
 <p>首先搭建漏洞环境，在<code>web.xml</code>中添加以下配置获取受影响的<code>commons-collections</code>版本。</p>
@@ -544,7 +544,7 @@
   <p><span>本文标题:</span><a href="/java反序列化入门/">java反序列化入门</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
   <p><span>发布时间:</span>2019年11月27日 - 20:36</p>
-  <p><span>最后更新:</span>2019年11月27日 - 20:37</p>
+  <p><span>最后更新:</span>2019年11月28日 - 14:19</p>
   <p><span>原始链接:</span><a href="/java反序列化入门/" title="java反序列化入门">http://zhengbao.wang/java反序列化入门/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhengbao.wang/java反序列化入门/" aria-label="复制成功！"></i></span>
   </p>
