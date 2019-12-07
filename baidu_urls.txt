@@ -1,3 +1,4 @@
+http://zhengbao.wang/JNDI注入及Fastjson反序列化漏洞分析/
 http://zhengbao.wang/java反序列化入门/
 http://zhengbao.wang/shiro-1-2-4反序列化漏洞复现/
 http://zhengbao.wang/rConfig远程代码执行漏洞复现/
@@ -27,4 +28,3 @@ http://zhengbao.wang/java代码审计入门之s2-001复现分析/
 http://zhengbao.wang/Hadoop之Hbase架构环境搭建及使用JAVA API远程连接/
 http://zhengbao.wang/Hadoop之MapReduce编程/
 http://zhengbao.wang/Docker网络模式详解/
-http://zhengbao.wang/使用Hadoop-JAVA-API-远程连接HDFS/
