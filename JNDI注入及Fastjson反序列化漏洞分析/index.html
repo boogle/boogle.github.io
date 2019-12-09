@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="反序列化,java,">
+  <meta name="keywords" content="java,反序列化,">
 
 
 
@@ -84,7 +84,7 @@
 
 
 <meta name="description" content="0x00 前言本文主要记录了JNDI注入的原理及利用，并拿Fastjson反序列化漏洞作为例子简单分析了其在实际漏洞下的利用思路。 0x01 JNDI注入何为JNDIJNDI(Java Naming and Directory Interface,Java命名和目录接口)是SUN公司提供的一种标准的Java命名系统接口，JNDI提供统一的客户端API，通过不同的访问提供者接口JNDI服务供应接口(">
-<meta name="keywords" content="反序列化,java">
+<meta name="keywords" content="java,反序列化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JNDI注入及Fastjson反序列化漏洞分析">
 <meta property="og:url" content="http://zhengbao.wang/JNDI注入及Fastjson反序列化漏洞分析/index.html">
@@ -93,7 +93,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.loli.net/2019/12/07/dHPsFXJ2Cyi1vAb.png">
 <meta property="og:image" content="https://s2.ax1x.com/2019/12/07/QUYRw4.png">
-<meta property="og:updated_time" content="2019-12-07T16:01:39.563Z">
+<meta property="og:updated_time" content="2019-12-09T11:24:01.083Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JNDI注入及Fastjson反序列化漏洞分析">
 <meta name="twitter:description" content="0x00 前言本文主要记录了JNDI注入的原理及利用，并拿Fastjson反序列化漏洞作为例子简单分析了其在实际漏洞下的利用思路。 0x01 JNDI注入何为JNDIJNDI(Java Naming and Directory Interface,Java命名和目录接口)是SUN公司提供的一种标准的Java命名系统接口，JNDI提供统一的客户端API，通过不同的访问提供者接口JNDI服务供应接口(">
@@ -474,7 +474,7 @@
 <p>（1）对象的无参构造函数</p>
 <p>（2）对象setter函数</p>
 <p>（3）满足条件的getter函数（只有getter无setter且继承自Collection || Map || AtomicBoolean || AtomicInteger || AtomicLong）</p>
-<p>刚好，在<a href="[http://www.docjar.com/html/api/com/sun/rowset/JdbcRowSetImpl.java.html](http://www.docjar.com/html/api/com/sun/rowset/JdbcRowSetImpl.java.html">JdbcRowSetImpl</a>)类中存在符合条件的setter方法</p>
+<p>刚好，在<a href="http://www.docjar.com/html/api/com/sun/rowset/JdbcRowSetImpl.java.html" target="_blank" rel="noopener">JdbcRowSetImpl</a>类中存在符合条件的setter方法</p>
 <p>首先在<code>setAutoCommit</code>方法</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAutoCommit</span><span class="params">(<span class="keyword">boolean</span> var1)</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span>.conn != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.conn.setAutoCommit(var1);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.conn = <span class="keyword">this</span>.connect();</span><br><span class="line">        <span class="keyword">this</span>.conn.setAutoCommit(var1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>调用了<code>connect</code>方法</p>
@@ -514,7 +514,7 @@
   <p><span>本文标题:</span><a href="/JNDI注入及Fastjson反序列化漏洞分析/">JNDI注入及Fastjson反序列化漏洞分析</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 boogle 的个人博客">boogle</a></p>
   <p><span>发布时间:</span>2019年12月07日 - 23:58</p>
-  <p><span>最后更新:</span>2019年12月08日 - 00:01</p>
+  <p><span>最后更新:</span>2019年12月09日 - 19:24</p>
   <p><span>原始链接:</span><a href="/JNDI注入及Fastjson反序列化漏洞分析/" title="JNDI注入及Fastjson反序列化漏洞分析">http://zhengbao.wang/JNDI注入及Fastjson反序列化漏洞分析/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhengbao.wang/JNDI注入及Fastjson反序列化漏洞分析/" aria-label="复制成功！"></i></span>
   </p>
@@ -575,9 +575,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/反序列化/" rel="tag"><i class="fa fa-tag"></i> 反序列化</a>
-          
             <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> java</a>
+          
+            <a href="/tags/反序列化/" rel="tag"><i class="fa fa-tag"></i> 反序列化</a>
           
         </div>
       
