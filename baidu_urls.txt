@@ -1,3 +1,4 @@
+https://zhengbao.wang/XMLDecoder反序列化漏洞分析/
 https://zhengbao.wang/JNDI注入及Fastjson反序列化漏洞分析/
 https://zhengbao.wang/java反序列化入门/
 https://zhengbao.wang/shiro-1-2-4反序列化漏洞复现/
@@ -27,4 +28,3 @@ https://zhengbao.wang/Centos7配置安装HIVE/
 https://zhengbao.wang/java代码审计入门之s2-001复现分析/
 https://zhengbao.wang/Hadoop之Hbase架构环境搭建及使用JAVA API远程连接/
 https://zhengbao.wang/Hadoop之MapReduce编程/
-https://zhengbao.wang/Docker网络模式详解/
