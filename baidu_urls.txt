@@ -1,3 +1,4 @@
+https://zhengbao.wang/常见AD攻击方式/
 https://zhengbao.wang/IDEA远程调试Weblogic-XmlDecoder漏洞/
 https://zhengbao.wang/XMLDecoder反序列化漏洞分析/
 https://zhengbao.wang/JNDI注入及Fastjson反序列化漏洞分析/
@@ -27,4 +28,3 @@ https://zhengbao.wang/文件上传功能的一些另类利用/
 https://zhengbao.wang/java代码审计入门之s2-002复现分析/
 https://zhengbao.wang/Centos7配置安装HIVE/
 https://zhengbao.wang/java代码审计入门之s2-001复现分析/
-https://zhengbao.wang/Hadoop之Hbase架构环境搭建及使用JAVA API远程连接/
